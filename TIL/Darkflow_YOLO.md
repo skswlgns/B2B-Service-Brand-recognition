@@ -33,7 +33,7 @@ cㅇ
   python labelImg.py
   ```
   
-- <img src="Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020162651325.png" alt="image-20201020162651325" style="zoom: 67%;" />
+- ![image-20201020211728199](Darkflow_YOLO.assets/image-20201020211728199.png)
 
   - python labelImg.py 하면 이런 창 뜨는데 일단은 닫고, 다른거 설치하자 
 
@@ -80,7 +80,7 @@ activate tensorflow # 가상 환경 활성화
 
 #### 1) 데이터 폴더 정리
 
-- <img src="Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020183022883.png" alt="image-20201020183022883" style="zoom:67%;" />
+- ![image-20201020211741539](Darkflow_YOLO.assets/image-20201020211741539.png)
 
 
 
@@ -93,7 +93,7 @@ activate tensorflow # 가상 환경 활성화
   - 학습한 내용으로 인식할 사진 넣고
   - 인식 결과는 out 폴더에 저장됩니다.
 
-  ![image-20201020183226692](Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020183226692.png)
+  ![image-20201020211750074](Darkflow_YOLO.assets/image-20201020211750074.png)
 
 
 
@@ -104,9 +104,7 @@ cd labelImg
 python labelImg.py
 ```
 
-
-
-<img src="Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020162651325.png" alt="image-20201020162651325" style="zoom:67%;" />
+![image-20201020211756454](Darkflow_YOLO.assets/image-20201020211756454.png)
 
 
 
@@ -114,13 +112,13 @@ python labelImg.py
 
 - w 누르고, 마우스로 bounding-box 잡아주기
 
-<img src="Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020205329855.png" alt="image-20201020205329855" style="zoom: 50%;" />
+![image-20201020211805686](Darkflow_YOLO.assets/image-20201020211805686.png)
 
 
 
 #### 4) Save 누르고 annotations에 저장
 
-<img src="Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020205415041.png" alt="image-20201020205415041" style="zoom: 50%;" />
+![image-20201020211816026](Darkflow_YOLO.assets/image-20201020211816026.png)
 
 
 
@@ -128,7 +126,7 @@ python labelImg.py
 
 - darkflow 폴더 내의 labels.txt 문서를 labelImg에서 처럼 자신의 클래스 목록으로 수정
 
-<img src="Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020182251122.png" alt="image-20201020182251122" style="zoom:67%;" />
+![image-20201020211827081](Darkflow_YOLO.assets/image-20201020211827081.png)
 
 
 
@@ -136,13 +134,13 @@ python labelImg.py
 
 - tiny-yolo.cfg 파일을 복사해서 my-tiny-yolo.cfg로 파일명 수정
 
-  <img src="Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020182359093.png" alt="image-20201020182359093" style="zoom:67%;" />
+  ![image-20201020211837602](Darkflow_YOLO.assets/image-20201020211837602.png)
 
 - 수정해야 할 내용은 filters 와 classes 값으로 우선,  classes는 정의한 문제의 클래스 수를 지정
 
 - filters는 (5+classes)*5로 설정 (https://www.youtube.com/watch?v=9s_FpMpdYW8 참고)
 
-  <img src="Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020182740940.png" alt="image-20201020182740940" style="zoom:67%;" />
+  ![image-20201020211844509](Darkflow_YOLO.assets/image-20201020211844509.png)
 
 
 
@@ -167,7 +165,7 @@ python flow --imgdir ../data/testset/ --model ./cfg/my-tiny-yolo.cfg --load -1 -
 
 - –threshold 0.5 는 confidence가 0.5보다 높을 경우에는 boundary-box를 수용하겠다는 의미이다. 다시 말해, 특정 부분에 객체가 존재할 확률이 0.5 이상이라고 예측할 경우에만 박스를 그린다.
 
-![image-20201020210827941](Darkflow를 활용하여 YOLO 모델로 이미지 디텍션 구현(윈도우 환경).assets/image-20201020210827941.png)
+![image-20201020211853281](Darkflow_YOLO.assets/image-20201020211853281.png)
 
 - 학습이 잘 되면 out 사진에서 이렇게 박스가 그려진다고 합니다
 - 모두들 화이팅 ! !! ! ! ! 
