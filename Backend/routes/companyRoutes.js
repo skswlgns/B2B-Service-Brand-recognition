@@ -79,5 +79,23 @@ companyRoutes.post('/login', async (req, res) => {
 	}
 })
 
-companyRoutes.delete("/", verificationMiddleware)
+// 회원탈퇴
+// companyRoutes.delete("/", verificationMiddleware)
+companyRoutes.delete("/", async (req, res) => {
+	try {
+		await companyModel.findOne({ company_email: req.headers.company_email})
+		.then(async (company) => {
+			if (company === null) {
+				res.status(403).send({ message: "존재하지 않는 아이디 입니다."})
+			} else {
+				// 다른 모델에서도 회원 정보를 지워줘야 한다. 
+				await companyModel.deleteOne({ company_email: company.company_email })
+				res.status(200).send({ message: "회원 탈퇴 되었습니다."})
+			}
+		})
+	} catch (err) {
+		res.status(500).send(err)
+	}
+})
+
 module.exports = companyRoutes;
