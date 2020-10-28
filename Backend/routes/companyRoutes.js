@@ -79,4 +79,5 @@ companyRoutes.post('/login', async (req, res) => {
 	}
 })
 
+companyRoutes.delete("/", verificationMiddleware)
 module.exports = companyRoutes;
