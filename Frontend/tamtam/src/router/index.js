@@ -1,10 +1,16 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Ranking from "../components/Ranking.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/ranking",
+    name: "Ranking",
+    component: Ranking
+  },
   {
     path: "/",
     name: "Home",

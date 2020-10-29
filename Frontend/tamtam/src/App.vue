@@ -34,19 +34,19 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld />
+      <Ranking />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import Ranking from "./components/Ranking";
 
 export default {
   name: "App",
 
   components: {
-    HelloWorld
+    Ranking
   },
 
   data: () => ({
