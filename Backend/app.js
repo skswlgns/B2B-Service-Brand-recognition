@@ -9,8 +9,11 @@ app.use(express.json())
 
 // routes
 app.use("/api/company", companyRoutes)
+// app.use("/api/video", companyRoutes)
 
 // model
 require("./models/companyModel")
+require("./models/videoModel")
+require("./models/scrapVideoModel")
 
 module.exports = app;

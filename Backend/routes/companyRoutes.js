@@ -22,19 +22,25 @@ companyRoutes.get('/', async (req, res) => {
 
 // 회원가입
 companyRoutes.post('/signup', async (req, res) => {
-	const companyEmail = req.body.company_email
-	const companyPwd = req.body.company_pwd
-	const companyNick = req.body.company_nickname
+	try {
+		const companyEmail = req.body.company_email
+		const companyPwd = req.body.company_pwd
+		const companyNick = req.body.company_nickname
+		const companyIndustry = req.body.company_industry
 
-	const item = new companyModel({
-		company_email : companyEmail,
-		company_pwd : hashpassword(companyPwd),
-		company_nickname : companyNick,
-	})
-	await item.save()
-	res.status(200).send({
-		message: `${companyEmail} 회원가입이 완료되었습니다.`
-	})
+		const item = new companyModel({
+			company_email: companyEmail,
+			company_pwd: hashpassword(companyPwd),
+			company_nickname: companyNick,
+			company_industry: companyIndustry, 
+		})
+		await item.save()
+		res.status(200).send({
+			message: `${companyEmail} 회원가입이 완료되었습니다.`
+		})
+	} catch(err) {
+		res.status(500).send(err)
+	}
 })
 
 // 로그인
