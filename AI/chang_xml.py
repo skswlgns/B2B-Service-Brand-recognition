@@ -1,7 +1,7 @@
 import os
 import xml.etree.ElementTree as ET
 
-targetDir = r"C:\Users\multicampus\오픈CV\data\annotations"
+targetDir = r"C:\Users\multicampus\opencv\data\annotations"
 
 # 내 경로에 있는 모든 파일들 불러오기
 # 예) 1.xml, 2.xml ..... 1000.xml
@@ -23,10 +23,10 @@ for file in file_list:
 
     # 원본 스트링을 저장해준다.
     original = target_tag.text
-
+    print(original)
     # 수정할 텍스트
-    modified = original.replace(r"C:\Users\multicampus\오픈CV\data\dataset", r"/home/team1/TamTam/data/dataset")
-    modified = modified.replace("\\", "/")
+    # modified = original.replace(r"C:/Users/multicampus/opencv/data/dataset//", r"C:\Users\multicampus\opencv\data\dataset\\")
+    modified = original.replace("\\\\", "\\")
 
     target_tag.text = modified
 
