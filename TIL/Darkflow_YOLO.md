@@ -43,7 +43,7 @@
 
 ```cmd
 conda create -n tensorflow python=3.7 # 가상 환경 생성
-activate tensorflow # 가상 환경 활성화
+conda activate tensorflow # 가상 환경 활성화
 (tensorflow) > pip install tensorflow==1.15.0 # 1버전으로 
 
 # 가상환경 종료는 종료할때만 입력
@@ -55,6 +55,7 @@ activate tensorflow # 가상 환경 활성화
 #### 2) Visual Studio C++ 설치
 
 - https://visualstudio.microsoft.com/ko/downloads/ 다운로드 
+- 또는 C++ 빌드도구 설치(https://visualstudio.microsoft.com/visual-7cpp-build-tools/)
 
 
 
@@ -78,7 +79,7 @@ activate tensorflow # 가상 환경 활성화
   > cd test
   > 
   > ## 설치하기 전에 requiremetns-tesitng.txt 파일에 들어가서 teserflow를 지워줍니다.(버전 문제가 있어요!)
-  > pip install -r requiremetns-testing.txt
+  > pip install -r requirements-testing.txt
   > ```
   >
   > ![image-20201020213739252](Darkflow_YOLO.assets/image-20201020213739252.png)

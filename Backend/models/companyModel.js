@@ -2,13 +2,13 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const companySchema = new mongoose.Schema({
-	company_id : {
+	company_id: {
 		type: Number,
 		allowNull: false,
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	company_email : {
+	company_email: {
 		type: String,
 		allowNull: false,
 		unique: true,
@@ -22,6 +22,10 @@ const companySchema = new mongoose.Schema({
 		type: String,
 		allowNull: false,
 	},
+	company_industry: {
+		type: String,
+		allowNull: false,
+	}
 })
 
 const companyModel = mongoose.model("company", companySchema)

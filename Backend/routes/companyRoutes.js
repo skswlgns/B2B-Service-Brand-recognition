@@ -22,19 +22,25 @@ companyRoutes.get('/', async (req, res) => {
 
 // 회원가입
 companyRoutes.post('/signup', async (req, res) => {
-	const companyEmail = req.body.company_email
-	const companyPwd = req.body.company_pwd
-	const companyNick = req.body.company_nickname
+	try {
+		const companyEmail = req.body.company_email
+		const companyPwd = req.body.company_pwd
+		const companyNick = req.body.company_nickname
+		const companyIndustry = req.body.company_industry
 
-	const item = new companyModel({
-		company_email : companyEmail,
-		company_pwd : hashpassword(companyPwd),
-		company_nickname : companyNick,
-	})
-	await item.save()
-	res.status(200).send({
-		message: `${companyEmail} 회원가입이 완료되었습니다.`
-	})
+		const item = new companyModel({
+			company_email: companyEmail,
+			company_pwd: hashpassword(companyPwd),
+			company_nickname: companyNick,
+			company_industry: companyIndustry, 
+		})
+		await item.save()
+		res.status(200).send({
+			message: `${companyEmail} 회원가입이 완료되었습니다.`
+		})
+	} catch(err) {
+		res.status(500).send(err)
+	}
 })
 
 // 로그인
@@ -79,5 +85,23 @@ companyRoutes.post('/login', async (req, res) => {
 	}
 })
 
-companyRoutes.delete("/", verificationMiddleware)
+// 회원탈퇴
+// companyRoutes.delete("/", verificationMiddleware)
+companyRoutes.delete("/", async (req, res) => {
+	try {
+		await companyModel.findOne({ company_email: req.headers.company_email})
+		.then(async (company) => {
+			if (company === null) {
+				res.status(403).send({ message: "존재하지 않는 아이디 입니다."})
+			} else {
+				// 다른 모델에서도 회원 정보를 지워줘야 한다. 
+				await companyModel.deleteOne({ company_email: company.company_email })
+				res.status(200).send({ message: "회원 탈퇴 되었습니다."})
+			}
+		})
+	} catch (err) {
+		res.status(500).send(err)
+	}
+})
+
 module.exports = companyRoutes;
