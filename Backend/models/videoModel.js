@@ -16,10 +16,10 @@ const videoSchema = new mongoose.Schema({
     type: Number,
     allowNull: false,
   },
-  video_ban: {
-    type: Boolean,
-    allowNull: false,
-  },
+  // video_ban: {
+  //   type: Boolean,
+  //   allowNull: false,
+  // },
   video_like: {
     type: Number,
     allowNull: false,
@@ -52,6 +52,10 @@ const videoSchema = new mongoose.Schema({
   video_record: {
     type: Object,
     allowNull: true,
+  },
+  video_youtube_id: {
+    type: String,
+    allowNull: false,
   },
   channel_id: {
     type: Schema.Types.ObjectId,
