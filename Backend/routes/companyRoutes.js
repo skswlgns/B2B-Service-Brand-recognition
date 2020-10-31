@@ -50,7 +50,7 @@ companyRoutes.post('/login', async (req, res) => {
 	} else {
 		const companyEmail = req.body.company_email
 		const companyPwd = hashpassword(req.body.company_pwd)
-
+		
 		await companyModel.findOne({ company_email: companyEmail })
 			.then((company) => {
 				if (company.company_pwd !== companyPwd) {
@@ -85,9 +85,10 @@ companyRoutes.post('/login', async (req, res) => {
 	}
 })
 
+
 // 회원탈퇴
 // companyRoutes.delete("/", verificationMiddleware)
-companyRoutes.delete("/", async (req, res) => {
+companyRoutes.delete("/delete", async (req, res) => {
 	try {
 		await companyModel.findOne({ company_email: req.headers.company_email})
 		.then(async (company) => {
@@ -103,5 +104,5 @@ companyRoutes.delete("/", async (req, res) => {
 		res.status(500).send(err)
 	}
 })
-
+ 
 module.exports = companyRoutes;
