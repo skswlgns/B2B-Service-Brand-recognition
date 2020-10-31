@@ -23,7 +23,7 @@ videoRoutes.post('/', async (req, res) => {
       const videoDisLike = req.body.video_dislike
       const videoDate = req.body.video_date
       const videoRecord = req.body.video_record
-      const videoThumbnail = req.body.video_thumbnail
+      const videoThumbnail = req.body.video_thumbnails
       const videoTime = req.body.video_time
 
       const item = new videoModel({
@@ -38,7 +38,7 @@ videoRoutes.post('/', async (req, res) => {
         video_dislike: videoDisLike,
         video_date: videoDate,
         video_record: videoRecord,
-        video_thumbnail: videoThumbnail,
+        video_thumbnails: videoThumbnail,
         video_time: videoTime,
       })
       await item.save()
