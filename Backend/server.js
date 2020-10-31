@@ -9,7 +9,7 @@ const server = http.createServer(app)
 server.listen(PORT)
 
 server.on("listening", async () => {
-	console.info(`Listening on port ${PORT}`)
+	// console.info(`Listening on port ${PORT}`)
 
 	mongoose.connect(MONGO_URL, {
 		useNewUrlParser: true,
@@ -17,9 +17,9 @@ server.on("listening", async () => {
 		useUnifiedTopology: true,
 		useCreateIndex: true,
 	})
-	mongoose.connection.on("open", () => {
-		console.info("Connection to Mongo")
-	})
+	// mongoose.connection.on("open", () => {
+	// 	console.info("Connection to Mongo")
+	// })
 	mongoose.connection.on("error", (err) => {
 		console.error(err)
 	})

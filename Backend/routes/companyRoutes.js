@@ -1,24 +1,21 @@
 // library
-const express = require('express')
-const crypto = require("crypto")
-const jwt = require("jsonwebtoken")
-const secretObj = require("../config/jwt")
+const express = require('express');
+const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
+const secretObj = require("../config/jwt");
 
 // Model
-const companyModel = require('../models/companyModel')
+const companyModel = require('../models/companyModel');
 
 // Routes 
-const companyRoutes = express.Router()
+const companyRoutes = express.Router();
 
 // 함수
 const hashpassword = (password) => {
 	return crypto.createHash("sha512").update(password).digest("hex")
-}
+};
 
 // API
-companyRoutes.get('/', async (req, res) => {
-	console.log('접근완료')
-})
 
 // 회원가입
 companyRoutes.post('/signup', async (req, res) => {
@@ -41,10 +38,10 @@ companyRoutes.post('/signup', async (req, res) => {
 	} catch(err) {
 		res.status(500).send(err)
 	}
-})
+});
 
 // 로그인
-companyRoutes.post('/login', async (req, res) => {
+companyRoutes.post('/signin', async (req, res) => {
 	if (req.headers.token){
 		res.status(403).json({ message: "이미 로그인 되어있습니다." })
 	} else {
@@ -56,7 +53,6 @@ companyRoutes.post('/login', async (req, res) => {
 				if (company.company_pwd !== companyPwd) {
 					res.status(403).send({ message: "비밀번호가 다릅니다." })
 				} else {
-					console.log(secretObj)
 					jwt.sign(
 						{ company_email: company.company_email },
 						secretObj.secret,
@@ -71,6 +67,7 @@ companyRoutes.post('/login', async (req, res) => {
 									token: token,
 									status: "login",
 									company_email: company.company_email,
+									company_id: company._id,
 								})
 							}
 						}
@@ -83,14 +80,24 @@ companyRoutes.post('/login', async (req, res) => {
 				})
 			})
 	}
-})
+});
+
+// 로그아웃
+// companyRoutes.post("/signout", async (req, res) => {
+// 	// console.log(req.headers)
+// 	if (req.headers.token == null) {
+// 		res.status(403).json({ message: "로그인 되어 있지 않습니다." })
+// 	} else {
+
+// 	}
+// })
 
 
 // 회원탈퇴
 // companyRoutes.delete("/", verificationMiddleware)
 companyRoutes.delete("/delete", async (req, res) => {
 	try {
-		await companyModel.findOne({ company_email: req.headers.company_email})
+		await companyModel.findOne({ company_id: req.headers._id})
 		.then(async (company) => {
 			if (company === null) {
 				res.status(403).send({ message: "존재하지 않는 아이디 입니다."})
@@ -103,6 +110,44 @@ companyRoutes.delete("/delete", async (req, res) => {
 	} catch (err) {
 		res.status(500).send(err)
 	}
-})
- 
+});
+
+
+// 모든 회원조회
+companyRoutes.get('/', async (req, res) => { 
+	if (req.headers.company_id === "5f9bc574c52fb15df02d54f2") {
+		try {
+			const companyAll = await companyModel.find()
+			res.status(200).send(companyAll)
+		} catch (err) {
+			res.status(500).send(err)
+		}
+	}
+});
+
+// 비디오 스크랩 조회
+companyRoutes.get('/video', async (req, res) => { 
+	if (req.headers.token) {
+		try {
+			const scrapVideo = await companyModel.findOne({ _id: req.headers.company_id })
+			console.log(scrapVideo)
+		} catch (err) {
+			res.status(500).send(err)
+		}
+	}
+});
+
+// 회원조회
+companyRoutes.get('/:company_id', async(req, res) => {
+	const companyId = req.params["company_id"]
+	if (companyId === req.headers.company_id) {
+		try {
+			const companyOne = await companyModel.findOne({ _id: companyId })
+			res.status(200).send(companyOne)
+		} catch (err) {
+			res.status(500).send(err)
+		}
+	} 
+});
+
 module.exports = companyRoutes;
