@@ -2,12 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const videoSchema = new mongoose.Schema({
-  video_id: {
-    type: Number,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
   video_title: {
     type: String,
     allowNull: false,
@@ -16,10 +10,6 @@ const videoSchema = new mongoose.Schema({
     type: Number,
     allowNull: false,
   },
-  // video_ban: {
-  //   type: Boolean,
-  //   allowNull: false,
-  // },
   video_like: {
     type: Number,
     allowNull: false,
