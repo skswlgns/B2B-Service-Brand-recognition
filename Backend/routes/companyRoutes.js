@@ -137,6 +137,26 @@ companyRoutes.get('/video', async (req, res) => {
 	}
 });
 
+// 스크랩 채널 조회
+companyRoutes.get('/channel', async(req, res) => {
+	try {
+		const company = await companyModel.findOne({ _id: req.headers.company_id }).populate("company_channel")
+		res.status(200).send(company.company_channel)
+	} catch(err) {	
+		res.status(500).send(err)
+	}
+})
+
+// 컨택 채널 조회
+companyRoutes.get('/contact', async(req, res) => {
+	try {
+		const company = await companyModel.findOne({ _id: req.headers.company_id }).populate("company_contact")
+		res.status(200).send(company.company_contact)
+	} catch(err) {	
+		res.status(500).send(err)
+	}
+})
+
 // 회원조회
 companyRoutes.get('/:company_id', async(req, res) => {
 	const companyId = req.params["company_id"]

@@ -34,14 +34,18 @@ const companySchema = new mongoose.Schema({
 		type: Schema.Types.ObjectId,
 		ref: "video",
 	},
-	company_channel: {
-		type: Schema.Types.Array,
-		ref: "channel",
-	},
-	company_contact: {
-		type: Schema.Types.Array,
-		ref: "channel",
-	}
+	company_channel: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "channel",
+		},
+	],
+	company_contact: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "channel",
+		},
+	]
 })
 
 const companyModel = mongoose.model("company", companySchema)

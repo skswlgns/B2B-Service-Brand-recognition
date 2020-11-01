@@ -9,14 +9,13 @@ const companyModel = require('../models/companyModel')
 const channelRoutes = express.Router();
 
 // 변수
-const admin_id = "5f9e650f73b55508f0eac046"
+const admin_id = "f9e650f73b55508f0eac0546"
 // API
 
 // 채널 데이터 삽입
 channelRoutes.post('/', async(req, res) => {
-  if(req.headers.company_id == admin_id){
+  if(req.headers.company_id == "5f9ea11d39a42e4d1c921461"){
     try {
-      const channelID = req.body.channel_id
       const channelName = req.body.channel_name
       const channelSubscribe = req.body.channel_subscribe
       const channelEmail = req.body.channel_email
@@ -25,7 +24,6 @@ channelRoutes.post('/', async(req, res) => {
       const channelYoutubeId = req.body.channel_youtube_id
   
       const item = new channelModel({
-        channel_id: channelID,
         channel_name: channelName,
         channel_subscribe: channelSubscribe,
         channel_email: channelEmail,
