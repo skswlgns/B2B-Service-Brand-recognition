@@ -4,7 +4,6 @@ const express = require('express')
 // Model
 const videoModel = require('../models/videoModel')
 const companyModel = require("../models/companyModel")
-const companyRoutes = require('./companyRoutes')
 
 // Routes 
 const videoRoutes = express.Router()
@@ -130,5 +129,43 @@ videoRoutes.put("/execption", async (req, res) => {
     }
   }
 })
+
+// 비디오 삭제
+videoRoutes.delete("/", async (req, res) => {
+  if (req.headers.company_id === "5f9bc574c52fb15df02d54f2") {
+    try {
+      const company = await companyModel.find()
+      const videoId = req.body._id
+      await videoModel.find({ _id: req.body._id })
+      .then(async (video) => {
+        if (video === null) {
+          res.status(403).send({ message: "해당 비디오가 존재하지 않습니다."})
+        } else {
+          for (i=0; i < company.length; i++) {
+            if (company[i].company_video.includes(videoId)) {
+              company[i].company_video.remove(videoId)
+              await companyModel.findOneAndUpdate(
+                { _id: company[i]._id },
+                { company_video: company.company_video }
+              )
+            }
+            if (company[i].company_execption.includes(videoId)) {
+              company[i].company_execption.remove(videoId)
+              await companyModel.findOneAndUpdate(
+                { _id: company[i]._id },
+                { company_execption: company.company_execption }
+              )
+            }
+          }
+          await videoModel.deleteOne({ _id: videoId })
+          res.status(200).send({ message: "해당 영상을 삭제했습니다." })        
+        }
+      })
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  }
+})
+
 
 module.exports = videoRoutes;
