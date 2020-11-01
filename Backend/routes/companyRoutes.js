@@ -47,7 +47,7 @@ companyRoutes.post('/signin', async (req, res) => {
 	} else {
 		const companyEmail = req.body.company_email
 		const companyPwd = hashpassword(req.body.company_pwd)
-
+		
 		await companyModel.findOne({ company_email: companyEmail })
 			.then((company) => {
 				if (company.company_pwd !== companyPwd) {
@@ -92,9 +92,10 @@ companyRoutes.post('/signin', async (req, res) => {
 // 	}
 // })
 
+
 // 회원탈퇴
 // companyRoutes.delete("/", verificationMiddleware)
-companyRoutes.delete("/", async (req, res) => {
+companyRoutes.delete("/delete", async (req, res) => {
 	try {
 		await companyModel.findOne({ company_id: req.headers._id})
 		.then(async (company) => {
@@ -135,6 +136,26 @@ companyRoutes.get('/video', async (req, res) => {
 		}
 	}
 });
+
+// 스크랩 채널 조회
+companyRoutes.get('/channel', async(req, res) => {
+	try {
+		const company = await companyModel.findOne({ _id: req.headers.company_id }).populate("company_channel")
+		res.status(200).send(company.company_channel)
+	} catch(err) {	
+		res.status(500).send(err)
+	}
+})
+
+// 컨택 채널 조회
+companyRoutes.get('/contact', async(req, res) => {
+	try {
+		const company = await companyModel.findOne({ _id: req.headers.company_id }).populate("company_contact")
+		res.status(200).send(company.company_contact)
+	} catch(err) {	
+		res.status(500).send(err)
+	}
+})
 
 // 회원조회
 companyRoutes.get('/:company_id', async(req, res) => {
