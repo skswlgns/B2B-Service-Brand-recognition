@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/ranking",
+    path: "/Ranking",
     name: "Ranking",
     component: Ranking
   },
