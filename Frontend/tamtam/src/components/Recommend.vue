@@ -1,50 +1,39 @@
 <template>
   <div style="padding-top: 88px;">
-    <h2 style="text-align:center; font-size:48px; padding-bottom:48px">유투버 랭킹</h2>
-    <div v-for="(Item, index) in selected" :key="index">
-      <v-card class="mx-auto mb-2" outlined>
-        <v-list-item three-line>
-          <v-list-item-avatar size="100">
-            <img alt="user" :src="Item.image" />
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <div class="overline mb-1" outlined>
-              it/기술/컴퓨터
-            </div>
-            <v-list-item-title class="headline mb-1">
-              {{ Item.name }}
-            </v-list-item-title>
-            <div class="overline mb-1" outlined>
-              <v-btn icon @click="move(Item.channerId)">
-                <v-avatar size="30">
-                  <img
-                    alt="user"
-                    src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png"
-                  />
-                </v-avatar>
-              </v-btn>
-            </div>
-          </v-list-item-content>
-
-          <v-list-item-content>
-            <v-list-item-subtitle>
-              구독자수 {{ Item.subscriberCount }}
-            </v-list-item-subtitle>
-            <v-list-item-subtitle>
-              영상수 {{ Item.videoCount }}
-            </v-list-item-subtitle>
-            <v-list-item-subtitle>
-              영상시청수 {{ Item.viewCount }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-card>
-    </div>
+    <h2 style="text-align:center; font-size:46px;">인기 유투버 추천</h2>
+    <v-carousel cycle hide-delimiters light height="100%" >
+      <v-carousel-item style="padding:56px" v-for="i in 2" :key="i">
+        <v-layout row>
+          <v-flex sm4 v-for="j in 3" :key="j" pl-4 pr-4>
+            <v-card v-if="selected[(i - 1) * 3 + j]" outlined rounded="">
+              <div class="mb-8 pa-8" style="text-align:center;">
+                <v-flex style="margin-top:8px;">
+                  <v-avatar size="100">
+                    <img alt="user" :src="selected[(i - 1) * 3 + j].image" />
+                  </v-avatar>
+                </v-flex>
+                <v-flex style="margin-top:72px;">
+                  <h2>
+                    {{ selected[(i - 1) * 3 + j].name }}
+                  </h2>
+                </v-flex>
+                <v-flex style="margin-top:40px;">
+                  <div>{{ selected[(i - 1) * 3 + j].subscriberCount }}</div>
+                  <div>{{ selected[(i - 1) * 3 + j].videoCount }}</div>
+                  <div>{{ selected[(i - 1) * 3 + j].viewCount }}</div>
+                </v-flex>
+              </div>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+
 export default {
   data: () => ({
     list: [
@@ -96,3 +85,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+</style>
