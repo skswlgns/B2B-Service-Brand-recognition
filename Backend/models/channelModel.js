@@ -23,14 +23,17 @@ const channelSchema = new mongoose.Schema({
     unique: true,
   },
   channel_img: {
-    // type: String,
+    type: String,
     allowNull: false,
-    unique: true,
   },
   channel_video_cnt: {
     type: Number,
     allowNull: false
   },
+  channel_youtube_id: {
+    type: String,
+    allowNull: false,
+  }
 })
 
 const channelModel = mongoose.model("channel", channelSchema)

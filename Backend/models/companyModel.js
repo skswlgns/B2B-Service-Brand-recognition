@@ -35,7 +35,11 @@ const companySchema = new mongoose.Schema({
 		ref: "video",
 	},
 	company_channel: {
-		type: Schema.Types.ObjectId,
+		type: Schema.Types.Array,
+		ref: "channel",
+	},
+	company_contact: {
+		type: Schema.Types.Array,
 		ref: "channel",
 	}
 })
