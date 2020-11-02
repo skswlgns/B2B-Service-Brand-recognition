@@ -4,22 +4,40 @@ import VueRouter from "vue-router";
 import Ranking from "@/components/Ranking.vue";
 import Recommend from "@/components/Recommend.vue";
 import MyAnalysis from "@/views/MyAnalysis.vue";
+import Search from "@/views/Search.vue";
+import SearchBrand from "@/components/SearchBrand.vue";
+import SearchChannel from "@/components/SearchChannel.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/MyAnalysis",
+    path: "/searchBrand",
+    name: "SearchBrand",
+    component: SearchBrand
+  },
+  {
+    path: "/searchChannel",
+    name: "SearchChannel",
+    component: SearchChannel
+  },
+  {
+    path: "/search",
+    name: "Search",
+    component: Search
+  },
+  {
+    path: "/myAnalysis",
     name: "MyAnalysis",
     component: MyAnalysis
   },
   {
-    path: "/Ranking",
+    path: "/ranking",
     name: "Ranking",
     component: Ranking
   },
   {
-    path: "/Recommend",
+    path: "/recommend",
     name: "Recommend",
     component: Recommend
   },
