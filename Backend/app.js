@@ -17,9 +17,9 @@ app.use('/api/channel', channelRoutes)
 app.use('/api/exposure', exposureRoutes)
 
 // model
-require('./models/CompanyModel')
-require('./models/VideoModel')
-require('./models/ScrapVideoModel')
-require('./models/ChannelModel')
+require('./models/companyModel')
+require('./models/videoModel')
+require('./models/scrapVideoModel')
+require('./models/channelModel')
 
 module.exports = app

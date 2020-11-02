@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const secretObj = require('../config/jwt')
 
 // Model
-const CompanyModel = require('../models/CompanyModel')
+const CompanyModel = require('../models/companyModel')
 
 // Routes
 const companyRoutes = express.Router()
