@@ -15,16 +15,15 @@
 
 <script>
 export default {
-  name: "App",
-  components: {
-  },
+  name: 'App',
+  components: {},
   data: () => ({
     //
   })
-};
+}
 </script>
 
 <style lang="scss">
-@import "./scss/reset.scss";
-@import "./scss/nav.scss";
+@import './scss/reset.scss';
+@import './scss/nav.scss';
 </style>
