@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
   components: {},
   data: () => ({
     searchText: "",
@@ -40,8 +40,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./scss/reset.scss";
-@import "./scss/nav.scss";
+@import './scss/reset.scss';
+@import './scss/nav.scss';
 </style>
 
 <style scoped>

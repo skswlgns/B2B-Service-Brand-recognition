@@ -1,5 +1,5 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 // import Home from "../views/Home.vue";
 import Ranking from "@/components/Ranking.vue";
 import Recommend from "@/components/Recommend.vue";
@@ -8,7 +8,7 @@ import Search from "@/views/Search.vue";
 import SearchBrand from "@/components/SearchBrand.vue";
 import SearchChannel from "@/components/SearchChannel.vue";
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
@@ -55,12 +55,12 @@ const routes = [
   //   name: "Home",
   //   component: Home
   // },
-];
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
-});
+})
 
-export default router;
+export default router
