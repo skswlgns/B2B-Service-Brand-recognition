@@ -1,7 +1,7 @@
 <template>
   <div style="padding-top: 88px;">
     <h2 style="text-align:center; font-size:46px;">인기 유투버 추천</h2>
-    <v-carousel cycle hide-delimiters light height="100%" >
+    <v-carousel cycle hide-delimiters light height="100%">
       <v-carousel-item style="padding:56px" v-for="i in 2" :key="i">
         <v-layout row>
           <v-flex sm4 v-for="j in 3" :key="j" pl-4 pr-4>
@@ -32,60 +32,58 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 
 export default {
   data: () => ({
     list: [
-      "UCdUcjkyZtf-1WJyPPiETF1g",
-      "UCZf4ZESHAIuRtZ-eoMSL97A",
-      "UCwx6n_4OcLgzAGdty0RWCoA",
-      "UC0SoPwEH3idvemSDvKaYgGA",
-      "UCp-C7mtkuOw6q8E1Uc2NVpQ",
-      "UCYAvG7-sBBztgDtwKil1RTQ",
-      "UCFxZimsJ4gupYy7xzmStOcA",
+      'UCdUcjkyZtf-1WJyPPiETF1g',
+      'UCZf4ZESHAIuRtZ-eoMSL97A',
+      'UCwx6n_4OcLgzAGdty0RWCoA',
+      'UC0SoPwEH3idvemSDvKaYgGA',
+      'UCp-C7mtkuOw6q8E1Uc2NVpQ',
+      'UCYAvG7-sBBztgDtwKil1RTQ',
+      'UCFxZimsJ4gupYy7xzmStOcA'
     ],
     Item: {
-      channerId: "",
-      image: "",
-      name: "",
-      subscriberCount: "",
-      videoCount: "",
-      viewCount: "",
+      channerId: '',
+      image: '',
+      name: '',
+      subscriberCount: '',
+      videoCount: '',
+      viewCount: ''
     },
 
-    selected: [],
+    selected: []
   }),
   created() {
-    this.initialize();
+    this.initialize()
   },
 
   methods: {
     move(channerId) {
-      window.open("https://www.youtube.com/channel/" + channerId);
+      window.open('https://www.youtube.com/channel/' + channerId)
     },
     initialize() {
-      for (var id of this.list) {
-        var url =
-          "https://www.googleapis.com/youtube/v3/channels?key=AIzaSyBQbAtGm7FHazDtqEv7xsyyDmU31k-kzyI&part=snippet, brandingSettings, contentDetails, statistics, topicDetails&id=" +
-          id;
-        axios.get(url).then((res) => {
-          this.Item = [];
-          this.Item.channerId = res.data.items[0].id;
-          this.Item.image = res.data.items[0].snippet.thumbnails.default.url;
-          this.Item.name = res.data.items[0].snippet.title;
+      for (const id of this.list) {
+        const url =
+          'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyBQbAtGm7FHazDtqEv7xsyyDmU31k-kzyI&part=snippet, brandingSettings, contentDetails, statistics, topicDetails&id=' +
+          id
+        axios.get(url).then(res => {
+          this.Item = []
+          this.Item.channerId = res.data.items[0].id
+          this.Item.image = res.data.items[0].snippet.thumbnails.default.url
+          this.Item.name = res.data.items[0].snippet.title
           this.Item.subscriberCount =
-            res.data.items[0].statistics.subscriberCount;
-          this.Item.videoCount = res.data.items[0].statistics.videoCount;
-          this.Item.viewCount = res.data.items[0].statistics.viewCount;
-          this.selected.push(this.Item);
-        });
+            res.data.items[0].statistics.subscriberCount
+          this.Item.videoCount = res.data.items[0].statistics.videoCount
+          this.Item.viewCount = res.data.items[0].statistics.viewCount
+          this.selected.push(this.Item)
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
