@@ -1,28 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from "../views/Home.vue";
-import Ranking from "@/components/Ranking.vue";
-import Recommend from "@/components/Recommend.vue";
-import MyAnalysis from "@/views/MyAnalysis.vue";
+import Ranking from '@/components/Ranking.vue'
+import Recommend from '@/components/Recommend.vue'
+import MyAnalysis from '@/views/MyAnalysis.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/MyAnalysis",
-    name: "MyAnalysis",
+    path: '/MyAnalysis',
+    name: 'MyAnalysis',
     component: MyAnalysis
   },
   {
-    path: "/Ranking",
-    name: "Ranking",
+    path: '/Ranking',
+    name: 'Ranking',
     component: Ranking
   },
   {
-    path: "/Recommend",
-    name: "Recommend",
+    path: '/Recommend',
+    name: 'Recommend',
     component: Recommend
-  },
+  }
   // {
   //   path: "/about",
   //   name: "About",
