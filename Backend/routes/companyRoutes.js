@@ -67,7 +67,13 @@ companyRoutes.post('/signin', async (req, res) => {
                   token: token,
                   status: 'login',
                   company_email: company.company_email,
-                  company_id: company._id
+                  company_id: company._id,
+                  company_execption: company.company_execption,
+                  company_video: company.company_video,
+                  company_channel: company.company_channel,
+                  company_contact: company.company_contact,
+                  company_pwd: company.company_pwd,
+                  company_nickname: company.company_nickname
                 })
               }
             }

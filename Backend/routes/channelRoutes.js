@@ -38,6 +38,8 @@ channelRoutes.post('/', async (req, res) => {
     } catch (err) {
       res.status(500).send(err)
     }
+  } else {
+    res.status(403).send({ message: '잘못된 접근입니다.' })
   }
 })
 
@@ -78,6 +80,8 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
     } catch (err) {
       res.status(500).send(err)
     }
+  } else {
+    res.status(403).send({ message: '잘못된 접근입니다.' })
   }
 })
 
