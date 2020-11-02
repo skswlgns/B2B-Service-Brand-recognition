@@ -1,16 +1,35 @@
 <template>
   <v-app>
-    <nav>
-      <span><router-link to="/">TamTam</router-link></span>
-      <span><router-link to="/MyAnalysis">내 기업 분석</router-link></span>
-      <span>전체 기업 분석</span>
-      <span>SAMSUNG</span>
+    <nav v-if="$route.name !== 'Login'">
+      <span>TamTam</span>
       <span>
         <span class="icon"><i class="fa fa-search"></i></span>
         <input type="text" placeholder="검색 또는 동영상 URL을 입력해주세요." />
       </span>
+      <menu>
+        <menuitem id="demo1">
+          <a>SAMSUNG</a>
+          <menu>
+            <menuitem
+              ><rotuer-link to="/#">전체 기업 분석</rotuer-link></menuitem
+            >
+            <menuitem><rotuer-link to="/#">내 기업 분석</rotuer-link></menuitem>
+            <menuitem><rotuer-link to="/#">My Page</rotuer-link></menuitem>
+            <menuitem><rotuer-link to="/#">Log Out</rotuer-link></menuitem>
+          </menu>
+        </menuitem>
+      </menu>
+      <!-- <span>내 기업 분석</span>
+      <span>전체 기업 분석</span>
+      <span><router-link to="/login">로그인</router-link></span>
+      <span>
+        <span class="icon"><i class="fa fa-search"></i></span>
+        <input type="text" placeholder="검색 또는 동영상 URL을 입력해주세요." />
+      </span> -->
     </nav>
-    <router-view></router-view>
+    <v-container>
+      <router-view />
+    </v-container>
   </v-app>
 </template>
 
