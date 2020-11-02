@@ -158,7 +158,7 @@ videoRoutes.delete("/", async (req, res) => {
             }
           }
           await videoModel.deleteOne({ _id: videoId })
-          res.status(200).send({ message: "해당 영상을 삭제했습니다." })        
+          res.status(200).send({ message: "해당 영상을 삭제했습니다." })
         }
       })
     } catch (err) {

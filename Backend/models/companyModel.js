@@ -26,14 +26,18 @@ const companySchema = new mongoose.Schema({
 		type: String,
 		allowNull: false,
 	},
-	company_execption: {
-		type: Schema.Types.Array,
-		ref: "video",
-	},
-	company_video: {
-		type: Schema.Types.Array,
-		ref: "video",
-	},
+	company_execption: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "video",
+		},
+	],
+	company_video: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "video",
+		},
+	],
 	company_channel: [
 		{
 			type: Schema.Types.ObjectId,

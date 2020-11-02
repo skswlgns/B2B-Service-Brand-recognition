@@ -14,7 +14,7 @@ const admin_id = "f9e650f73b55508f0eac0546"
 
 // 채널 데이터 삽입
 channelRoutes.post('/', async(req, res) => {
-  if(req.headers.company_id == "5f9ea11d39a42e4d1c921461"){
+  if(req.headers.company_id == "5f9bc574c52fb15df02d54f2"){
     try {
       const channelName = req.body.channel_name
       const channelSubscribe = req.body.channel_subscribe
