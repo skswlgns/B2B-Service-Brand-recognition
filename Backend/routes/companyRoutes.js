@@ -130,32 +130,18 @@ companyRoutes.get('/', async (req, res) => {
   }
 })
 
-<<<<<<< HEAD
 // 스크랩 비디오 조회
-companyRoutes.get('/video', async (req, res) => { 
-	if (req.headers.token) {
-		try {
-			const scrapVideo = await companyModel.findOne({ _id: req.headers.company_id })
-		} catch (err) {
-			res.status(500).send(err)
-		}
-	}
-});
-=======
-// 비디오 스크랩 조회
 companyRoutes.get('/video', async (req, res) => {
   if (req.headers.token) {
     try {
-      const scrapVideo = await CompanyModel.findOne({
+      await CompanyModel.findOne({
         _id: req.headers.company_id
       })
-      console.log(scrapVideo)
     } catch (err) {
       res.status(500).send(err)
     }
   }
 })
->>>>>>> 81416f15bc8c578b9ee1ccabb244ddda5960434e
 
 // 스크랩 채널 조회
 companyRoutes.get('/channel', async (req, res) => {
