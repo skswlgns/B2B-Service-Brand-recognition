@@ -1,36 +1,35 @@
-@import "./variable";
+@import './variable';
 
 .v-application--wrap {
-    background-color: #F5F6FA;
-    nav {
-        display: grid;
-        grid-template-columns: repeat(4, 10rem) 1fr;
-        padding: 0 12rem;
-        width: 100vw;
-        height: 4rem;
-        background: linear-gradient(.25turn, #4A509C, #8B4DB5 70%);
-        color: #{$basic-color};
-        span {
-            align-self: center;
-            &:nth-child(5) {
-                position: relative;
-                justify-self: end;
-                .icon {
-                    position: absolute;
-                    left: 0.5rem;
-                    color: #BDBDBD;
-                }
-                input {
-                    padding: 0 2rem;
-                    width: 20rem;
-                    height: 1.5rem;
-                    background-color: #{$basic-color};
-                    border-radius: 1.5rem;
-                    font-size: 0.5em;
-                    outline: none;
-                }
-            }
+  background-color: #f5f6fa;
+  nav {
+    display: grid;
+    grid-template-columns: repeat(4, 10rem) 1fr;
+    padding: 0 12rem;
+    width: 100vw;
+    height: 4rem;
+    background: linear-gradient(0.25turn, #4a509c, #8b4db5 70%);
+    color: #{$basic-color};
+    span {
+      align-self: center;
+      &:nth-child(5) {
+        position: relative;
+        justify-self: end;
+        .icon {
+          position: absolute;
+          left: 0.5rem;
+          color: #bdbdbd;
         }
+        input {
+          padding: 0 2rem;
+          width: 20rem;
+          height: 1.5rem;
+          background-color: #{$basic-color};
+          border-radius: 1.5rem;
+          font-size: 0.5em;
+          outline: none;
+        }
+      }
     }
+  }
 }
-

@@ -1,16 +1,8 @@
 <template>
   <v-app>
     <nav>
-      <span
-        ><router-link to="/"
-          >TamTam</router-link
-        ></span
-      >
-      <span
-        ><router-link to="/MyAnalysis"
-          >내 기업 분석</router-link
-        ></span
-      >
+      <span><router-link to="/">TamTam</router-link></span>
+      <span><router-link to="/MyAnalysis">내 기업 분석</router-link></span>
       <span>전체 기업 분석</span>
       <span>SAMSUNG</span>
       <span>
@@ -24,17 +16,17 @@
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
   components: {},
   data: () => ({
     //
-  }),
-};
+  })
+}
 </script>
 
 <style lang="scss">
-@import "./scss/reset.scss";
-@import "./scss/nav.scss";
+@import './scss/reset.scss';
+@import './scss/nav.scss';
 </style>
 
 <style scoped>
