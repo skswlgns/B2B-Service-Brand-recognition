@@ -4,19 +4,19 @@ const Schema = mongoose.Schema
 const videoSchema = new mongoose.Schema({
   video_title: {
     type: String,
-    allowNull: false,
+    allowNull: false
   },
   video_views: {
     type: Number,
-    allowNull: false,
+    allowNull: false
   },
   video_like: {
     type: Number,
-    allowNull: false,
+    allowNull: false
   },
   video_dislike: {
-    type: Number, 
-    allowNull: false,
+    type: Number,
+    allowNull: false
   },
   video_date: {
     type: String,
@@ -24,36 +24,36 @@ const videoSchema = new mongoose.Schema({
   },
   video_content: {
     type: String,
-    allowNull: false,
+    allowNull: false
   },
   video_url: {
     type: String,
     allowNull: false,
-    unique: true,
+    unique: true
   },
   video_thumbnails: {
-    type: String, 
-    allowNull: false,
+    type: String,
+    allowNull: false
   },
   video_time: {
     type: Number,
-    allowNull: false,
+    allowNull: false
   },
   video_record: {
     type: Object,
-    allowNull: true,
+    allowNull: true
   },
   video_youtube_id: {
     type: String,
-    allowNull: false,
+    allowNull: false
   },
   channel_id: {
     type: Schema.Types.ObjectId,
-    ref: "channel",
-    required: true,
+    ref: 'channel',
+    required: true
   }
 })
 
-const videoModel = mongoose.model("video", videoSchema)
+const VideoModel = mongoose.model('video', videoSchema)
 
-module.exports = videoModel;
+module.exports = VideoModel

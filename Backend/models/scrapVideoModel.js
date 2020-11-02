@@ -4,17 +4,16 @@ const Schema = mongoose.Schema
 const scrapVideoSchema = new mongoose.Schema({
   company_id: {
     type: Schema.Types.ObjectId,
-    ref: "company",
-    required: true,
+    ref: 'company',
+    required: true
   },
   video_id: {
     type: Schema.Types.ObjectId,
-    ref: "video",
-    required: true,
-  },
+    ref: 'video',
+    required: true
+  }
 })
 
-const scrapVideoModel = mongoose.model("scrapVideo", scrapVideoSchema)
+const ScrapVideoModel = mongoose.model('scrapVideo', scrapVideoSchema)
 
-module.exports = scrapVideoModel;
-
+module.exports = ScrapVideoModel

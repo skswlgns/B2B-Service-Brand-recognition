@@ -4,19 +4,19 @@ const Schema = mongoose.Schema
 const exposureSchema = new mongoose.Schema({
   exposure_date: {
     type: String,
-    allowNull: false,
+    allowNull: false
   },
   exposure_time: {
     type: Number,
-    allowNull: false,
+    allowNull: false
   },
   company_id: {
     type: Schema.Types.ObjectId,
-    ref: "company",
-    required: true,
-  },
+    ref: 'company',
+    required: true
+  }
 })
 
-const exposureModel = mongoose.model("exposure", exposureSchema)
+const ExposureModel = mongoose.model('exposure', exposureSchema)
 
-module.exports = exposureModel;
+module.exports = ExposureModel
