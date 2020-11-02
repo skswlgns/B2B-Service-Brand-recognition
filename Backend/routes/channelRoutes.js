@@ -4,18 +4,20 @@ const express = require('express')
 // Model
 const ChannelModel = require('../models/ChannelModel')
 const CompanyModel = require('../models/CompanyModel')
-const VideoModel = require('../models/videoModel')
+const VideoModel = require('../models/VideoModel')
 
 // Routes
 const channelRoutes = express.Router()
 
 // 변수
+const admin_id = '5f9fbfb11fd2143df8c009ea'
+
 // const admin_id = 'f9e650f73b55508f0eac0546'
 // API
 
 // 채널 데이터 삽입
 channelRoutes.post('/', async (req, res) => {
-  if (req.headers.company_id === '5f9ea11d39a42e4d1c921461') {
+  if (req.headers.company_id === admin_id) {
     try {
       const channelName = req.body.channel_name
       const channelSubscribe = req.body.channel_subscribe
@@ -68,7 +70,7 @@ channelRoutes.get('/:channel_id', async (req, res) => {
 // 채널 삭제
 channelRoutes.delete('/:channel_id', async (req, res) => {
   const channelId = req.params.channel_id
-  if (req.headers.company_id === '5f9eb28beae05f2198d57ada') {
+  if (req.headers.company_id === admin_id) {
     try {
       await ChannelModel.find({ _id: channelId }).then(async (channel) => {
         if (channel === null) {
@@ -77,28 +79,28 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
           await ChannelModel.deleteOne({ _id: channelId })
 
           // 스크랩 채널 cascade
-          const companyChannel = await CompanyModel.findOne({
-            company_channel: channelId
-          })
-          if (companyChannel) {
-            companyChannel.company_channel.remove(channelId)
-            await CompanyModel.findOneAndUpdate(
-              { _id: companyChannel._id },
-              { company_channel: companyChannel.company_channel }
-            )
-          }
+          // const companyChannel = await CompanyModel.findOne({
+          //   company_channel: channelId
+          // })
+          // if (companyChannel) {
+          //   companyChannel.company_channel.remove(channelId)
+          //   await CompanyModel.findOneAndUpdate(
+          //     { _id: companyChannel._id },
+          //     { company_channel: companyChannel.company_channel }
+          //   )
+          // }
 
           // 컨택 채널 cascade
-          const companyContact = await CompanyModel.findOne({
-            company_contact: channelId
-          })
-          if (companyContact) {
-            companyContact.company_contact.remove(channelId)
-            await CompanyModel.findOneAndUpdate(
-              { _id: companyContact._id },
-              { company_contact: companyContact.company_contact }
-            )
-          }
+          // const companyContact = await CompanyModel.findOne({
+          //   company_contact: channelId
+          // })
+          // if (companyContact) {
+          //   companyContact.company_contact.remove(channelId)
+          //   await CompanyModel.findOneAndUpdate(
+          //     { _id: companyContact._id },
+          //     { company_contact: companyContact.company_contact }
+          //   )
+          // }
 
           // 채널에 포함된 영상 삭제
           const video = await VideoModel.findOne({ channel_id: channelId })
