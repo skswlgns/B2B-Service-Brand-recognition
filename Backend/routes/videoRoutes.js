@@ -2,8 +2,8 @@
 const express = require('express')
 
 // Model
-const VideoModel = require('../models/videoModel')
-const CompanyModel = require('../models/companyModel')
+const VideoModel = require('../models/VideoModel')
+const CompanyModel = require('../models/CompanyModel')
 
 // Routes
 const videoRoutes = express.Router()

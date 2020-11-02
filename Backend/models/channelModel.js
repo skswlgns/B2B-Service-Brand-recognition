@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const channelSchema = new mongoose.Schema({
   channel_id: {
@@ -32,7 +33,19 @@ const channelSchema = new mongoose.Schema({
   channel_youtube_id: {
     type: String,
     allowNull: false
-  }
+  },
+  scrap_company_id: [
+    {
+      type: Schema.Types.Object,
+      ref: 'company'
+    }
+  ],
+  contact_company_id: [
+    {
+      type: Schema.Types.Object,
+      ref: 'company'
+    }
+  ]
 })
 
 const ChannelModel = mongoose.model('channel', channelSchema)
