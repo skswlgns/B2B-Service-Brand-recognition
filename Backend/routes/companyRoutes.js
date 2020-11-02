@@ -72,6 +72,7 @@ companyRoutes.post('/signin', async (req, res) => {
 							}
 						}
 					)
+					res.status(200).send(company)
 				}
 			})
 			.catch((err) => {
