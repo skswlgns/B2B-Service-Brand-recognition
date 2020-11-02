@@ -1,19 +1,19 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const contactSchema = new mongoose.Schema({
   company_id: {
     type: Schema.Types.ObjectId,
-    ref: "company",
-    required: true,
+    ref: 'company',
+    required: true
   },
   channel_id: {
     type: Schema.Types.ObjectId,
-    ref: "channel",
+    ref: 'channel',
     required: true
-  },
+  }
 })
 
-const contactModel = mongoose.model("contact", contactSchema)
+const ContactModel = mongoose.model('contact', contactSchema)
 
-module.exports = contactModel;
+module.exports = ContactModel

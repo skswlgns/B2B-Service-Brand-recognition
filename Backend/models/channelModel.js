@@ -1,30 +1,29 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
 const channelSchema = new mongoose.Schema({
   channel_id: {
     type: Number,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true,
+    autoIncrement: true
   },
   channel_name: {
-    type: String, 
+    type: String,
     allowNull: false,
-    unique: false,
+    unique: false
   },
   channel_subscribe: {
     type: Number,
-    allowNull: false,
+    allowNull: false
   },
   channel_email: {
     type: String,
     allowNull: false,
-    unique: true,
+    unique: true
   },
   channel_img: {
     type: String,
-    allowNull: false,
+    allowNull: false
   },
   channel_video_cnt: {
     type: Number,
@@ -36,6 +35,6 @@ const channelSchema = new mongoose.Schema({
   },
 })
 
-const channelModel = mongoose.model("channel", channelSchema)
+const ChannelModel = mongoose.model('channel', channelSchema)
 
-module.exports = channelModel;
+module.exports = ChannelModel
