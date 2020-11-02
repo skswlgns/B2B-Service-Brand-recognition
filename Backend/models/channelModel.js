@@ -31,8 +31,8 @@ const channelSchema = new mongoose.Schema({
   },
   channel_youtube_id: {
     type: String,
-    allowNull: false,
-  },
+    allowNull: false
+  }
 })
 
 const ChannelModel = mongoose.model('channel', channelSchema)

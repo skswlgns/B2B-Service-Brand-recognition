@@ -145,13 +145,15 @@ companyRoutes.get('/video', async (req, res) => {
 })
 
 // 스크랩 채널 조회
-companyRoutes.get('/channel', async(req, res) => {
-	try {
-		const company = await companyModel.findOne({ _id: req.headers.company_id }).populate("company_channel")
-		res.status(200).send(company)
-	} catch(err) {	
-		res.status(500).send(err)
-	}
+companyRoutes.get('/channel', async (req, res) => {
+  try {
+    const company = await CompanyModel.findOne({
+      _id: req.headers.company_id
+    }).populate('company_channel')
+    res.status(200).send(company)
+  } catch (err) {
+    res.status(500).send(err)
+  }
 })
 
 // 컨택 채널 조회
