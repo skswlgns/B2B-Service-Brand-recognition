@@ -149,7 +149,7 @@ companyRoutes.get('/channel', async (req, res) => {
     const company = await CompanyModel.findOne({
       _id: req.headers.company_id
     }).populate('company_channel')
-    res.status(200).send(company.company_channel)
+    res.status(200).send(company)
   } catch (err) {
     res.status(500).send(err)
   }
