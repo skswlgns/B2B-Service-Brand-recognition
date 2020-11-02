@@ -4,18 +4,19 @@ const express = require('express')
 // Model
 const ChannelModel = require('../models/ChannelModel')
 const CompanyModel = require('../models/CompanyModel')
-const VideoModel = require('../models/videoModel')
+const VideoModel = require('../models/VideoModel')
 
 // Routes
 const channelRoutes = express.Router()
 
 // 변수
-// const admin_id = 'f9e650f73b55508f0eac0546'
+const admin_id = '5f9fbfb11fd2143df8c009ea'
+
 // API
 
 // 채널 데이터 삽입
 channelRoutes.post('/', async (req, res) => {
-  if (req.headers.company_id === '5f9bc574c52fb15df02d54f2') {
+  if (req.headers.company_id === admin_id) {
     try {
       const channelName = req.body.channel_name
       const channelSubscribe = req.body.channel_subscribe
@@ -68,7 +69,7 @@ channelRoutes.get('/:channel_id', async (req, res) => {
 // 채널 삭제
 channelRoutes.delete('/:channel_id', async (req, res) => {
   const channelId = req.params.channel_id
-  if (req.headers.company_id === '5f9eb28beae05f2198d57ada') {
+  if (req.headers.company_id === admin_id) {
     try {
       await ChannelModel.find({ _id: channelId }).then(async (channel) => {
         if (channel === null) {

@@ -15,6 +15,9 @@ const hashpassword = (password) => {
   return crypto.createHash('sha512').update(password).digest('hex')
 }
 
+// 변수
+const admin_id = '5f9fbfb11fd2143df8c009ea'
+
 // API
 
 // 회원가입
@@ -120,7 +123,7 @@ companyRoutes.delete('/delete', async (req, res) => {
 
 // 모든 회원조회
 companyRoutes.get('/', async (req, res) => {
-  if (req.headers.company_id === '5f9bc574c52fb15df02d54f2') {
+  if (req.headers.company_id === admin_id) {
     try {
       const companyAll = await CompanyModel.find()
       res.status(200).send(companyAll)

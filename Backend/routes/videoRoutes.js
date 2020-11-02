@@ -8,10 +8,13 @@ const CompanyModel = require('../models/CompanyModel')
 // Routes
 const videoRoutes = express.Router()
 
+// 변수
+const admin_id = '5f9fbfb11fd2143df8c009ea'
+
 // API
 // 비디오 데이터 삽입
 videoRoutes.post('/', async (req, res) => {
-  if (req.headers.company_id === '5f9bc574c52fb15df02d54f2') {
+  if (req.headers.company_id === admin_id) {
     try {
       const videoId = req.body.video_id
       const videoUrl = req.body.video_url
@@ -141,7 +144,7 @@ videoRoutes.put('/execption', async (req, res) => {
 
 // 비디오 삭제
 videoRoutes.delete('/', async (req, res) => {
-  if (req.headers.company_id === '5f9bc574c52fb15df02d54f2') {
+  if (req.headers.company_id === admin_id) {
     try {
       const company = await CompanyModel.find()
       const videoId = req.body._id
