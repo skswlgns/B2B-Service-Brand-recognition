@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <nav v-if="$route.name !== 'Login'">
+    <nav v-if="$route.name !== 'Login'" class="menu">
       <span>TamTam</span>
       <span>
         <span class="icon"><i class="fa fa-search"></i></span>
@@ -8,24 +8,21 @@
       </span>
       <menu>
         <menuitem id="demo1">
-          <a>SAMSUNG</a>
+          <div>SAMSUNG<i class="fas fa-caret-down"></i></div>
           <menu>
             <menuitem
-              ><rotuer-link to="/#">전체 기업 분석</rotuer-link></menuitem
+              ><router-link to="#">전체 기업 분석</router-link></menuitem
             >
-            <menuitem><rotuer-link to="/#">내 기업 분석</rotuer-link></menuitem>
-            <menuitem><rotuer-link to="/#">My Page</rotuer-link></menuitem>
-            <menuitem><rotuer-link to="/#">Log Out</rotuer-link></menuitem>
+            <menuitem><router-link to="#">내 기업 분석</router-link></menuitem>
+            <menuitem><router-link to="#">My Page</router-link></menuitem>
+            <menuitem
+              ><div class="logout" @click="logout()">
+                Log Out
+              </div></menuitem
+            >
           </menu>
         </menuitem>
       </menu>
-      <!-- <span>내 기업 분석</span>
-      <span>전체 기업 분석</span>
-      <span><router-link to="/login">로그인</router-link></span>
-      <span>
-        <span class="icon"><i class="fa fa-search"></i></span>
-        <input type="text" placeholder="검색 또는 동영상 URL을 입력해주세요." />
-      </span> -->
     </nav>
     <v-container>
       <router-view />
@@ -34,12 +31,21 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+const userStore = 'userStore'
+
 export default {
   name: 'App',
   components: {},
   data: () => ({
     //
-  })
+  }),
+  computed: {
+    ...mapState(userStore, ['user_nickname'])
+  },
+  methods: {
+    ...mapActions(userStore, ['logout'])
+  }
 }
 </script>
 
