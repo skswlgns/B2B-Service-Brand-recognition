@@ -2,12 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const channelSchema = new mongoose.Schema({
-  channel_id: {
-    type: Number,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true
-  },
   channel_name: {
     type: String,
     allowNull: false,
