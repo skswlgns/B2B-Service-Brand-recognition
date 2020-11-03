@@ -159,6 +159,18 @@ companyRoutes.get('/channel', async (req, res) => {
   }
 })
 
+// 닉네임 조회
+companyRoutes.get('/nick', async (req, res) => {
+  if (req.headers.company_id) {
+    const company = await CompanyModel.findOne({
+      _id: req.headers.company_id
+    })
+    res.status(200).send(company.company_nickname)
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
+  }
+})
+
 // 컨택 채널 조회
 companyRoutes.get('/contact', async (req, res) => {
   try {
