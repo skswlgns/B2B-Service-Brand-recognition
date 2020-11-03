@@ -58,9 +58,9 @@ videoRoutes.post('/', async (req, res) => {
             _id: record[i].company_id
           })
 
-          if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
-            videoExposure.exposure_time += record[i].total_exposure_time
-          }
+          // if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
+          //   videoExposure.exposure_time += record[i].total_exposure_time
+          // }
 
           console.log(videoExposure)
           console.log('===============')
