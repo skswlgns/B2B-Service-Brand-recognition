@@ -1,46 +1,46 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from "../views/Home.vue";
-import Ranking from "@/components/Ranking.vue";
-import Recommend from "@/components/Recommend.vue";
-import MyAnalysis from "@/views/MyAnalysis.vue";
-import Search from "@/views/Search.vue";
-import SearchBrand from "@/components/SearchBrand.vue";
-import SearchChannel from "@/components/SearchChannel.vue";
+import Ranking from '@/components/Ranking.vue'
+import Recommend from '@/components/Recommend.vue'
+import MyAnalysis from '@/views/MyAnalysis.vue'
+import Search from '@/views/Search.vue'
+import SearchVideo from '@/components/SearchVideo.vue'
+import SearchChannel from '@/components/SearchChannel.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/searchBrand",
-    name: "SearchBrand",
-    component: SearchBrand
+    path: '/searchVideo',
+    name: 'SearchVideo',
+    component: SearchVideo
   },
   {
-    path: "/searchChannel",
-    name: "SearchChannel",
+    path: '/searchChannel',
+    name: 'SearchChannel',
     component: SearchChannel
   },
   {
-    path: "/search",
-    name: "Search",
+    path: '/search',
+    name: 'Search',
     component: Search
   },
   {
-    path: "/myAnalysis",
-    name: "MyAnalysis",
+    path: '/myAnalysis',
+    name: 'MyAnalysis',
     component: MyAnalysis
   },
   {
-    path: "/ranking",
-    name: "Ranking",
+    path: '/ranking',
+    name: 'Ranking',
     component: Ranking
   },
   {
-    path: "/recommend",
-    name: "Recommend",
+    path: '/recommend',
+    name: 'Recommend',
     component: Recommend
-  },
+  }
   // {
   //   path: "/about",
   //   name: "About",

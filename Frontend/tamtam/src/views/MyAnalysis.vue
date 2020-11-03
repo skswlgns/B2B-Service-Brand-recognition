@@ -1,21 +1,21 @@
 <template>
   <v-app>
     <v-container pa-4>
-    <Ranking></Ranking>
-    <Recommend></Recommend>
+      <Ranking></Ranking>
+      <Recommend></Recommend>
     </v-container>
   </v-app>
 </template>
 
 <script>
-import Ranking from "@/components/Ranking.vue";
-import Recommend from "@/components/Recommend.vue";
+import Ranking from '@/components/Ranking.vue'
+import Recommend from '@/components/Recommend.vue'
 
 export default {
-  name: "MyAnalysis",
+  name: 'MyAnalysis',
   components: {
     Ranking,
     Recommend
-  },
-};
+  }
+}
 </script>

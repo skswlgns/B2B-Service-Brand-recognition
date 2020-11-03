@@ -24,19 +24,19 @@ export default {
   name: 'App',
   components: {},
   data: () => ({
-    searchText: "",
+    searchText: ''
   }),
   methods: {
     moveSearch() {
-      if (this.searchText === "") {
-        alert("검색어 또는 동영상 URL을 입력해주세요.");
+      if (this.searchText === '') {
+        alert('검색어 또는 동영상 URL을 입력해주세요.')
       } else {
-        this.$router.push({ name: "Search", query: { text: this.searchText } });
-        this.searchText = "";
+        this.$router.push({ name: 'Search', query: { text: this.searchText } })
+        this.searchText = ''
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss">
