@@ -58,9 +58,12 @@ videoRoutes.post('/', async (req, res) => {
             _id: record[i].company_id
           })
 
-          // if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
-          //   videoExposure.exposure_time += record[i].total_exposure_time
-          // }
+          // video 날짜에 기업 노출 기록이 있으면 더하고
+          if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
+            videoExposure.exposure_time += record[i].total_exposure_time
+          } else {
+            // const videoExposure =
+          }
 
           console.log(videoExposure)
           console.log('===============')
