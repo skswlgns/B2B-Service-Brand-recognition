@@ -33,9 +33,7 @@ channelRoutes.post('/', async (req, res) => {
         channel_youtube_id: channelYoutubeId
       })
       await item.save()
-      res
-        .status(200)
-        .send({ message: '채널 데이터가 성공적으로 저장되었습니다.' })
+      res.status(200).send({ message: '채널 데이터가 성공적으로 저장되었습니다.' })
     } catch (err) {
       res.status(500).send(err)
     }
@@ -84,10 +82,7 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
             _id: channelScrap[i]
           })
           company.company_channel.remove(channelId)
-          await CompanyModel.findOneAndUpdate(
-            { _id: channelScrap[i] },
-            { company_channel: company.company_channel }
-          )
+          await CompanyModel.findOneAndUpdate({ _id: channelScrap[i] }, { company_channel: company.company_channel })
         }
 
         // 컨택 채널 cascade
@@ -97,10 +92,7 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
             _id: channelContact[i]
           })
           company.company_contact.remove(channelId)
-          await CompanyModel.findOneAndUpdate(
-            { _id: channelContact[i] },
-            { company_contact: company.company_contact }
-          )
+          await CompanyModel.findOneAndUpdate({ _id: channelContact[i] }, { company_contact: company.company_contact })
         }
 
         // 채널에 포함된 영상 삭제
@@ -136,10 +128,7 @@ channelRoutes.put('/scrap', async (req, res) => {
           )
 
           channel.scrap_company_id.remove(req.headers.company_id)
-          await ChannelModel.findOneAndUpdate(
-            { _id: channelId },
-            { scrap_company_id: channel.scrap_company_id }
-          )
+          await ChannelModel.findOneAndUpdate({ _id: channelId }, { scrap_company_id: channel.scrap_company_id })
 
           res.status(200).send({ message: '채널 스크랩 취소' })
         } else {
@@ -150,10 +139,7 @@ channelRoutes.put('/scrap', async (req, res) => {
           )
 
           channel.scrap_company_id.push(req.headers.company_id)
-          await ChannelModel.findOneAndUpdate(
-            { _id: channelId },
-            { scrap_company_id: channel.scrap_company_id }
-          )
+          await ChannelModel.findOneAndUpdate({ _id: channelId }, { scrap_company_id: channel.scrap_company_id })
 
           res.status(200).send({ message: '채널 스크랩 완료' })
         }
@@ -187,10 +173,7 @@ channelRoutes.put('/contact', async (req, res) => {
           )
 
           channel.contact_company_id.remove(req.headers.company_id)
-          await ChannelModel.findOneAndUpdate(
-            { _id: channelId },
-            { contact_company_id: channel.contact_company_id }
-          )
+          await ChannelModel.findOneAndUpdate({ _id: channelId }, { contact_company_id: channel.contact_company_id })
           res.status(200).send({ message: '채널 컨택 취소' })
         } else {
           company.company_contact.push(channelId)
@@ -200,10 +183,7 @@ channelRoutes.put('/contact', async (req, res) => {
           )
 
           channel.contact_company_id.push(req.headers.company_id)
-          await ChannelModel.findOneAndUpdate(
-            { _id: channelId },
-            { contact_company_id: channel.contact_company_id }
-          )
+          await ChannelModel.findOneAndUpdate({ _id: channelId }, { contact_company_id: channel.contact_company_id })
           res.status(200).send({ message: '채널 컨택 완료' })
         }
       } else {
