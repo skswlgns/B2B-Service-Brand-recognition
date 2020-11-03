@@ -14,8 +14,8 @@ const admin_id = '5f9fbfb11fd2143df8c009ea'
 // API
 // 비디오 데이터 삽입
 videoRoutes.post('/', async (req, res) => {
-  if (req.headers.company_id === admin_id) {
-    try {
+  try {
+    if (req.headers.company_id === '5f9ea11d39a42e4d1c921461') {
       const videoId = req.body.video_id
       const videoUrl = req.body.video_url
       const channelId = req.body.channel_id
@@ -49,9 +49,13 @@ videoRoutes.post('/', async (req, res) => {
       res.status(200).send({
         message: '성공적으로 데이터를 삽입하였습니다.'
       })
-    } catch (err) {
-      res.status(500).send(err)
+    } else {
+      res.status(400).send({
+        message: '관리자가 아닙니다.'
+      })
     }
+  } catch (err) {
+    res.status(500).send(err)
   }
 })
 

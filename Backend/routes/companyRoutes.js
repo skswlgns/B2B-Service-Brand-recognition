@@ -18,9 +18,6 @@ const hashpassword = (password) => {
   return crypto.createHash('sha512').update(password).digest('hex')
 }
 
-// 변수
-const admin_id = '5f9fbfb11fd2143df8c009ea'
-
 // API
 
 // 회원가입
