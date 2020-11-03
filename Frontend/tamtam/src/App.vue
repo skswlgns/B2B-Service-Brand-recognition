@@ -8,7 +8,7 @@
       </span>
       <menu>
         <menuitem id="demo1">
-          <div>SAMSUNG<i class="fas fa-caret-down"></i></div>
+          <div>{{ user_nickname }}<i class="fas fa-caret-down"></i></div>
           <menu>
             <menuitem
               ><router-link to="#">전체 기업 분석</router-link></menuitem
@@ -25,6 +25,9 @@
       </menu>
     </nav>
     <v-container>
+      <Main1 />
+    </v-container>
+    <v-container>
       <router-view />
     </v-container>
   </v-app>
@@ -32,11 +35,14 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Main1 from './components/Main1.vue'
 const userStore = 'userStore'
 
 export default {
   name: 'App',
-  components: {},
+  components: {
+    Main1
+  },
   data: () => ({
     //
   }),
