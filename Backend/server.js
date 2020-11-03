@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 const PORT = 3000
 
-const MONGO_URL = 'mongodb://localhost:27017/test'
+const MONGO_URL = 'mongodb://k3b203.p.ssafy.io:5000/tamtam'
 const server = http.createServer(app)
 server.listen(PORT)
 
