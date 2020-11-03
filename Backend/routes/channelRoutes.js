@@ -4,7 +4,7 @@ const express = require('express')
 // Model
 const ChannelModel = require('../models/ChannelModel')
 const CompanyModel = require('../models/CompanyModel')
-const VideoModel = require('../models/videoModel')
+const VideoModel = require('../models/VideoModel')
 
 // Routes
 const channelRoutes = express.Router()
