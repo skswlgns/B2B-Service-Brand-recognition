@@ -133,14 +133,13 @@ companyRoutes.get('/', async (req, res) => {
   }
 })
 
-// 비디오 스크랩 조회
+// 스크랩 비디오 조회
 companyRoutes.get('/video', async (req, res) => {
   if (req.headers.token) {
     try {
-      const scrapVideo = await CompanyModel.findOne({
+      await CompanyModel.findOne({
         _id: req.headers.company_id
       })
-      console.log(scrapVideo)
     } catch (err) {
       res.status(500).send(err)
     }
