@@ -59,7 +59,7 @@ def make_video_exposure_records(key, values, timestamp_index_dict, index_timesta
                 brand_exposure_frame[i].add(value_name)  # 각 프레임에 등장한 로고 혹은 제품 적어주기
 
     # 하나의 그룹으로 묶어서 정리해준다.
-    tmp_brand_object = dict(company_name=f'{key}_id', total_exposure_time=0, timelines=list())  # DB에 넣을 객체
+    tmp_brand_object = dict(company_id=f'{key}_id', total_exposure_time=0, timelines=list())  # DB에 넣을 객체
 
     tmp_timeline, flag = [set(), 0, 0], False  # [["로고", "등장 제품"], "시작", "끝"] 형태로 만들기
     for index, brands in enumerate(brand_exposure_frame):

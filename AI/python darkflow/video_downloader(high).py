@@ -1,7 +1,7 @@
 from pytube import YouTube
 # 라이브러리 가져오기
 
-yt = YouTube('https://www.youtube.com/watch?v=V1DEVT--TCE')
+yt = YouTube('https://www.youtube.com/watch?v=kvhRhhBB5-k')
 # 동영상 링크를 이용해 YouTube 객체 생성
 
 yt_streams = yt.streams
