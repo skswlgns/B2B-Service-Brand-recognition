@@ -1,11 +1,7 @@
 import os
 import xml.etree.ElementTree as ET
 
-<<<<<<< HEAD
-targetDir = r"C:\Users\multicampus\opencv\data\annotations"
-=======
-targetDir = r"C:\Users\multicampus\Desktop\data\annotations"
->>>>>>> c27f7db8fe8565acae6920921d136e28ee67cd8a
+targetDir = r"C:\Users\multicampus\Desktop\dataset\삼성"
 
 # 내 경로에 있는 모든 파일들 불러오기
 # 예) 1.xml, 2.xml ..... 1000.xml
@@ -29,7 +25,7 @@ for file in file_list:
     original = target_tag.text
     print(original)
     # 수정할 텍스트
-    modified = original.replace(r"C:/Users/multicampus/Desktop/data/dataset/fila", r"/home/team1/TamTam/data/dataset")
+    modified = original.replace(r"C:/Users/multicampus/Desktop/dataset/dataset", r"/home/team1/TamTam/data/dataset")
     modified = modified.replace("\\", "/")
 
     target_tag.text = modified
