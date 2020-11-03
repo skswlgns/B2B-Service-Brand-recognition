@@ -141,6 +141,7 @@ channelRoutes.put('/scrap', async (req, res) => {
             { _id: req.headers.company_id },
             { company_channel: company.company_channel }
           )
+          channel.scrap_company_id.push(req.headers.company_id)
           res.status(200).send({ message: '채널 스크랩 완료' })
         }
       } else {
