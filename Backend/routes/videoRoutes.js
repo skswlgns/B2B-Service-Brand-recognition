@@ -62,7 +62,17 @@ videoRoutes.post('/', async (req, res) => {
           if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
             videoExposure.exposure_time += record[i].total_exposure_time
           } else {
-            // const videoExposure =
+            const videoDate = req.body.video_date
+            const videoExposureTime = record[i].total_exposure_time
+            const company_id = record[i].company_id
+
+            const item = new ExposureModel({
+              exposure_date: videoDate,
+              exposure_time: videoExposureTime,
+              company_id: company_id
+            })
+
+            await item.save()
           }
 
           console.log(videoExposure)
