@@ -10,6 +10,9 @@ const CompanyModel = require('../models/CompanyModel')
 // Routes
 const companyRoutes = express.Router()
 
+// 변수
+const admin_id = '5f9fbfb11fd2143df8c009ea'
+
 // 함수
 const hashpassword = (password) => {
   return crypto.createHash('sha512').update(password).digest('hex')
@@ -102,17 +105,15 @@ companyRoutes.post('/signin', async (req, res) => {
 // companyRoutes.delete("/", verificationMiddleware)
 companyRoutes.delete('/delete', async (req, res) => {
   try {
-    await CompanyModel.findOne({ company_id: req.headers._id }).then(
-      async (company) => {
-        if (company === null) {
-          res.status(403).send({ message: '존재하지 않는 아이디 입니다.' })
-        } else {
-          // 다른 모델에서도 회원 정보를 지워줘야 한다.
-          await CompanyModel.deleteOne({ company_email: company.company_email })
-          res.status(200).send({ message: '회원 탈퇴 되었습니다.' })
-        }
+    await CompanyModel.findOne({ company_id: req.headers._id }).then(async (company) => {
+      if (company === null) {
+        res.status(403).send({ message: '존재하지 않는 아이디 입니다.' })
+      } else {
+        // 다른 모델에서도 회원 정보를 지워줘야 한다.
+        await CompanyModel.deleteOne({ company_email: company.company_email })
+        res.status(200).send({ message: '회원 탈퇴 되었습니다.' })
       }
-    )
+    })
   } catch (err) {
     res.status(500).send(err)
   }
@@ -120,7 +121,7 @@ companyRoutes.delete('/delete', async (req, res) => {
 
 // 모든 회원조회
 companyRoutes.get('/', async (req, res) => {
-  if (req.headers.company_id === '5f9bc574c52fb15df02d54f2') {
+  if (req.headers.company_id === admin_id) {
     try {
       const companyAll = await CompanyModel.find()
       res.status(200).send(companyAll)
@@ -130,14 +131,13 @@ companyRoutes.get('/', async (req, res) => {
   }
 })
 
-// 비디오 스크랩 조회
+// 스크랩 비디오 조회
 companyRoutes.get('/video', async (req, res) => {
   if (req.headers.token) {
     try {
-      const scrapVideo = await CompanyModel.findOne({
+      await CompanyModel.findOne({
         _id: req.headers.company_id
       })
-      console.log(scrapVideo)
     } catch (err) {
       res.status(500).send(err)
     }
@@ -150,9 +150,21 @@ companyRoutes.get('/channel', async (req, res) => {
     const company = await CompanyModel.findOne({
       _id: req.headers.company_id
     }).populate('company_channel')
-    res.status(200).send(company.company_channel)
+    res.status(200).send(company)
   } catch (err) {
     res.status(500).send(err)
+  }
+})
+
+// 닉네임 조회
+companyRoutes.get('/nick', async (req, res) => {
+  if (req.headers.company_id) {
+    const company = await CompanyModel.findOne({
+      _id: req.headers.company_id
+    })
+    res.status(200).send(company.company_nickname)
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
 

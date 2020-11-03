@@ -80,7 +80,7 @@ export default {
     initialize() {
       for (const id of this.list) {
         const url =
-          'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyCVD77dDLlsToi0KYQKA9HynfKs2o6SzUE&part=snippet, brandingSettings, contentDetails, statistics, topicDetails&id=' +
+          'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyBQbAtGm7FHazDtqEv7xsyyDmU31k-kzyI&part=snippet, brandingSettings, contentDetails, statistics, topicDetails&id=' +
           id
         axios.get(url).then(res => {
           this.Item = []
