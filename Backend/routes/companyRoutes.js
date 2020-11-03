@@ -10,6 +10,9 @@ const CompanyModel = require('../models/CompanyModel')
 // Routes
 const companyRoutes = express.Router()
 
+// 변수
+const admin_id = '5f9fbfb11fd2143df8c009ea'
+
 // 함수
 const hashpassword = (password) => {
   return crypto.createHash('sha512').update(password).digest('hex')

@@ -78,28 +78,28 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
           await ChannelModel.deleteOne({ _id: channelId })
 
           // 스크랩 채널 cascade
-          const companyChannel = await CompanyModel.findOne({
-            company_channel: channelId
-          })
-          if (companyChannel) {
-            companyChannel.company_channel.remove(channelId)
-            await CompanyModel.findOneAndUpdate(
-              { _id: companyChannel._id },
-              { company_channel: companyChannel.company_channel }
-            )
-          }
+          // const companyChannel = await CompanyModel.findOne({
+          //   company_channel: channelId
+          // })
+          // if (companyChannel) {
+          //   companyChannel.company_channel.remove(channelId)
+          //   await CompanyModel.findOneAndUpdate(
+          //     { _id: companyChannel._id },
+          //     { company_channel: companyChannel.company_channel }
+          //   )
+          // }
 
           // 컨택 채널 cascade
-          const companyContact = await CompanyModel.findOne({
-            company_contact: channelId
-          })
-          if (companyContact) {
-            companyContact.company_contact.remove(channelId)
-            await CompanyModel.findOneAndUpdate(
-              { _id: companyContact._id },
-              { company_contact: companyContact.company_contact }
-            )
-          }
+          // const companyContact = await CompanyModel.findOne({
+          //   company_contact: channelId
+          // })
+          // if (companyContact) {
+          //   companyContact.company_contact.remove(channelId)
+          //   await CompanyModel.findOneAndUpdate(
+          //     { _id: companyContact._id },
+          //     { company_contact: companyContact.company_contact }
+          //   )
+          // }
 
           // 채널에 포함된 영상 삭제
           const video = await VideoModel.findOne({ channel_id: channelId })
