@@ -4,6 +4,7 @@ const express = require('express')
 // Model
 const VideoModel = require('../models/VideoModel')
 const CompanyModel = require('../models/CompanyModel')
+const ExposureModel = require('../models/ExposureModel')
 
 // Routes
 const videoRoutes = express.Router()
@@ -48,6 +49,29 @@ videoRoutes.post('/', async (req, res) => {
         video_category: videoCategory
       })
       await item.save()
+
+      // exposure model에 video record 저장하자
+      if (req.body.video_record) {
+        const record = req.body.video_record
+
+        for (let i = 0; i < record.length; i++) {
+          // console.log(record[i])
+          const videoExposure = await ExposureModel.findOne({
+            _id: record[i].company_id
+          })
+
+          // if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
+          //   videoExposure.exposure_time += record[i].total_exposure_time
+          // }
+
+          console.log(videoExposure)
+          console.log('===============')
+        }
+
+        // const videoExposureTime = req.body.video
+      }
+      // exposure_date
+      // req.body.video_record
       res.status(200).send({
         message: '성공적으로 데이터를 삽입하였습니다.'
       })
@@ -99,30 +123,18 @@ videoRoutes.put('/scrap', async (req, res) => {
 
       if (!company.company_video.includes(videoId)) {
         company.company_video.push(videoId)
-        await CompanyModel.findOneAndUpdate(
-          { _id: companyId },
-          { company_video: company.company_video }
-        )
+        await CompanyModel.findOneAndUpdate({ _id: companyId }, { company_video: company.company_video })
 
         video.scrap_company_id.push(companyId)
-        await VideoModel.findOneAndUpdate(
-          { _id: videoId },
-          { scrap_company_id: video.scrap_company_id }
-        )
+        await VideoModel.findOneAndUpdate({ _id: videoId }, { scrap_company_id: video.scrap_company_id })
 
         res.status(200).send({ message: '비디오를 스크랩하였습니다.' })
       } else {
         company.company_video.remove(videoId)
-        await CompanyModel.findOneAndUpdate(
-          { _id: companyId },
-          { company_video: company.company_video }
-        )
+        await CompanyModel.findOneAndUpdate({ _id: companyId }, { company_video: company.company_video })
 
         video.scrap_company_id.remove(companyId)
-        await VideoModel.findOneAndUpdate(
-          { _id: videoId },
-          { scrap_company_id: video.scrap_company_id }
-        )
+        await VideoModel.findOneAndUpdate({ _id: videoId }, { scrap_company_id: video.scrap_company_id })
         res.status(200).send({ message: '비디오 스크랩을 취소하였습니다.' })
       }
     } catch (err) {
@@ -160,14 +172,9 @@ videoRoutes.put('/execption', async (req, res) => {
         )
 
         video.execption_company_id.push(companyId)
-        await VideoModel.findOneAndUpdate(
-          { _id: videoId },
-          { execption_company_id: video.execption_company_id }
-        )
+        await VideoModel.findOneAndUpdate({ _id: videoId }, { execption_company_id: video.execption_company_id })
 
-        res
-          .status(200)
-          .send({ message: '해당 비디오를 통계에서 제외시킵니다.' })
+        res.status(200).send({ message: '해당 비디오를 통계에서 제외시킵니다.' })
       } else {
         company.company_execption.remove(videoId)
         await CompanyModel.findOneAndUpdate(
@@ -176,10 +183,7 @@ videoRoutes.put('/execption', async (req, res) => {
         )
 
         video.execption_company_id.remove(companyId)
-        await VideoModel.findOneAndUpdate(
-          { _id: videoId },
-          { execption_company_id: video.execption_company_id }
-        )
+        await VideoModel.findOneAndUpdate({ _id: videoId }, { execption_company_id: video.execption_company_id })
         res.status(200).send({ message: '해당 비디오 제외를 취소합니다.' })
       }
     } catch (err) {

@@ -30,13 +30,13 @@ const channelSchema = new mongoose.Schema({
   },
   scrap_company_id: [
     {
-      type: Schema.Types.Object,
+      type: Schema.Types.ObjectId,
       ref: 'company'
     }
   ],
   contact_company_id: [
     {
-      type: Schema.Types.Object,
+      type: Schema.Types.ObjectId,
       ref: 'company'
     }
   ]

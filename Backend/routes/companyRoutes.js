@@ -105,17 +105,15 @@ companyRoutes.post('/signin', async (req, res) => {
 // companyRoutes.delete("/", verificationMiddleware)
 companyRoutes.delete('/delete', async (req, res) => {
   try {
-    await CompanyModel.findOne({ company_id: req.headers._id }).then(
-      async (company) => {
-        if (company === null) {
-          res.status(403).send({ message: '존재하지 않는 아이디 입니다.' })
-        } else {
-          // 다른 모델에서도 회원 정보를 지워줘야 한다.
-          await CompanyModel.deleteOne({ company_email: company.company_email })
-          res.status(200).send({ message: '회원 탈퇴 되었습니다.' })
-        }
+    await CompanyModel.findOne({ company_id: req.headers._id }).then(async (company) => {
+      if (company === null) {
+        res.status(403).send({ message: '존재하지 않는 아이디 입니다.' })
+      } else {
+        // 다른 모델에서도 회원 정보를 지워줘야 한다.
+        await CompanyModel.deleteOne({ company_email: company.company_email })
+        res.status(200).send({ message: '회원 탈퇴 되었습니다.' })
       }
-    )
+    })
   } catch (err) {
     res.status(500).send(err)
   }
@@ -155,6 +153,18 @@ companyRoutes.get('/channel', async (req, res) => {
     res.status(200).send(company)
   } catch (err) {
     res.status(500).send(err)
+  }
+})
+
+// 닉네임 조회
+companyRoutes.get('/nick', async (req, res) => {
+  if (req.headers.company_id) {
+    const company = await CompanyModel.findOne({
+      _id: req.headers.company_id
+    })
+    res.status(200).send(company.company_nickname)
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
 
