@@ -6,6 +6,7 @@ const secretObj = require('../config/jwt')
 
 // Model
 const CompanyModel = require('../models/CompanyModel')
+const VideoModel = require('../models/VideoModel')
 
 // Routes
 const companyRoutes = express.Router()
@@ -92,17 +93,37 @@ companyRoutes.post('/signin', async (req, res) => {
 })
 
 // 회원탈퇴
-companyRoutes.delete('/delete', async (req, res) => {
-  try {
-    await CompanyModel.findOne({ company_id: req.headers._id }).then(async (company) => {
-      if (company === null) {
-        res.status(403).send({ message: '존재하지 않는 아이디 입니다.' })
-      } else {
-        // 다른 모델에서도 회원 정보를 지워줘야 한다.
-        await CompanyModel.deleteOne({ company_email: company.company_email })
-        res.status(200).send({ message: '회원 탈퇴 되었습니다.' })
+companyRoutes.delete('/', async (req, res) => {
+  if (req.headers.company_id) {
+    const companyId = req.headers.company_id
+    const company = await CompanyModel.findOne({ _id: companyId })
+    if (company === null) {
+      res.status(403).send({ message: '존재하지 않는 회원입니다.' })
+    } else {
+      // video Cascade
+      for (let i = 0; i < company.company_exception.length; i++) {
+        const video = await VideoModel.findOne({ _id: company.company_exception[i] })
+        video.scrap_company_id.remove(companyId)
+        video.exception_company_id.remove(companyId)
+
+        await VideoModel.findOneAndUpdate(
+          { _id: company.company_exception[i] },
+          { scrap_company_id: video.scrap_company_id, exception_company_id: video.exception_company_id }
+        )
       }
-    })
+    }
+  }
+  try {
+    // const company = CompanyModel.findOne
+    // await CompanyModel.findOne({ company_id: req.headers._id }).then(async (company) => {
+    //   if (company === null) {
+    //     res.status(403).send({ message: '존재하지 않는 아이디 입니다.' })
+    //   } else {
+    //     // 다른 모델에서도 회원 정보를 지워줘야 한다.
+    //     await CompanyModel.deleteOne({ company_email: company.company_email })
+    //     res.status(200).send({ message: '회원 탈퇴 되었습니다.' })
+    //   }
+    // })
   } catch (err) {
     res.status(500).send(err)
   }
