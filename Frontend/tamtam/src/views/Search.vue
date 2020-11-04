@@ -1,12 +1,12 @@
 <template>
   <v-app>
-    <v-container>
-      <h1 style="font-size:32px; padding-top:32px; padding-bottom: 32px;">
+    <div>
+      <h1 style="font-size:24px; padding-top:24px; padding-bottom: 8px;">
         '{{ this.searchText }}'(으)로 검색한 결과입니다.
       </h1>
-      <SearchChannel></SearchChannel>
+      <SearchChannel v-bind:title="this.searchText"></SearchChannel>
       <SearchVideo v-bind:title="this.searchText"></SearchVideo>
-    </v-container>
+    </div>
   </v-app>
 </template>
 
@@ -24,7 +24,7 @@ export default {
     searchText: ''
   }),
   created() {
-    this.searchText = this.$route.query.text
+    this.searchText = this.$route.params.text
   }
 }
 </script>

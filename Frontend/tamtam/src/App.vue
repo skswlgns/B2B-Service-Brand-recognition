@@ -18,7 +18,11 @@
             <menuitem
               ><router-link to="#">전체 기업 분석</router-link></menuitem
             >
-            <menuitem><router-link to="#">내 기업 분석</router-link></menuitem>
+            <menuitem
+              ><router-link to="/myAnalysis"
+                >내 기업 분석</router-link
+              ></menuitem
+            >
             <menuitem><router-link to="#">My Page</router-link></menuitem>
             <menuitem
               ><div class="logout" @click="logout()">
@@ -30,7 +34,7 @@
       </menu>
     </nav>
     <v-container>
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </v-container>
   </v-app>
 </template>
@@ -50,7 +54,7 @@ export default {
       if (this.searchText === '') {
         alert('검색어 또는 동영상 URL을 입력해주세요.')
       } else {
-        this.$router.push({ name: 'Search', query: { text: this.searchText } })
+        this.$router.push({ name: 'Search', params: { text: this.searchText } })
         this.searchText = ''
       }
     },
@@ -62,14 +66,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scpoed>
 @import './scss/reset.scss';
 @import './scss/nav.scss';
-</style>
-
-<style scoped>
-span a {
-  color: aliceblue;
-  text-decoration: none;
-}
 </style>

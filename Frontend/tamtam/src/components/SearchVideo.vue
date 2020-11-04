@@ -1,7 +1,7 @@
 <template>
-  <div style="padding-top: 88px; padding-bottom: 88px;">
-    <v-card style="padding:8px;">
-      <h2 style="font-size:24px; padding:32px;">
+  <div style="padding-top: 16px;">
+    <v-card flat tile style="padding:8px;">
+      <h2 style="font-size:16px; padding:8px;">
         영상 검색결과
       </h2>
       <v-carousel hide-delimiters height="100%">
@@ -50,7 +50,7 @@ export default {
       // 백엔드 연결
       // const url = 'http://localhost:3000/api/video/5f9e7736c24b5734cc5fe5e1';
       const url =
-        'https://www.googleapis.com/youtube/v3/search?key=AIzaSyCVD77dDLlsToi0KYQKA9HynfKs2o6SzUE&part=snippet&regionCode=KR&type=video&part=snippet&q=' +
+        'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBQbAtGm7FHazDtqEv7xsyyDmU31k-kzyI&part=snippet&regionCode=KR&maxResults=50&type=video&q=' +
         this.title
       axios.get(url).then(res => {
         this.videos = res.data.items
