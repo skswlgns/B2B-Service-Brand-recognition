@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <v-container pa-4>
+    <div>
       <Ranking></Ranking>
       <Recommend></Recommend>
-    </v-container>
+    </div>
   </v-app>
 </template>
 
@@ -19,8 +19,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-@import '@/scss/reset.scss';
-@import '@/scss/nav.scss';
-</style>
