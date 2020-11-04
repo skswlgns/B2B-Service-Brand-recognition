@@ -11,7 +11,7 @@ const CompanyModel = require('../models/CompanyModel')
 const companyRoutes = express.Router()
 
 // 변수
-const admin_id = '5f9fbfb11fd2143df8c009ea'
+const admin_id = '5fa21b49bf786c138c6062ee'
 
 // 함수
 const hashpassword = (password) => {
@@ -91,18 +91,7 @@ companyRoutes.post('/signin', async (req, res) => {
   }
 })
 
-// 로그아웃
-// companyRoutes.post("/signout", async (req, res) => {
-// 	// console.log(req.headers)
-// 	if (req.headers.token == null) {
-// 		res.status(403).json({ message: "로그인 되어 있지 않습니다." })
-// 	} else {
-
-// 	}
-// })
-
 // 회원탈퇴
-// companyRoutes.delete("/", verificationMiddleware)
 companyRoutes.delete('/delete', async (req, res) => {
   try {
     await CompanyModel.findOne({ company_id: req.headers._id }).then(async (company) => {
@@ -128,6 +117,8 @@ companyRoutes.get('/', async (req, res) => {
     } catch (err) {
       res.status(500).send(err)
     }
+  } else {
+    res.status(403).send({ message: '접근이 제한되었습니다.' })
   }
 })
 
@@ -141,18 +132,24 @@ companyRoutes.get('/video', async (req, res) => {
     } catch (err) {
       res.status(500).send(err)
     }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
 
 // 스크랩 채널 조회
 companyRoutes.get('/channel', async (req, res) => {
-  try {
-    const company = await CompanyModel.findOne({
-      _id: req.headers.company_id
-    }).populate('company_channel')
-    res.status(200).send(company)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    try {
+      const company = await CompanyModel.findOne({
+        _id: req.headers.company_id
+      }).populate('company_channel')
+      res.status(200).send(company)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
 
@@ -170,20 +167,29 @@ companyRoutes.get('/nick', async (req, res) => {
 
 // 컨택 채널 조회
 companyRoutes.get('/contact', async (req, res) => {
-  try {
-    const company = await CompanyModel.findOne({
-      _id: req.headers.company_id
-    }).populate('company_contact')
-    res.status(200).send(company.company_contact)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    try {
+      const company = await CompanyModel.findOne({
+        _id: req.headers.company_id
+      }).populate('company_contact')
+      res.status(200).send(company.company_contact)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
 
 // 제외 영상 조회
 companyRoutes.get('/exception', async (req, res) => {
   if (req.headers.token) {
-    // const company = await CompanyModel.findOne({ _id: req.headers.company_id }).populate('company_exception')
+    try {
+      const company = await CompanyModel.findOne({ _id: req.headers.company_id }).populate('company_exception')
+      res.status(200).send(company.company_exception)
+    } catch (err) {
+      res.status(500).send(err)
+    }
   } else {
     res.status(403).send({ message: '회원만 조회할 수 있습니다.' })
   }
@@ -199,6 +205,8 @@ companyRoutes.get('/:company_id', async (req, res) => {
     } catch (err) {
       res.status(500).send(err)
     }
+  } else {
+    res.status(403).send({ message: '접근이 제한되었습니다.' })
   }
 })
 
