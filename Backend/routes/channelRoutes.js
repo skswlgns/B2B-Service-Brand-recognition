@@ -81,7 +81,7 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
       if (channel === null) {
         res.status(403).send({ message: '존재하지 않는 채널입니다.' })
       } else {
-        // await ChannelModel.deleteOne({ _id: channelId })
+        await ChannelModel.deleteOne({ _id: channelId })
 
         // 스크랩 채널 cascade
         const channelScrap = channel.scrap_company_id
@@ -104,9 +104,33 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
         }
 
         // 채널에 포함된 영상 삭제
-        await VideoModel.deleteMany({ channel_id: channelId })
+        const video = await VideoModel.find({ channel_id: channelId })
+          .populate('scrap_company_id')
+          .populate('exception_company_id')
 
-        // companyModel의 company_video삭제
+        // console.log(video)
+
+        for (let j = 0; j < video.length; j++) {
+          // companyModel의 company_video삭제
+          for (let i = 0; i < video[j].scrap_company_id.length; i++) {
+            video[j].scrap_company_id[i].company_video.remove(video[j]._id)
+            await CompanyModel.findOneAndUpdate(
+              { _id: video[j].scrap_company_id[i]._id },
+              { company_video: video[j].scrap_company_id[i].company_video }
+            )
+          }
+
+          // companyModel의 company_exception 삭제
+          for (let i = 0; i < video[j].exception_company_id.length; i++) {
+            video[j].exception_company_id[i].company_exception.remove(video[j]._id)
+            await CompanyModel.findOneAndUpdate(
+              { _id: video[j].exception_company_id[i]._id },
+              { company_exception: video[j].exception_company_id[i].company_exception }
+            )
+          }
+        }
+
+        await VideoModel.deleteMany({ channel_id: channelId })
 
         res.status(200).send({ message: '채널이 삭제되었습니다.' })
       }
