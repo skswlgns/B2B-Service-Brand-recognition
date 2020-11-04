@@ -11,7 +11,7 @@ const CompanyModel = require('../models/CompanyModel')
 const companyRoutes = express.Router()
 
 // 변수
-const admin_id = '5f9fbfb11fd2143df8c009ea'
+const admin_id = '5fa21b49bf786c138c6062ee'
 
 // 함수
 const hashpassword = (password) => {
@@ -183,7 +183,12 @@ companyRoutes.get('/contact', async (req, res) => {
 // 제외 영상 조회
 companyRoutes.get('/exception', async (req, res) => {
   if (req.headers.token) {
-    // const company = await CompanyModel.findOne({ _id: req.headers.company_id }).populate('company_exception')
+    try {
+      const company = await CompanyModel.findOne({ _id: req.headers.company_id }).populate('company_exception')
+      res.status(200).send(company.company_exception)
+    } catch (err) {
+      res.status(500).send(err)
+    }
   } else {
     res.status(403).send({ message: '회원만 조회할 수 있습니다.' })
   }
