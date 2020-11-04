@@ -20,7 +20,7 @@ const companySchema = new mongoose.Schema({
     type: String,
     allowNull: false
   },
-  company_execption: [
+  company_exception: [
     {
       type: Schema.Types.ObjectId,
       ref: 'video'
