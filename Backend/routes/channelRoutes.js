@@ -10,7 +10,7 @@ const VideoModel = require('../models/VideoModel')
 const channelRoutes = express.Router()
 
 // 변수
-const admin_id = '5f9fbfb11fd2143df8c009ea'
+const admin_id = '5fa21b49bf786c138c6062ee'
 
 // API
 // 채널 데이터 삽입
@@ -104,10 +104,31 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
         }
 
         // 채널에 포함된 영상 삭제
-        await VideoModel.deleteMany({ channel_id: channelId })
+        const video = await VideoModel.find({ channel_id: channelId })
+          .populate('scrap_company_id')
+          .populate('exception_company_id')
 
-        // companyModel의 company_video삭제
+        console.log(video)
 
+        for (let j = 0; j < video.length; j++) {
+          // companyModel의 company_video삭제
+          for (let i = 0; i < video[j].scrap_company_id.length; i++) {
+            video[j].scrap_company_id[i].company_video.remove(video[j]._id)
+            await CompanyModel.findOneAndUpdate(
+              { _id: video[j].scrap_company_id[i]._id },
+              { company_video: video[j].scrap_company_id[i].company_video }
+            )
+          }
+
+          // companyModel의 company_exception 삭제
+          for (let j = 0; j < video[j].exception_company_id.length; j++) {
+            video[j].exception_company_id[j].company_exception.remove(video[j]._id)
+            await CompanyModel.findOneAndUpdate(
+              { _id: video[j].exception_company_id[j]._id },
+              { company_exception: video[j].exception_company_id[j].company_exception }
+            )
+          }
+        }
         res.status(200).send({ message: '채널이 삭제되었습니다.' })
       }
     } catch (err) {

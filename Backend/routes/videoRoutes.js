@@ -10,7 +10,7 @@ const ExposureModel = require('../models/ExposureModel')
 const videoRoutes = express.Router()
 
 // 변수
-const admin_id = '5f9fbfb11fd2143df8c009ea'
+const admin_id = '5fa21b49bf786c138c6062ee'
 
 // API
 // 비디오 데이터 삽입
