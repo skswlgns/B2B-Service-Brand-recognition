@@ -57,21 +57,38 @@ videoRoutes.post('/', async (req, res) => {
         for (let i = 0; i < record.length; i++) {
           // console.log(record[i])
           const videoExposure = await ExposureModel.findOne({
-            _id: record[i].company_id
+            company_id: record[i].company_id
           })
 
-          // if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
-          //   videoExposure.exposure_time += record[i].total_exposure_time
-          // }
+          // video 날짜에 기업 노출 기록이 있으면 더하고
+          if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
+            videoExposure.exposure_time += record[i].total_exposure_time
+            await ExposureModel.findOneAndUpdate(
+              { company_id: record[i].company_id },
+              { exposure_time: videoExposure.exposure_time }
+            )
+          } else {
+            const videoDate = req.body.video_date
+            const videoExposureTime = record[i].total_exposure_time
+            const company_id = record[i].company_id
 
-          console.log(videoExposure)
-          console.log('===============')
+            const item = new ExposureModel({
+              exposure_date: videoDate,
+              exposure_time: videoExposureTime,
+              company_id: company_id
+            })
+            await item.save()
+          }
+
+          const company = await CompanyModel.findOne({ _id: record[i].company_id })
+          company.company_total_time += record[i].total_exposure_time
+
+          await CompanyModel.findOneAndUpdate(
+            { _id: record[i].company_id },
+            { company_total_time: company.company_total_time }
+          )
         }
-
-        // const videoExposureTime = req.body.video
       }
-      // exposure_date
-      // req.body.video_record
       res.status(200).send({
         message: '성공적으로 데이터를 삽입하였습니다.'
       })
