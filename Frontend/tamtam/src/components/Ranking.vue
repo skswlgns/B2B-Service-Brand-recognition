@@ -4,7 +4,7 @@
       유투버 랭킹
     </h2>
     <div v-for="(Item, index) in selected" :key="index">
-      <v-card class="mx-auto mb-2" outlined>
+      <v-card class="mx-auto mb-2 card" outlined>
         <v-list-item three-line>
           <v-list-item-avatar size="100">
             <img alt="user" :src="Item.image" />
@@ -98,3 +98,12 @@ export default {
   }
 }
 </script>
+<style scoped>
+.card {
+  /* the other rules */
+  transition: all 0.6s;
+}
+.card:hover {
+  transform: scale(1.1);
+}
+</style>

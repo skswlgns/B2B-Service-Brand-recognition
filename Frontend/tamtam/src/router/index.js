@@ -4,6 +4,9 @@ import VueRouter from 'vue-router'
 import Ranking from '@/components/Ranking.vue'
 import Recommend from '@/components/Recommend.vue'
 import MyAnalysis from '@/views/MyAnalysis.vue'
+import Search from '@/views/Search.vue'
+import SearchVideo from '@/components/SearchVideo.vue'
+import SearchChannel from '@/components/SearchChannel.vue'
 import Login from '../views/Login.vue'
 import Main from '@/views/Main.vue'
 
@@ -11,17 +14,32 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/MyAnalysis',
+    path: '/searchVideo',
+    name: 'SearchVideo',
+    component: SearchVideo
+  },
+  {
+    path: '/searchChannel',
+    name: 'SearchChannel',
+    component: SearchChannel
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: Search
+  },
+  {
+    path: '/myAnalysis',
     name: 'MyAnalysis',
     component: MyAnalysis
   },
   {
-    path: '/Ranking',
+    path: '/ranking',
     name: 'Ranking',
     component: Ranking
   },
   {
-    path: '/Recommend',
+    path: '/recommend',
     name: 'Recommend',
     component: Recommend
   },
