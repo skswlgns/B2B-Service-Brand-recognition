@@ -8,6 +8,7 @@ import Search from '@/views/Search.vue'
 import SearchVideo from '@/components/SearchVideo.vue'
 import SearchChannel from '@/components/SearchChannel.vue'
 import Login from '../views/Login.vue'
+import Main from '@/views/Main.vue'
 
 Vue.use(VueRouter)
 
@@ -53,6 +54,15 @@ const routes = [
         next()
       }
     }
+  },
+
+  // 지훈
+
+  // main
+  {
+    path: '/',
+    name: 'Main',
+    component: Main
   }
 ]
 
