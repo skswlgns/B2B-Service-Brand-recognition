@@ -23,7 +23,7 @@
                 >내 기업 분석</router-link
               ></menuitem
             >
-            <menuitem><router-link to="#">My Page</router-link></menuitem>
+            <menuitem><router-link to="/myPage">My Page</router-link></menuitem>
             <menuitem
               ><div class="logout" @click="logout()">
                 Log Out

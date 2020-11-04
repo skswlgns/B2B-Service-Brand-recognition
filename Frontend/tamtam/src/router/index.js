@@ -3,15 +3,34 @@ import VueRouter from 'vue-router'
 // import Home from "../views/Home.vue";
 import Ranking from '@/components/Ranking.vue'
 import Recommend from '@/components/Recommend.vue'
-import MyAnalysis from '@/views/MyAnalysis.vue'
-import Search from '@/views/Search.vue'
 import SearchVideo from '@/components/SearchVideo.vue'
 import SearchChannel from '@/components/SearchChannel.vue'
+import ScrapVideo from '@/components/ScrapVideo.vue'
+import ScrapChannel from '@/components/ScrapChannel.vue'
+
+import MyPage from '@/views/MyPage.vue'
+import MyAnalysis from '@/views/MyAnalysis.vue'
+import Search from '@/views/Search.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/myPage',
+    name: 'MyPage',
+    component: MyPage
+  },
+  {
+    path: '/scrapVideo',
+    name: 'ScrapVideo',
+    component: ScrapVideo
+  },
+  {
+    path: '/scrapChannel',
+    name: 'ScrapChannel',
+    component: ScrapChannel
+  },
   {
     path: '/searchVideo',
     name: 'SearchVideo',
