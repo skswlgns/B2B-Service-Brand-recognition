@@ -23,5 +23,6 @@ require('./models/CompanyModel')
 require('./models/VideoModel')
 require('./models/ScrapVideoModel')
 require('./models/ChannelModel')
+require('./models/ExposureModel')
 
 module.exports = app
