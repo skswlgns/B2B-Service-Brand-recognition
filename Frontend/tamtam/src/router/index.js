@@ -5,6 +5,7 @@ import Ranking from '@/components/Ranking.vue'
 import Recommend from '@/components/Recommend.vue'
 import MyAnalysis from '@/views/MyAnalysis.vue'
 import Login from '../views/Login.vue'
+import Main from '@/views/Main.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,15 @@ const routes = [
         next()
       }
     }
+  },
+
+  // 지훈
+
+  // main
+  {
+    path: '/',
+    name: 'Main',
+    component: Main
   }
 ]
 

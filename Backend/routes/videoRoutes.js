@@ -87,22 +87,30 @@ videoRoutes.post('/', async (req, res) => {
 
 // 전체 비디오 조회
 videoRoutes.get('/', async (req, res) => {
-  try {
-    const videoAll = await VideoModel.find()
-    res.status(200).send(videoAll)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    try {
+      const videoAll = await VideoModel.find()
+      res.status(200).send(videoAll)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
   }
 })
 
 // 아이디 값으로 하나의 비디오 조회
 videoRoutes.get('/:video_id', async (req, res) => {
-  const videoId = req.params.video_id
-  try {
-    const videoOne = await VideoModel.findOne({ _id: videoId })
-    res.status(200).send(videoOne)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    const videoId = req.params.video_id
+    try {
+      const videoOne = await VideoModel.findOne({ _id: videoId })
+      res.status(200).send(videoOne)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
   }
 })
 
