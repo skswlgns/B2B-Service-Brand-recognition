@@ -20,6 +20,11 @@ const companySchema = new mongoose.Schema({
     type: String,
     allowNull: false
   },
+  company_total_time: {
+    type: Number,
+    allowNull: false,
+    default: 0
+  },
   company_execption: [
     {
       type: Schema.Types.ObjectId,
