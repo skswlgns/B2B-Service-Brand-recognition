@@ -202,10 +202,7 @@ videoRoutes.put('/exception', async (req, res) => {
         res.status(200).send({ message: '해당 비디오를 통계에서 제외시킵니다.' })
       } else {
         company.company_exception.remove(videoId)
-        await CompanyModel.findOneAndUpdate(
-          { _id: req.headers.company_id },
-          { company_exception: company.company_exception }
-        )
+        await CompanyModel.findOneAndUpdate({ _id: companyId }, { company_exception: company.company_exception })
 
         video.exception_company_id.remove(companyId)
         await VideoModel.findOneAndUpdate({ _id: videoId }, { exception_company_id: video.exception_company_id })
@@ -214,6 +211,8 @@ videoRoutes.put('/exception', async (req, res) => {
     } catch (err) {
       res.status(500).send(err)
     }
+  } else {
+    res.status(403).send({ message: '회원만 비디오 통계를 제외할 수 있습니다.' })
   }
 })
 
