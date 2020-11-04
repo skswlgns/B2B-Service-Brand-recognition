@@ -30,6 +30,7 @@ videoRoutes.post('/', async (req, res) => {
       const videoRecord = req.body.video_record
       const videoThumbnail = req.body.video_thumbnails
       const videoTime = req.body.video_time
+      const videoCategory = req.body.video_category
 
       const item = new VideoModel({
         video_id: videoId,
@@ -44,7 +45,8 @@ videoRoutes.post('/', async (req, res) => {
         video_date: videoDate,
         video_record: videoRecord,
         video_thumbnails: videoThumbnail,
-        video_time: videoTime
+        video_time: videoTime,
+        video_category: videoCategory
       })
       await item.save()
 
@@ -85,22 +87,30 @@ videoRoutes.post('/', async (req, res) => {
 
 // 전체 비디오 조회
 videoRoutes.get('/', async (req, res) => {
-  try {
-    const videoAll = await VideoModel.find()
-    res.status(200).send(videoAll)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    try {
+      const videoAll = await VideoModel.find()
+      res.status(200).send(videoAll)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
   }
 })
 
 // 아이디 값으로 하나의 비디오 조회
 videoRoutes.get('/:video_id', async (req, res) => {
-  const videoId = req.params.video_id
-  try {
-    const videoOne = await VideoModel.findOne({ _id: videoId })
-    res.status(200).send(videoOne)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    const videoId = req.params.video_id
+    try {
+      const videoOne = await VideoModel.findOne({ _id: videoId })
+      res.status(200).send(videoOne)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
   }
 })
 
@@ -142,7 +152,7 @@ videoRoutes.put('/scrap', async (req, res) => {
 })
 
 // 비디오 통계 제외
-videoRoutes.put('/execption', async (req, res) => {
+videoRoutes.put('/exception', async (req, res) => {
   if (req.headers.token) {
     try {
       const companyId = req.headers.company_id
@@ -156,32 +166,32 @@ videoRoutes.put('/execption', async (req, res) => {
         _id: videoId
       })
 
-      if (!company.company_execption.includes(videoId)) {
+      if (!company.company_exception.includes(videoId)) {
         if (company.company_video.includes(videoId)) {
           company.company_video.remove(videoId)
         }
-        company.company_execption.push(videoId)
+        company.company_exception.push(videoId)
         await CompanyModel.findOneAndUpdate(
           { _id: companyId },
           {
-            company_execption: company.company_execption,
+            company_exception: company.company_exception,
             company_video: company.company_video
           }
         )
 
-        video.execption_company_id.push(companyId)
-        await VideoModel.findOneAndUpdate({ _id: videoId }, { execption_company_id: video.execption_company_id })
+        video.exception_company_id.push(companyId)
+        await VideoModel.findOneAndUpdate({ _id: videoId }, { exception_company_id: video.exception_company_id })
 
         res.status(200).send({ message: '해당 비디오를 통계에서 제외시킵니다.' })
       } else {
-        company.company_execption.remove(videoId)
+        company.company_exception.remove(videoId)
         await CompanyModel.findOneAndUpdate(
           { _id: req.headers.company_id },
-          { company_execption: company.company_execption }
+          { company_exception: company.company_exception }
         )
 
-        video.execption_company_id.remove(companyId)
-        await VideoModel.findOneAndUpdate({ _id: videoId }, { execption_company_id: video.execption_company_id })
+        video.exception_company_id.remove(companyId)
+        await VideoModel.findOneAndUpdate({ _id: videoId }, { exception_company_id: video.exception_company_id })
         res.status(200).send({ message: '해당 비디오 제외를 취소합니다.' })
       }
     } catch (err) {
@@ -197,7 +207,7 @@ videoRoutes.delete('/', async (req, res) => {
       const videoId = req.body._id
       const temp = await VideoModel.findOne({ _id: videoId })
         .populate('scrap_company_id')
-        .populate('execption_company_id')
+        .populate('exception_company_id')
 
       // companyModel의 company_video삭제
       for (let i = 0; i < temp.scrap_company_id.length; i++) {
@@ -208,12 +218,12 @@ videoRoutes.delete('/', async (req, res) => {
         )
       }
 
-      // companyModel의 company_execption 삭제
-      for (let j = 0; j < temp.execption_company_id.length; j++) {
-        temp.execption_company_id[j].company_execption.remove(videoId)
+      // companyModel의 company_exception 삭제
+      for (let j = 0; j < temp.exception_company_id.length; j++) {
+        temp.exception_company_id[j].company_exception.remove(videoId)
         await CompanyModel.findOneAndUpdate(
-          { _id: temp.execption_company_id[j]._id },
-          { company_execption: temp.execption_company_id[j].company_execption }
+          { _id: temp.exception_company_id[j]._id },
+          { company_exception: temp.exception_company_id[j].company_exception }
         )
       }
 

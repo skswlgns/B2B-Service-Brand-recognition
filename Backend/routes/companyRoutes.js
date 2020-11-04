@@ -71,7 +71,7 @@ companyRoutes.post('/signin', async (req, res) => {
                   status: 'login',
                   company_email: company.company_email,
                   company_id: company._id,
-                  company_execption: company.company_execption,
+                  company_exception: company.company_exception,
                   company_video: company.company_video,
                   company_channel: company.company_channel,
                   company_contact: company.company_contact,
@@ -177,6 +177,15 @@ companyRoutes.get('/contact', async (req, res) => {
     res.status(200).send(company.company_contact)
   } catch (err) {
     res.status(500).send(err)
+  }
+})
+
+// 제외 영상 조회
+companyRoutes.get('/exception', async (req, res) => {
+  if (req.headers.token) {
+    // const company = await CompanyModel.findOne({ _id: req.headers.company_id }).populate('company_exception')
+  } else {
+    res.status(403).send({ message: '회원만 조회할 수 있습니다.' })
   }
 })
 
