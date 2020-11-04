@@ -62,7 +62,7 @@ const videoSchema = new mongoose.Schema({
       ref: 'company'
     }
   ],
-  execption_company_id: [
+  exception_company_id: [
     {
       type: Schema.Types.Object,
       ref: 'company'
