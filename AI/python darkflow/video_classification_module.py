@@ -49,17 +49,17 @@ def classify_brands_and_products(label_object):
     return tmp_label_object
 
 
-def make_video_exposure_records(key, values, timestamp_index_dict, index_timestamp_dict, frame_count, video_exposure_records):
-    # request를 보내 key 기업의 id를 가져오기
+def make_video_exposure_records(company_id, company_timeline, timestamp_index_dict, index_timestamp_dict, frame_count, video_exposure_records):
+    # request를 보내 company_id 기업의 id를 가져오기
 
     brand_exposure_frame = [set() for _ in range(((frame_count // 100) + 1) * 100)]  # 겹치는 제품이 존재하는지 확인할 프레임 리스트
-    for value_name, value_timelines in values.items():
+    for value_name, value_timelines in company_timeline.items():
         for timeline in value_timelines:
             for i in range(timestamp_index_dict[timeline[0]], timestamp_index_dict[timeline[1]] + 1):
                 brand_exposure_frame[i].add(value_name)  # 각 프레임에 등장한 로고 혹은 제품 적어주기
 
     # 하나의 그룹으로 묶어서 정리해준다.
-    tmp_brand_object = dict(company_name=f'{key}_id', total_exposure_time=0, timelines=list())  # DB에 넣을 객체
+    tmp_brand_object = dict(company_id=f'{company_id}', total_exposure_time=0, timelines=list())  # DB에 넣을 객체
 
     tmp_timeline, flag = [set(), 0, 0], False  # [["로고", "등장 제품"], "시작", "끝"] 형태로 만들기
     for index, brands in enumerate(brand_exposure_frame):
@@ -77,6 +77,7 @@ def make_video_exposure_records(key, values, timestamp_index_dict, index_timesta
 
     for timeline in tmp_brand_object['timelines']:  # 브랜드의 총 노출시간 계산해주기
         timeline[0] = list(timeline[0])
+        timeline[1], timeline[2] = (timeline[1] // 1000) * 1000, (timeline[1] // 1000 + 1) * 1000  # 처음, 끝시간 내림, 올림 해주기
         tmp_brand_object['total_exposure_time'] += (timeline[2] - timeline[1])
 
     video_exposure_records.append(tmp_brand_object)

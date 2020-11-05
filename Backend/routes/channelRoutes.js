@@ -230,4 +230,19 @@ channelRoutes.put('/contact', async (req, res) => {
   }
 })
 
+// Youtube Id로 채널 한 개 조회
+channelRoutes.get('/youtube/:channel_youtube_id', async (req, res) => {
+  if (req.headers.company_id === admin_id) {
+    const channelYoutubeId = req.params.channel_youtube_id
+    try {
+      const channelOne = await ChannelModel.find({ channel_youtube_id: channelYoutubeId })
+      res.status(200).send(channelOne)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '잘못된 접근입니다.' })
+  }
+})
+
 module.exports = channelRoutes
