@@ -15,14 +15,8 @@
         <menuitem id="demo1">
           <div>{{ user_nickname }}<i class="fas fa-caret-down"></i></div>
           <menu>
-            <menuitem
-              ><router-link to="#">전체 기업 분석</router-link></menuitem
-            >
-            <menuitem
-              ><router-link to="/myAnalysis"
-                >내 기업 분석</router-link
-              ></menuitem
-            >
+            <menuitem><router-link to="#">전체 기업 분석</router-link></menuitem>
+            <menuitem><router-link to="/myAnalysis">내 기업 분석</router-link></menuitem>
             <menuitem><router-link to="#">My Page</router-link></menuitem>
             <menuitem
               ><div class="logout" @click="logout()">
