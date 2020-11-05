@@ -1,3 +1,5 @@
+@import './variable';
+
 @mixin transform($value) {
   -webkit-transform: ($value);
   -moz-transform: ($value);
@@ -10,4 +12,10 @@
   -moz-transition: ($value);
   -ms-transition: ($value);
   transition: ($value);
+}
+
+@mixin shadow {
+  border-radius: 8px;
+  box-shadow: 0 3px 6px hsla(0, 0, 0, 0.15);
+  background: #{$base-color};
 }
