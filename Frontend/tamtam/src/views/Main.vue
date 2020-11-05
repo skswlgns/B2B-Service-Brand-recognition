@@ -1,6 +1,6 @@
 <template>
   <div>
-    dsfklsjdkl
+    <h1>유튜버와 컨택하세요.</h1>
     <button @click="goLogin()">서비스 이용하기</button>
   </div>
 </template>

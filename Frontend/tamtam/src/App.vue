@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <nav v-if="$route.name !== 'Login' && $route.name !== 'Main'" class="menu">
+    <nav class="menu" v-if="$route.name !== 'Login' && $route.name !== 'Main'">
       <span>TamTam</span>
       <span>
         <span class="icon"><i class="fa fa-search"></i></span>
