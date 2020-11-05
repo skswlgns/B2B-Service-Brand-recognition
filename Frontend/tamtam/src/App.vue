@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <nav v-if="$route.name !== 'Login' && $route.name !== 'Main'" class="menu">
+    <nav class="menu" v-if="$route.name !== 'Login' && $route.name !== 'Main'">
       <span>TamTam</span>
       <span>
         <span class="icon"><i class="fa fa-search"></i></span>
@@ -30,7 +30,8 @@
     <!-- <v-container v-if="$route.path === '/'">
       <Main1 />
     </v-container> -->
-    <v-container>
+    <router-view v-if="$route.name === 'Main'" />
+    <v-container v-if="$route.name !== 'Main'">
       <router-view :key="$route.fullPath" />
     </v-container>
   </v-app>
