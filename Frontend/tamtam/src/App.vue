@@ -16,7 +16,7 @@
           <div>{{ user_nickname }}<i class="fas fa-caret-down"></i></div>
           <menu>
             <menuitem
-              ><router-link to="#">전체 기업 분석</router-link></menuitem
+              ><router-link to="/whole">전체 기업 분석</router-link></menuitem
             >
             <menuitem
               ><router-link to="/myAnalysis"
