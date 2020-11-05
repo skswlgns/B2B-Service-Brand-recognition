@@ -16,9 +16,6 @@
 
 @mixin shadow {
   border-radius: 8px;
-  box-shadow: 0 3px 5px hsla(0, 0, 0, 0.2);
-  background: #{$basic-color};
-  // display: flex;
-  // align-items: center;
-  background-color: #fff5eb;
+  box-shadow: 0 3px 6px hsla(0, 0, 0, 0.15);
+  background: #{$base-color};
 }

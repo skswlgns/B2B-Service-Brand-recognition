@@ -1,7 +1,7 @@
 <template>
   <div class="frame">
     <div class="main1">
-      <div class="title">전체 브랜드 노출 순위</div>
+      <div class="card-title">전체 브랜드 노출 순위</div>
       <div class="frame">
         <div class="whole shadow">
           <canvas id="wChart"></canvas>
@@ -10,7 +10,7 @@
           <canvas id="wCircle"></canvas>
         </div>
       </div>
-      <div class="title">업계 브랜드 노출 순위</div>
+      <div class="card-title">업계 브랜드 노출 순위</div>
       <div class="frame">
         <div class="whole shadow">
           <canvas id="cLine"></canvas>
@@ -19,7 +19,7 @@
           <canvas id="cDoughnut"></canvas>
         </div>
       </div>
-      <div class="title">YouTuber</div>
+      <div class="card-title">YouTuber</div>
       <div class="frame">
         <div class="shadow rank_fr">
           <span>구독자순</span>

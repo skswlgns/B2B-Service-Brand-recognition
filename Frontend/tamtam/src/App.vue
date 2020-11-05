@@ -69,6 +69,6 @@ export default {
 </script>
 
 <style lang="scss" scpoed>
-@import './scss/reset.scss';
+@import './scss/common.scss';
 @import './scss/nav.scss';
 </style>
