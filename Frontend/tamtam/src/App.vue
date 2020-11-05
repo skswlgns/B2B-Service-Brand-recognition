@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <nav v-if="$route.name !== 'Login'" class="menu">
-      <span>TamTam</span>
+      <span class="logo">TamTam</span>
       <span>
         <span class="icon"><i class="fa fa-search"></i></span>
         <input type="text" placeholder="검색 또는 동영상 URL을 입력해주세요." />
@@ -24,7 +24,7 @@
         </menuitem>
       </menu>
     </nav>
-    <v-container>
+    <v-container v-if="$route.path === '/'">
       <Main1 />
     </v-container>
     <v-container>
