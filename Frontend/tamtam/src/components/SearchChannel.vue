@@ -1,38 +1,21 @@
 <template>
-  <div>
-    <v-card style="padding:8px;" tile flat>
-      <h2 style="font-size:16px; padding:8px;">
-        채널 검색결과
-      </h2>
-      <v-carousel hide-delimiters height="100%">
-        <v-carousel-item
-          light
-          v-for="i in len"
-          :key="i"
-          style="padding-left:88px;"
-        >
-          <v-row>
-            <v-col v-for="j in 11" :key="j" lg="1">
-              <a>
-                <v-avatar
-                  size="80"
-                  class="card"
-                  v-if="videos[(i - 1) * 11 + (j - 1)]"
-                >
-                  <v-img
-                    alt="user"
-                    :src="
-                      videos[(i - 1) * 11 + (j - 1)].snippet.thumbnails.medium
-                        .url
-                    "
-                  />
-                </v-avatar>
-              </a>
-            </v-col>
-          </v-row>
-        </v-carousel-item>
-      </v-carousel>
-    </v-card>
+  <div class="card">
+    <h2 style="font-size:16px; padding:8px;">
+      채널 검색결과
+    </h2>
+    <v-carousel hide-delimiters height="100%">
+      <v-carousel-item light v-for="i in len" :key="i" style="padding-left:88px;">
+        <v-row>
+          <v-col v-for="j in 11" :key="j" lg="1">
+            <a>
+              <v-avatar size="80" class="data" v-if="videos[(i - 1) * 11 + (j - 1)]">
+                <v-img alt="user" :src="videos[(i - 1) * 11 + (j - 1)].snippet.thumbnails.medium.url" />
+              </v-avatar>
+            </a>
+          </v-col>
+        </v-row>
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
@@ -68,12 +51,12 @@ export default {
 </script>
 
 <style scoped>
-.card {
+.data {
   /* opacity: 0.7; */
   transition: all 0.6s;
   top: 0;
 }
-.card:hover {
+.data:hover {
   top: -10px;
   /* opacity: 1; */
 }

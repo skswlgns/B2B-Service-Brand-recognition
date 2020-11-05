@@ -1,13 +1,12 @@
 <template>
-  <v-app>
+  <div>
     <div>
-      <h1 style="font-size:24px; padding-top:24px; padding-bottom: 8px;">
-        '{{ this.searchText }}'(으)로 검색한 결과입니다.
-      </h1>
+      <div class="card-title">'{{ this.searchText }}'(으)로 검색한 결과입니다.</div>
       <SearchChannel v-bind:title="this.searchText"></SearchChannel>
+      <div class="card-title"></div>
       <SearchVideo v-bind:title="this.searchText"></SearchVideo>
     </div>
-  </v-app>
+  </div>
 </template>
 
 <script>

@@ -1,36 +1,23 @@
 <template>
-  <div style="padding-top: 16px;">
-    <v-card flat tile style="padding:8px;">
-      <h2 style="font-size:16px; padding:8px;">
-        영상 검색결과
-      </h2>
-      <v-carousel hide-delimiters height="100%">
-        <v-carousel-item light v-for="i in len" :key="i">
-          <v-row>
-            <v-col v-for="j in 4" :key="j" sm="3">
-              <v-card
-                tile
-                flat
-                link
-                class="card"
-                v-if="videos[(i - 1) * 4 + (j - 1)]"
-              >
-                <v-img
-                  alt="user"
-                  :src="
-                    videos[(i - 1) * 4 + (j - 1)].snippet.thumbnails.medium.url
-                  "
-                />
-                <h2
-                  style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
-                  v-html="videos[(i - 1) * 4 + (j - 1)].snippet.title"
-                ></h2>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-carousel-item>
-      </v-carousel>
-    </v-card>
+  <div class="card">
+    <h2 style="font-size:16px; padding:8px;">
+      영상 검색결과
+    </h2>
+    <v-carousel hide-delimiters height="100%">
+      <v-carousel-item light v-for="i in len" :key="i">
+        <v-row>
+          <v-col v-for="j in 4" :key="j" sm="3">
+            <v-card tile flat link class="data" v-if="videos[(i - 1) * 4 + (j - 1)]">
+              <v-img alt="user" :src="videos[(i - 1) * 4 + (j - 1)].snippet.thumbnails.medium.url" />
+              <h2
+                style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+                v-html="videos[(i - 1) * 4 + (j - 1)].snippet.title"
+              ></h2>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
@@ -65,12 +52,12 @@ export default {
 </script>
 
 <style scoped>
-.card {
+.data {
   /* opacity: 0.7; */
   transition: all 0.6s;
   top: 0;
 }
-.card:hover {
+.data:hover {
   top: -10px;
   /* opacity: 1; */
 }
