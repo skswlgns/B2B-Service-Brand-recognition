@@ -57,9 +57,9 @@
                   <div class="overline mb-4">
                     OVERLINE
                   </div>
-                  <v-list-item-title class="headline mb-1">
+                  <!-- <v-list-item-title class="headline mb-1">
                     Headline 5
-                  </v-list-item-title>
+                  </v-list-item-title> -->
                 </v-list-item-content>
               </v-list-item>
             </v-card>
