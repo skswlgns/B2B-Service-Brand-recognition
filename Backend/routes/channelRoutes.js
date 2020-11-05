@@ -10,7 +10,7 @@ const VideoModel = require('../models/VideoModel')
 const channelRoutes = express.Router()
 
 // 변수
-const admin_id = '5f9fbfb11fd2143df8c009ea'
+const admin_id = '5fa21b49bf786c138c6062ee'
 
 // API
 // 채널 데이터 삽입
@@ -44,22 +44,30 @@ channelRoutes.post('/', async (req, res) => {
 
 // 전체 채널 데이터 조회
 channelRoutes.get('/', async (req, res) => {
-  try {
-    const channelAll = await ChannelModel.find()
-    res.status(200).send(channelAll)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    try {
+      const channelAll = await ChannelModel.find()
+      res.status(200).send(channelAll)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
 
 // 채널 한 개 조회
 channelRoutes.get('/:channel_id', async (req, res) => {
-  const channelId = req.params.channel_id
-  try {
-    const channelOne = await ChannelModel.find({ _id: channelId })
-    res.status(200).send(channelOne)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    const channelId = req.params.channel_id
+    try {
+      const channelOne = await ChannelModel.find({ _id: channelId })
+      res.status(200).send(channelOne)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
 
@@ -73,7 +81,7 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
       if (channel === null) {
         res.status(403).send({ message: '존재하지 않는 채널입니다.' })
       } else {
-        // await ChannelModel.deleteOne({ _id: channelId })
+        await ChannelModel.deleteOne({ _id: channelId })
 
         // 스크랩 채널 cascade
         const channelScrap = channel.scrap_company_id
@@ -96,9 +104,34 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
         }
 
         // 채널에 포함된 영상 삭제
+        const video = await VideoModel.find({ channel_id: channelId })
+          .populate('scrap_company_id')
+          .populate('exception_company_id')
+
+        // console.log(video)
+
+        for (let j = 0; j < video.length; j++) {
+          // companyModel의 company_video삭제
+          for (let i = 0; i < video[j].scrap_company_id.length; i++) {
+            video[j].scrap_company_id[i].company_video.remove(video[j]._id)
+            await CompanyModel.findOneAndUpdate(
+              { _id: video[j].scrap_company_id[i]._id },
+              { company_video: video[j].scrap_company_id[i].company_video }
+            )
+          }
+
+          // companyModel의 company_exception 삭제
+          for (let i = 0; i < video[j].exception_company_id.length; i++) {
+            video[j].exception_company_id[i].company_exception.remove(video[j]._id)
+            await CompanyModel.findOneAndUpdate(
+              { _id: video[j].exception_company_id[i]._id },
+              { company_exception: video[j].exception_company_id[i].company_exception }
+            )
+          }
+        }
+
         await VideoModel.deleteMany({ channel_id: channelId })
 
-        //
         res.status(200).send({ message: '채널이 삭제되었습니다.' })
       }
     } catch (err) {
@@ -194,6 +227,21 @@ channelRoutes.put('/contact', async (req, res) => {
     }
   } else {
     res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
+  }
+})
+
+// Youtube Id로 채널 한 개 조회
+channelRoutes.get('/youtube/:channel_youtube_id', async (req, res) => {
+  if (req.headers.company_id === admin_id) {
+    const channelYoutubeId = req.params.channel_youtube_id
+    try {
+      const channelOne = await ChannelModel.find({ channel_youtube_id: channelYoutubeId })
+      res.status(200).send(channelOne)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '잘못된 접근입니다.' })
   }
 })
 

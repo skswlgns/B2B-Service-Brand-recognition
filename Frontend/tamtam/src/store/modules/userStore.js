@@ -7,7 +7,7 @@ const userStore = {
   namespaced: true,
   state: {
     token: cookies.get('token'),
-    user_nickname: ''
+    user_nickname: cookies.get('nick')
   },
   mutations: {
     setToken(state, data) {
@@ -15,8 +15,7 @@ const userStore = {
       router.push('/')
     },
     setNickname(state, nickname) {
-      console.log(nickname)
-      state.user_nickname = nickname
+      cookies.set('nick', nickname)
     }
   },
   actions: {

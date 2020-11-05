@@ -47,6 +47,10 @@ const videoSchema = new mongoose.Schema({
     type: String,
     allowNull: false
   },
+  video_industry: {
+    type: String,
+    allowNull: false
+  },
   channel_id: {
     type: Schema.Types.ObjectId,
     ref: 'channel',
@@ -58,7 +62,7 @@ const videoSchema = new mongoose.Schema({
       ref: 'company'
     }
   ],
-  execption_company_id: [
+  exception_company_id: [
     {
       type: Schema.Types.Object,
       ref: 'company'

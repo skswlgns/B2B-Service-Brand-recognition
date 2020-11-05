@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <nav v-if="$route.name !== 'Login'" class="menu">
+    <nav v-if="$route.name !== 'Login' && $route.name !== 'Main'" class="menu">
       <span>TamTam</span>
       <span>
         <span class="icon"><i class="fa fa-search"></i></span>
@@ -13,7 +13,7 @@
       </span>
       <menu>
         <menuitem id="demo1">
-          <div>SAMSUNG<i class="fas fa-caret-down"></i></div>
+          <div>{{ user_nickname }}<i class="fas fa-caret-down"></i></div>
           <menu>
             <menuitem
               ><router-link to="#">전체 기업 분석</router-link></menuitem
@@ -33,6 +33,9 @@
         </menuitem>
       </menu>
     </nav>
+    <v-container v-if="$route.path === '/'">
+      <Main1 />
+    </v-container>
     <v-container>
       <router-view :key="$route.fullPath" />
     </v-container>
@@ -41,11 +44,14 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Main1 from './components/Main1.vue'
 const userStore = 'userStore'
 
 export default {
   name: 'App',
-  components: {},
+  components: {
+    Main1
+  },
   data: () => ({
     searchText: ''
   }),

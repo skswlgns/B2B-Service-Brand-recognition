@@ -20,7 +20,12 @@ const companySchema = new mongoose.Schema({
     type: String,
     allowNull: false
   },
-  company_execption: [
+  company_total_time: {
+    type: Number,
+    allowNull: false,
+    default: 0
+  },
+  company_exception: [
     {
       type: Schema.Types.ObjectId,
       ref: 'video'
