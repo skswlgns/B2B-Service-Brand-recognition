@@ -26,11 +26,7 @@
           <div class="rank">
             <v-card class="mx-auto" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
                     OVERLINE
@@ -48,11 +44,7 @@
           <div class="rank">
             <v-card class="mx-auto" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
                     OVERLINE
@@ -70,11 +62,7 @@
           <div class="rank">
             <v-card class="mx-auto" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
                     OVERLINE

@@ -8,19 +8,8 @@
         <v-carousel-item light v-for="i in len" :key="i">
           <v-row>
             <v-col v-for="j in 4" :key="j" sm="3">
-              <v-card
-                tile
-                flat
-                link
-                class="card"
-                v-if="videos[(i - 1) * 4 + (j - 1)]"
-              >
-                <v-img
-                  alt="user"
-                  :src="
-                    videos[(i - 1) * 4 + (j - 1)].snippet.thumbnails.medium.url
-                  "
-                />
+              <v-card tile flat link class="card" v-if="videos[(i - 1) * 4 + (j - 1)]">
+                <v-img alt="user" :src="videos[(i - 1) * 4 + (j - 1)].snippet.thumbnails.medium.url" />
                 <h2
                   style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
                   v-html="videos[(i - 1) * 4 + (j - 1)].snippet.title"

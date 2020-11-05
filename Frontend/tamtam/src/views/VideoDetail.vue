@@ -53,4 +53,5 @@ export default {
 
 <style lang="scss" scoped>
 @import '../scss/videodetail.scss';
+@import '../scss/reset.scss';
 </style>
