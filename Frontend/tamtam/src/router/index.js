@@ -9,6 +9,7 @@ import SearchVideo from '@/components/SearchVideo.vue'
 import SearchChannel from '@/components/SearchChannel.vue'
 import Login from '../views/Login.vue'
 import Main from '@/views/Main.vue'
+import VideoDetail from '@/views/VideoDetail.vue'
 import Main1 from '@/views/Main1.vue'
 import Channel from '@/views/Channel.vue'
 
@@ -76,6 +77,13 @@ const routes = [
     path: '/',
     name: 'Main',
     component: Main
+  },
+
+  // 용욱
+  {
+    path: '/video/:video_youtube_id',
+    name: 'VideoDetail',
+    component: VideoDetail
   }
 ]
 
