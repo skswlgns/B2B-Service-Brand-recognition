@@ -7,16 +7,15 @@ const userStore = {
   namespaced: true,
   state: {
     token: cookies.get('token'),
-    user_nickname: ''
+    user_nickname: cookies.get('nick')
   },
   mutations: {
     setToken(state, data) {
       cookies.set('token', data)
-      router.push('/')
+      router.push('/whole')
     },
     setNickname(state, nickname) {
-      console.log(nickname)
-      state.user_nickname = nickname
+      cookies.set('nick', nickname)
     }
   },
   actions: {

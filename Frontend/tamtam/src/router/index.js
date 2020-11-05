@@ -10,6 +10,7 @@ import SearchChannel from '@/components/SearchChannel.vue'
 import Login from '../views/Login.vue'
 import Main from '@/views/Main.vue'
 import VideoDetail from '@/views/VideoDetail.vue'
+import Main1 from '@/views/Main1.vue'
 
 Vue.use(VueRouter)
 
@@ -44,17 +45,23 @@ const routes = [
     name: 'Recommend',
     component: Recommend
   },
+  // 도희
   {
     path: '/login',
     name: 'Login',
     component: Login,
     beforeEnter(to, from, next) {
       if (Vue.$cookies.isKey('token')) {
-        next('/')
+        next('/whole')
       } else {
         next()
       }
     }
+  },
+  {
+    path: '/whole',
+    name: 'Whole',
+    component: Main1
   },
 
   // 지훈
