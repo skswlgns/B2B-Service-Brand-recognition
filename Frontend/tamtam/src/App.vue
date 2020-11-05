@@ -33,9 +33,9 @@
         </menuitem>
       </menu>
     </nav>
-    <v-container v-if="$route.path === '/'">
+    <!-- <v-container v-if="$route.path === '/'">
       <Main1 />
-    </v-container>
+    </v-container> -->
     <v-container>
       <router-view :key="$route.fullPath" />
     </v-container>
@@ -44,14 +44,10 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import Main1 from './components/Main1.vue'
 const userStore = 'userStore'
 
 export default {
   name: 'App',
-  components: {
-    Main1
-  },
   data: () => ({
     searchText: ''
   }),
