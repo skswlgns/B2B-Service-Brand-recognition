@@ -5,27 +5,12 @@
         채널 검색결과
       </h2>
       <v-carousel hide-delimiters height="100%">
-        <v-carousel-item
-          light
-          v-for="i in len"
-          :key="i"
-          style="padding-left:88px;"
-        >
+        <v-carousel-item light v-for="i in len" :key="i" style="padding-left:88px;">
           <v-row>
             <v-col v-for="j in 11" :key="j" lg="1">
               <a>
-                <v-avatar
-                  size="80"
-                  class="card"
-                  v-if="videos[(i - 1) * 11 + (j - 1)]"
-                >
-                  <v-img
-                    alt="user"
-                    :src="
-                      videos[(i - 1) * 11 + (j - 1)].snippet.thumbnails.medium
-                        .url
-                    "
-                  />
+                <v-avatar size="80" class="card" v-if="videos[(i - 1) * 11 + (j - 1)]">
+                  <v-img alt="user" :src="videos[(i - 1) * 11 + (j - 1)].snippet.thumbnails.medium.url" />
                 </v-avatar>
               </a>
             </v-col>
