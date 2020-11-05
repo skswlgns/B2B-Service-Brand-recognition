@@ -6,11 +6,7 @@
         <h1>Log in to your account</h1>
         <div class="form">
           <fieldset class="email">
-            <input
-              v-model="loginData.company_email"
-              type="email"
-              placeholder="useremail"
-            />
+            <input v-model="loginData.company_email" type="email" placeholder="useremail" />
           </fieldset>
           <fieldset class="password">
             <input

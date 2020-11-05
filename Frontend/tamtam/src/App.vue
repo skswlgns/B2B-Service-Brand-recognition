@@ -15,15 +15,9 @@
         <menuitem id="demo1">
           <div>{{ user_nickname }}<i class="fas fa-caret-down"></i></div>
           <menu>
-            <menuitem
-              ><router-link to="#">전체 기업 분석</router-link></menuitem
-            >
-            <menuitem
-              ><router-link to="/myAnalysis"
-                >내 기업 분석</router-link
-              ></menuitem
-            >
-            <menuitem><router-link to="/myPage">My Page</router-link></menuitem>
+            <menuitem><router-link to="/whole">전체 기업 분석</router-link></menuitem>
+            <menuitem><router-link to="/myAnalysis">내 기업 분석</router-link></menuitem>
+            <menuitem><router-link to="#">My Page</router-link></menuitem>
             <menuitem
               ><div class="logout" @click="logout()">
                 Log Out
@@ -33,9 +27,9 @@
         </menuitem>
       </menu>
     </nav>
-    <v-container v-if="$route.path === '/'">
+    <!-- <v-container v-if="$route.path === '/'">
       <Main1 />
-    </v-container>
+    </v-container> -->
     <v-container>
       <router-view :key="$route.fullPath" />
     </v-container>
@@ -44,14 +38,10 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import Main1 from './components/Main1.vue'
 const userStore = 'userStore'
 
 export default {
   name: 'App',
-  components: {
-    Main1
-  },
   data: () => ({
     searchText: ''
   }),
@@ -73,6 +63,6 @@ export default {
 </script>
 
 <style lang="scss" scpoed>
-@import './scss/reset.scss';
+@import './scss/common.scss';
 @import './scss/nav.scss';
 </style>

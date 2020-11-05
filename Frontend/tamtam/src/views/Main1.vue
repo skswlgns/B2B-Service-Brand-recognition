@@ -1,7 +1,7 @@
 <template>
   <div class="frame">
     <div class="main1">
-      <div class="title">전체 브랜드 노출 순위</div>
+      <div class="card-title">전체 브랜드 노출 순위</div>
       <div class="frame">
         <div class="whole shadow">
           <canvas id="wChart"></canvas>
@@ -10,7 +10,7 @@
           <canvas id="wCircle"></canvas>
         </div>
       </div>
-      <div class="title">업계 브랜드 노출 순위</div>
+      <div class="card-title">업계 브랜드 노출 순위</div>
       <div class="frame">
         <div class="whole shadow">
           <canvas id="cLine"></canvas>
@@ -19,18 +19,14 @@
           <canvas id="cDoughnut"></canvas>
         </div>
       </div>
-      <div class="title">YouTuber</div>
+      <div class="card-title">YouTuber</div>
       <div class="frame">
         <div class="shadow rank_fr">
           <span>구독자순</span>
           <div class="rank">
             <v-card class="mx-auto" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
                     OVERLINE
@@ -48,18 +44,14 @@
           <div class="rank">
             <v-card class="mx-auto" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
                     OVERLINE
                   </div>
-                  <v-list-item-title class="headline mb-1">
+                  <!-- <v-list-item-title class="headline mb-1">
                     Headline 5
-                  </v-list-item-title>
+                  </v-list-item-title> -->
                 </v-list-item-content>
               </v-list-item>
             </v-card>
@@ -70,11 +62,7 @@
           <div class="rank">
             <v-card class="mx-auto" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar
-                  tile
-                  size="80"
-                  color="grey"
-                ></v-list-item-avatar>
+                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
                 <v-list-item-content>
                   <div class="overline mb-4">
                     OVERLINE
