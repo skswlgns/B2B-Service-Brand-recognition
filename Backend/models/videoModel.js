@@ -47,11 +47,27 @@ const videoSchema = new mongoose.Schema({
     type: String,
     allowNull: false
   },
+  video_industry: {
+    type: String,
+    allowNull: false
+  },
   channel_id: {
     type: Schema.Types.ObjectId,
     ref: 'channel',
     required: true
-  }
+  },
+  scrap_company_id: [
+    {
+      type: Schema.Types.Object,
+      ref: 'company'
+    }
+  ],
+  exception_company_id: [
+    {
+      type: Schema.Types.Object,
+      ref: 'company'
+    }
+  ]
 })
 
 const VideoModel = mongoose.model('video', videoSchema)

@@ -2,28 +2,40 @@
   <div style="padding-top: 88px;">
     <h2 style="text-align:center; font-size:46px;">인기 유투버 추천</h2>
     <v-carousel cycle hide-delimiters light height="100%">
-      <v-carousel-item style="padding:56px" v-for="i in 2" :key="i">
+      <v-carousel-item style="padding:56px" v-for="i in len" :key="i">
         <v-layout row>
           <v-flex sm4 v-for="j in 3" :key="j" pl-4 pr-4>
-            <v-card v-if="selected[(i - 1) * 3 + j]" outlined rounded="">
-              <div class="mb-8 pa-8" style="text-align:center;">
-                <v-flex style="margin-top:8px;">
-                  <v-avatar size="100">
-                    <img alt="user" :src="selected[(i - 1) * 3 + j].image" />
-                  </v-avatar>
-                </v-flex>
-                <v-flex style="margin-top:72px;">
-                  <h2>
-                    {{ selected[(i - 1) * 3 + j].name }}
-                  </h2>
-                </v-flex>
-                <v-flex style="margin-top:40px;">
-                  <div>{{ selected[(i - 1) * 3 + j].subscriberCount }}</div>
-                  <div>{{ selected[(i - 1) * 3 + j].videoCount }}</div>
-                  <div>{{ selected[(i - 1) * 3 + j].viewCount }}</div>
-                </v-flex>
-              </div>
-            </v-card>
+            <v-hover>
+              <v-card
+                slot-scope="{ hover }"
+                :class="`elevation-${hover ? 5 : 30}`"
+                v-if="selected[(i - 1) * 3 + (j - 1)]"
+                outlined
+              >
+                <div class="mb-8 pa-8" style="text-align:center;">
+                  <v-flex style="margin-top:8px;">
+                    <v-avatar size="100">
+                      <img
+                        alt="user"
+                        :src="selected[(i - 1) * 3 + (j - 1)].image"
+                      />
+                    </v-avatar>
+                  </v-flex>
+                  <v-flex style="overflow-y: auto; height:100px">
+                    <h2 style="margin-top:40px;">
+                      {{ selected[(i - 1) * 3 + (j - 1)].name }}
+                    </h2>
+                  </v-flex>
+                  <v-flex style="margin-top:40px;">
+                    <div>
+                      {{ selected[(i - 1) * 3 + (j - 1)].subscriberCount }}
+                    </div>
+                    <div>{{ selected[(i - 1) * 3 + (j - 1)].videoCount }}</div>
+                    <div>{{ selected[(i - 1) * 3 + (j - 1)].viewCount }}</div>
+                  </v-flex>
+                </div>
+              </v-card>
+            </v-hover>
           </v-flex>
         </v-layout>
       </v-carousel-item>
@@ -54,20 +66,20 @@ export default {
       viewCount: ''
     },
 
-    selected: []
+    selected: [],
+    len: 3
   }),
   created() {
-    this.initialize()
+    this.init()
   },
-
   methods: {
     move(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)
     },
-    initialize() {
+    init() {
       for (const id of this.list) {
         const url =
-          'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyBQbAtGm7FHazDtqEv7xsyyDmU31k-kzyI&part=snippet, brandingSettings, contentDetails, statistics, topicDetails&id=' +
+          'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyCVD77dDLlsToi0KYQKA9HynfKs2o6SzUE&part=snippet, brandingSettings, contentDetails, statistics, topicDetails&id=' +
           id
         axios.get(url).then(res => {
           this.Item = []

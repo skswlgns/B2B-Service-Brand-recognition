@@ -2,12 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const companySchema = new mongoose.Schema({
-  company_id: {
-    type: Number,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true
-  },
   company_email: {
     type: String,
     allowNull: false,
@@ -26,14 +20,23 @@ const companySchema = new mongoose.Schema({
     type: String,
     allowNull: false
   },
-  company_execption: {
-    type: Schema.Types.Array,
-    ref: 'video'
+  company_total_time: {
+    type: Number,
+    allowNull: false,
+    default: 0
   },
-  company_video: {
-    type: Schema.Types.Array,
-    ref: 'video'
-  },
+  company_exception: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'video'
+    }
+  ],
+  company_video: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'video'
+    }
+  ],
   company_channel: [
     {
       type: Schema.Types.ObjectId,

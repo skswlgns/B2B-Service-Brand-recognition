@@ -7,7 +7,6 @@ const PORT = 3000
 const MONGO_URL = 'mongodb://k3b203.p.ssafy.io:5000/tamtam'
 const server = http.createServer(app)
 server.listen(PORT)
-
 server.on('listening', async () => {
   console.info(`Listening on port ${PORT}`)
 
@@ -18,7 +17,7 @@ server.on('listening', async () => {
     useCreateIndex: true
   })
   mongoose.connection.on('open', () => {
-    console.info('Connection to Mongo')
+    console.info('Connection to Mongo.')
   })
   mongoose.connection.on('error', (err) => {
     console.error(err)
