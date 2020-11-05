@@ -11,6 +11,7 @@ import Login from '../views/Login.vue'
 import Main from '@/views/Main.vue'
 import VideoDetail from '@/views/VideoDetail.vue'
 import Main1 from '@/views/Main1.vue'
+import Channel from '@/views/Channel.vue'
 
 Vue.use(VueRouter)
 
@@ -62,6 +63,11 @@ const routes = [
     path: '/whole',
     name: 'Whole',
     component: Main1
+  },
+  {
+    path: '/channel',
+    name: 'Channel',
+    component: Channel
   },
 
   // 지훈
