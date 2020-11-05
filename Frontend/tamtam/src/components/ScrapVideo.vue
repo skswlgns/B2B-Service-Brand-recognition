@@ -8,18 +8,8 @@
         <v-carousel-item light v-for="i in len" :key="i">
           <v-row>
             <v-col v-for="j in 3" :key="j" sm="4">
-              <v-card
-                tile
-                flat
-                class="card"
-                v-if="videos[(i - 1) * 3 + (j - 1)]"
-              >
-                <v-img
-                  alt="user"
-                  :src="
-                    videos[(i - 1) * 3 + (j - 1)].snippet.thumbnails.medium.url
-                  "
-                />
+              <v-card tile flat class="card" v-if="videos[(i - 1) * 3 + (j - 1)]">
+                <v-img alt="user" :src="videos[(i - 1) * 3 + (j - 1)].snippet.thumbnails.medium.url" />
                 <v-card-actions>
                   <h2
                     style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
@@ -28,9 +18,7 @@
                   <v-spacer></v-spacer>
 
                   <v-btn icon @click="show = !show">
-                    <v-icon>{{
-                      show ? 'mdi-chevron-up' : 'mdi-chevron-down'
-                    }}</v-icon>
+                    <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                   </v-btn>
                 </v-card-actions>
 

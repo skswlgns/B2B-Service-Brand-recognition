@@ -8,7 +8,7 @@
           type="text"
           v-model="searchText"
           placeholder="검색 또는 동영상 URL을 입력해주세요."
-          @keyup.enter="moveSearch"
+          @keyup.enter="search"
         />
       </span>
       <menu>
@@ -37,8 +37,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 const userStore = 'userStore'
+const searchStore = 'searchStore'
 
 export default {
   name: 'App',
@@ -46,15 +47,20 @@ export default {
     searchText: ''
   }),
   methods: {
-    moveSearch() {
+    search() {
       if (this.searchText === '') {
         alert('검색어 또는 동영상 URL을 입력해주세요.')
       } else {
-        this.$router.push({ name: 'Search', params: { text: this.searchText } })
-        this.searchText = ''
+        // this.$router.push({ name: 'Search', params: { text: this.searchText } })
+        this.setsearchText(this.searchText)
+        this.$router.push({ name: 'Search' })
+        this.$router.push({ name: 'Search' }).catch(() => {
+          this.$router.go(this.$router.currentRoute)
+        })
       }
     },
-    ...mapActions(userStore, ['logout'])
+    ...mapActions(userStore, ['logout']),
+    ...mapMutations(searchStore, ['setsearchText'])
   },
   computed: {
     ...mapState(userStore, ['user_nickname'])

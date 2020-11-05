@@ -1,29 +1,36 @@
 <template>
   <div>
     <div>
-      <div class="card-title">'{{ this.searchText }}'(으)로 검색한 결과입니다.</div>
-      <SearchChannel v-bind:title="this.searchText"></SearchChannel>
+      <div class="card-title">'{{ getsearchText }}'(으)로 검색한 결과입니다.</div>
+      <!-- <div class="card-title">'{{ this.searchText }}'(으)로 검색한 결과입니다.</div> -->
+      <!-- <SearchChannel></SearchChannel> -->
       <div class="card-title"></div>
-      <SearchVideo v-bind:title="this.searchText"></SearchVideo>
+      <!-- <SearchVideo></SearchVideo> -->
     </div>
   </div>
 </template>
 
 <script>
-import SearchVideo from '@/components/SearchVideo.vue'
-import SearchChannel from '@/components/SearchChannel.vue'
-
+// import SearchVideo from '@/components/SearchVideo.vue'
+// import SearchChannel from '@/components/SearchChannel.vue'
+import { mapGetters } from 'vuex'
+const searchStore = 'searchStore'
 export default {
   name: 'Search',
   components: {
-    SearchVideo,
-    SearchChannel
+    // SearchVideo,
+    // SearchChannel
   },
   data: () => ({
-    searchText: ''
+    text: ''
   }),
-  created() {
-    this.searchText = this.$route.params.text
+  created() {},
+  mounted() {},
+  computed: {
+    ...mapGetters(searchStore, ['getsearchText'])
   }
+  // computed: {
+  //   ...mapState(searchStore, ['searchText'])
+  // }
 }
 </script>
