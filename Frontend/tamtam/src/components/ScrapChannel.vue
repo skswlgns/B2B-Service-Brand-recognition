@@ -17,7 +17,7 @@
               {{ Item.name }}
             </v-list-item-title>
             <div class="overline mb-1" outlined>
-              <v-btn icon @click="move(Item.channerId)">
+              <v-btn icon @click="move(Item.channerId)" color="white">
                 <v-avatar size="30">
                   <img
                     alt="user"
@@ -40,13 +40,16 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <!-- <v-icon v-if="!active" color="grey lighten-1">
-              mdi-star-outline
-            </v-icon> -->
-
-            <v-icon color="yellow darken-3">
-              mdi-star
-            </v-icon>
+            <v-btn icon color="white" @click="change(index)">
+              <v-icon v-if="!Item.active" color="grey lighten-1">
+                mdi-star-outline
+              </v-icon>
+            </v-btn>
+            <v-btn icon color="white" @click="change(index)">
+              <v-icon v-if="Item.active" color="yellow darken-3">
+                mdi-star
+              </v-icon>
+            </v-btn>
           </v-list-item-action>
         </v-list-item>
       </v-card>
@@ -58,6 +61,7 @@
 import axios from 'axios'
 export default {
   data: () => ({
+    active: true,
     list: [
       'UCdUcjkyZtf-1WJyPPiETF1g',
       'UCZf4ZESHAIuRtZ-eoMSL97A',
@@ -73,7 +77,8 @@ export default {
       name: '',
       subscriberCount: '',
       videoCount: '',
-      viewCount: ''
+      viewCount: '',
+      active: false
     },
 
     selected: []
@@ -83,6 +88,15 @@ export default {
   },
 
   methods: {
+    change(index) {
+      alert(this.selected[index].active)
+      if (!this.selected[index].active) {
+        this.selected[index].active = true
+      } else {
+        this.selected[index].active = false
+      }
+      alert(this.selected[index].active)
+    },
     move(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)
     },

@@ -17,7 +17,7 @@
               {{ Item.name }}
             </v-list-item-title>
             <div class="overline mb-1" outlined>
-              <v-btn icon @click="move(Item.channerId)">
+              <v-btn icon @click="move(Item.channerId)" color="white">
                 <v-avatar size="30">
                   <img
                     alt="user"

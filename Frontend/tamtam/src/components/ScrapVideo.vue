@@ -11,7 +11,6 @@
               <v-card
                 tile
                 flat
-                link
                 class="card"
                 v-if="videos[(i - 1) * 3 + (j - 1)]"
               >
@@ -21,19 +20,6 @@
                     videos[(i - 1) * 3 + (j - 1)].snippet.thumbnails.medium.url
                   "
                 />
-                <!-- <v-expansion-panels flat>
-                  <v-expansion-panel>
-                    <p
-                      style="white-space:nowrap;  overflow:hidden; text-overflow:ellipsis;"
-                      v-html="videos[(i - 1) * 3 + (j - 1)].snippet.title"
-                    ></p>
-                    <v-expansion-panel-header> </v-expansion-panel-header>
-
-                    <v-expansion-panel-content>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                </v-expansion-panels> -->
                 <v-card-actions>
                   <h2
                     style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
@@ -50,15 +36,8 @@
 
                 <v-expand-transition>
                   <div v-show="show">
-                    <v-divider></v-divider>
-
                     <v-card-text>
-                      I'm a thing. But, like most politicians, he promised more
-                      than he could deliver. You won't have time for sleeping,
-                      soldier, not with all the bed making you'll be doing. Then
-                      we'll go with that data file! Hey, you add a one and two
-                      zeros to that or we walk! You're going to do his laundry?
-                      I've got to find a way to escape.
+                      통계그래프 장착 예정..
                     </v-card-text>
                   </div>
                 </v-expand-transition>
@@ -84,7 +63,7 @@ export default {
     show: false
   }),
   created() {
-    this.title = '아디다스'
+    this.title = '싸피'
     this.init()
   },
   methods: {

@@ -6,7 +6,7 @@
       </h1> -->
       <!-- <SearchChannel v-bind:title="this.searchText"></SearchChannel> -->
       <ScrapChannel></ScrapChannel>
-      <ScrapVideo></ScrapVideo>
+      <ScrapVideo style="overflow-y: auto;"></ScrapVideo>
     </div>
   </v-app>
 </template>
