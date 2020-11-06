@@ -12,6 +12,7 @@ import Main from '@/views/Main.vue'
 import VideoDetail from '@/views/VideoDetail.vue'
 import Main1 from '@/views/Main1.vue'
 import Channel from '@/views/Channel.vue'
+import PageNotFound from '@/views/PageNotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -77,6 +78,17 @@ const routes = [
     path: '/',
     name: 'Main',
     component: Main
+  },
+
+  // 404
+  {
+    path: '*',
+    redirect: '/404'
+  },
+  {
+    path: '/404',
+    name: 'PageNotFound',
+    component: PageNotFound
   },
 
   // 용욱
