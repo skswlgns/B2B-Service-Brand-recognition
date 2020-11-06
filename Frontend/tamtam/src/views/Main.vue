@@ -9,6 +9,10 @@
         서비스 이용하기
       </v-btn>
     </div>
+    <p class="start-intro2">
+      차트를 통한 간편한 확인
+    </p>
+    <p class="subtitle">동영상 내에 어떠한 브랜드가 얼마나 나왔는지 확인해보세요.</p>
     <v-row class="mx-3">
       <v-col v-for="(tube, index) in youtube" :key="index" cols="3">
         <v-card class="mx-auto start-intro" max-width="400">
@@ -25,10 +29,10 @@
         </v-card>
       </v-col>
     </v-row>
-    <p class="start-intro2">
-      차트를 통한 간편한 확인
-    </p>
-    <p class="subtitle">동영상 내에 어떠한 브랜드가 얼마나 나왔는지 확인해보세요.</p>
+
+    <p class="start-intro2">기업 동향을 확인</p>
+    <p class="subtitle">내 기업 유튜버 순위, 컨택한 유튜버의 동향을 살피세요.</p>
+    <p class="cont10">내 기업 현황</p>
   </div>
 </template>
 <script>
@@ -197,11 +201,9 @@ export default {
   },
 
   mounted() {
-    // console.log(this.youtube.length)
     for (let i = 0; i < 4; i++) {
       const chart = 'chart' + i
-      console.log(chart)
-      console.log(this.createChart(chart, this.youtube[i].Circle))
+      this.createChart(chart, this.youtube[i].Circle)
     }
   }
 }
