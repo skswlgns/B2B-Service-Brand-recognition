@@ -15,10 +15,7 @@
                 <div class="mb-8 pa-8" style="text-align:center;">
                   <v-flex style="margin-top:8px;">
                     <v-avatar size="100">
-                      <img
-                        alt="user"
-                        :src="selected[(i - 1) * 3 + (j - 1)].image"
-                      />
+                      <img alt="user" :src="selected[(i - 1) * 3 + (j - 1)].image" />
                     </v-avatar>
                   </v-flex>
                   <v-flex style="overflow-y: auto; height:100px">
@@ -86,8 +83,7 @@ export default {
           this.Item.channerId = res.data.items[0].id
           this.Item.image = res.data.items[0].snippet.thumbnails.default.url
           this.Item.name = res.data.items[0].snippet.title
-          this.Item.subscriberCount =
-            res.data.items[0].statistics.subscriberCount
+          this.Item.subscriberCount = res.data.items[0].statistics.subscriberCount
           this.Item.videoCount = res.data.items[0].statistics.videoCount
           this.Item.viewCount = res.data.items[0].statistics.viewCount
           this.selected.push(this.Item)
