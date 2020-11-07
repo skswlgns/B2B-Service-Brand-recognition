@@ -1,16 +1,5 @@
 @import 'https://fonts.googleapis.com/css?family=Fira+Sans';
-/*Variables */
-@keyframes "glow" {
-  0% {
-    text-shadow: 0 0 1rem #fefefe;
-  }
-  50% {
-    text-shadow: 0 0 1.85rem #ededed;
-  }
-  100% {
-    text-shadow: 0 0 1rem #fefefe;
-  }
-}
+
 .left-section {
   .inner-content {
     position: absolute;
