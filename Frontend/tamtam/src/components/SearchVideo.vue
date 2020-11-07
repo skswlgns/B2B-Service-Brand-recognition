@@ -1,8 +1,6 @@
 <template>
   <div class="card">
-    <h2 style="font-size:16px; padding:8px;">
-      영상 검색결과
-    </h2>
+    <h2 style="font-size:16px; padding:8px;">{{ this.text }}영상 검색결과</h2>
     <v-carousel hide-delimiters height="100%">
       <v-carousel-item light v-for="i in len" :key="i">
         <v-row>
@@ -23,22 +21,27 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
+const searchStore = 'searchStore'
 export default {
   data: () => ({
     videos: [],
-    len: 0
+    len: 0,
+    text: ''
   }),
-  props: ['title'],
   created() {
-    this.init()
+    // this.init()
+    this.text = this.getsearchText()
   },
   methods: {
+    ...mapGetters(searchStore, ['getsearchText']),
     init() {
+      const title = this.getsearchText()
       // 백엔드 연결
       // const url = 'http://localhost:3000/api/video/5f9e7736c24b5734cc5fe5e1';
       const url =
-        'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBQbAtGm7FHazDtqEv7xsyyDmU31k-kzyI&part=snippet&regionCode=KR&maxResults=50&type=video&q=' +
-        this.title
+        'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBOoucBKPmX2PzsuBbhyIxaQki54e4Fh_g&part=snippet&regionCode=KR&maxResults=50&type=video&q=' +
+        title
       axios.get(url).then(res => {
         this.videos = res.data.items
         this.len = parseInt(this.videos.length / 4)
