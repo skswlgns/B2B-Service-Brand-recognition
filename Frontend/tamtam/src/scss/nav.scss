@@ -11,7 +11,10 @@
     height: 4rem;
     background: linear-gradient(0.25turn, #4a509c, #8b4db5 70%);
     color: #{$base-color};
-    a:not {
+    .brand {
+      text-decoration: none;
+      align-self: center;
+      color: #{$base-color};
     }
     span {
       align-self: center;
@@ -73,6 +76,11 @@
     }
     > menu {
       display: flex;
+      &:hover {
+        transform: translateY(0%);
+        opacity: 1;
+        z-index: 1;
+      }
       > menuitem {
         pointer-events: all;
         opacity: 1;
@@ -124,7 +132,7 @@
         }
       }
     }
-    a,
+    a:not(.brand),
     .logout {
       background: #75f;
       color: #fff;
