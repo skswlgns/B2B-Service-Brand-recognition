@@ -51,6 +51,10 @@ const videoSchema = new mongoose.Schema({
     type: String,
     allowNull: false
   },
+  video_category: {
+    type: String,
+    allowNull: false
+  },
   channel_id: {
     type: Schema.Types.ObjectId,
     ref: 'channel',
