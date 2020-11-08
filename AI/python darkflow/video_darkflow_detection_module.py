@@ -4,7 +4,7 @@ from darkflow.net.build import TFNet
 
 def video_darkflow_detection(video_name):
     try:
-        options = {'model': 'cfg/my-tiny-yolo.cfg', 'load': -1, 'threshold': 0.1, 'gpu': 1.0}
+        options = {'model': 'cfg/my-tiny-yolo.cfg', 'load': -1, 'threshold': 0.6, 'gpu': 1.0}
         tfnet = TFNet(options)
         cap = cv2.VideoCapture(video_name)
 
@@ -25,7 +25,6 @@ def video_darkflow_detection(video_name):
                             tmp_brand_dict[result['label']] = {capture_time}  # 새로 set을 만들어 넣어줌
                         else:  # 기존에 등장했던 브랜드라면
                             tmp_brand_dict[result['label']].add(capture_time)  # 기존의 set에 추가
-                    # cv2.imwrite("video_capture/%s.jpg" % capture_time, curr_frame)  # 이미지 저장
                 count += 1
             else:  # 동영상이 끝나면 while문 탈출
                 break

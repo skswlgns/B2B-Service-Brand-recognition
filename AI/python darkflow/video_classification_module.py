@@ -36,15 +36,15 @@ def classify_brands_and_products(label_object):
 
     tmp_label_object = dict()
     for brand, brand_timestamps in label_object.items():
-
         brand = brand.split('_')  # brand 값은 리스트로 분리
         brand_timeline = make_time_group(brand_timestamps)  # brand_timestamps 값은 그룹화
-        tmp_label_object[brand[0]] = tmp_label_object.get(brand[0], dict())  # 제품과 브랜드를 한 그룹으로 묶어주기
-        tmp_brand_dict = tmp_label_object[brand[0]]
-        if len(brand) == 1:  # 각 브랜드의 로고면 logo라고 표기
-            tmp_brand_dict['logo'] = tmp_brand_dict.get('logo', []) + brand_timeline
-        else:  # 각 브랜드의 제품이면 제품이름 표기
-            tmp_brand_dict[brand[1]] = tmp_brand_dict.get(brand[1], []) + brand_timeline
+        if brand_timeline:
+            tmp_label_object[brand[0]] = tmp_label_object.get(brand[0], dict())  # 제품과 브랜드를 한 그룹으로 묶어주기
+            tmp_brand_dict = tmp_label_object[brand[0]]
+            if len(brand) == 1:  # 각 브랜드의 로고면 logo라고 표기
+                tmp_brand_dict['logo'] = tmp_brand_dict.get('logo', []) + brand_timeline
+            else:  # 각 브랜드의 제품이면 제품이름 표기
+                tmp_brand_dict[brand[1]] = tmp_brand_dict.get(brand[1], []) + brand_timeline
 
     return tmp_label_object
 
@@ -77,7 +77,7 @@ def make_video_exposure_records(company_id, company_timeline, timestamp_index_di
 
     for timeline in tmp_brand_object['timelines']:  # 브랜드의 총 노출시간 계산해주기
         timeline[0] = list(timeline[0])
-        timeline[1], timeline[2] = (timeline[1] // 1000) * 1000, (timeline[1] // 1000 + 1) * 1000  # 처음, 끝시간 내림, 올림 해주기
+        timeline[1], timeline[2] = (timeline[1] // 1000), (timeline[2] // 1000 + 1)  # 처음, 끝시간 내림, 올림 해주기
         tmp_brand_object['total_exposure_time'] += (timeline[2] - timeline[1])
 
     video_exposure_records.append(tmp_brand_object)
