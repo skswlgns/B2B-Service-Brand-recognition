@@ -49,7 +49,7 @@ channelRoutes.get('/', async (req, res) => {
       const channelAll = await ChannelModel.find()
       res.status(200).send(channelAll)
     } catch (err) {
-      res.status(500).send(err)
+      res.status(500).send({ message: '채널 데이터가 없습니다.' })
     }
   } else {
     res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
