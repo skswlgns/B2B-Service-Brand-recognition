@@ -7,7 +7,8 @@ const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 const videoDetailStore = {
   namespaced: true,
   state: {
-    videoData: {}
+    videoData: {},
+    player: {}
   },
   mutations: {
     // videoData 넣어주기

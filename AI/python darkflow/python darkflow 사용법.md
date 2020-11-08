@@ -80,6 +80,102 @@ my_stream.download()
 
 
 
+## 채널 데이터 DB에 넣기
+
+> `insert_channel_data.py` 실행
+>
+> Channel Youtube Id 입력: 채널을 방문했을 때, url에 나오는 값. 가끔 본인들이 설정한 id도 나오는데, 그런 값들은 인식을 잘 못함. 해쉬값으로 찾아서 넣을 것
+
+
+
+## 영상 분석 후 DB에 넣기
+
+> 백엔드 서버 실행 후 `video_main.py` 실행
+>
+> 1. Video 이름 입력: `python video downloader`폴더에 저장된 동영상이름. 확장자까지 넣어줘야함
+> 2. Video Youtube Id 입력: 영상을 youtube에서 틀었을 때, url에서 `watch=`뒤에 나오는 값
+> 3. Channel Youtube Id 입력: 채널을 방문했을 때, url에 나오는 값. 가끔 본인들이 설정한 id도 나오는데, 그런 값들은 인식을 잘 못함. 해쉬값으로 찾아서 넣을 것
+> 4. **DB에 들어있는 채널의 동영상만 가능하니 주의**
+
+```
+Video 이름 입력: TEMP_DATA.mp4
+Video Youtube Id 입력: QOg7D0bTHO4
+Channel Youtube Id 입력: UC_0oo0GPlDUU88ubLDnJkSQ
+```
+
+
+
+
+
+<hr/>
+
+
+
+## 영상 정보 받아오기
+
+```python
+# video information 실행
+
+from pytube import YouTube
+
+yt = YouTube('https://www.youtube.com/watch?v=V1DEVT--TCE')
+# 동영상 링크를 이용해 YouTube 객체 생성
+
+print("영상 제목 : ", yt.title)
+
+print("영상 길이 : ", yt.length)
+
+print("영상 평점 : ", yt.rating)
+
+print("영상 썸네일 링크 : ", yt.thumbnail_url)
+
+print("영상 조회수 : ", yt.views)
+
+print("영상 설명 : ", yt.description)
+```
+
+
+
+
+
+## 영상 자르기
+
+> `video_capture`라는 폴더를 만든 후, 영상 이름을 `video1`로 수정하여 실행
+>
+> 시간스킵을 하려면 `time_skips` 주석 해제(ms 단위)
+
+```python
+# video split by frame 실행
+
+import cv2
+
+vidcap = cv2.VideoCapture('video1.mp4') # 영상 이름 입력
+success, image = vidcap.read()
+
+count = 1
+success = True
+
+# time_skips = float(2000)  # 건너뛰는 시간
+
+while success:
+    success, image = vidcap.read()
+    cv2.imwrite("video_capture/%d.jpg" % count, image)
+    print("saved image %d.jpg" % count)
+
+    # vidcap.set(cv2.CAP_PROP_POS_MSEC, (count * time_skips))
+
+    if cv2.waitKey(10) == 27:
+        break
+    count += 1
+
+# vidcap.release()
+
+```
+
+
+
+
+
 
 
 ## Darkflow를 사용해서 사진 탐색하기
@@ -139,20 +235,6 @@ cap.release()
 print('캡처된 시간', timestamps)
 for location_data in location_datas:
     print(location_data)
-```
-
-
-
-
-
-## Darkflow를 사용해서 비디오 분석, 분석 데이터 DB에 저장
-
-> 해당 3가지 정보를 입력하면 자동으로 저장됨
-
-```
-Video 이름 입력: 저장된 영상 이름 입력
-Video Youtube Id 입력: 영상 youtube id 입력(유뷰트 영상 url에 표시, v=youtube_id)
-Channel Youtube Id 입력: 채널 youtube id 입력(유튜브 채널 url에 표시)
 ```
 
 
