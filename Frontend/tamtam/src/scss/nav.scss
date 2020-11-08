@@ -11,6 +11,8 @@
     height: 4rem;
     background: linear-gradient(0.25turn, #4a509c, #8b4db5 70%);
     color: #{$base-color};
+    a:not {
+    }
     span {
       align-self: center;
       &:nth-child(2) {
@@ -100,6 +102,7 @@
             transition: transform 0.6s, opacity 0.6s;
             transform: translateY(150%);
             opacity: 0;
+            z-index: 1;
           }
         }
         &:hover {
@@ -107,6 +110,7 @@
             > menuitem {
               transform: translateY(0%);
               opacity: 1;
+              z-index: 1;
             }
           }
         }
