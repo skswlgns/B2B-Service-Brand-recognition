@@ -13,6 +13,7 @@ import VideoDetail from '@/views/VideoDetail.vue'
 import Main1 from '@/views/Main1.vue'
 import Channel from '@/views/Channel.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
+import Youtuberank from '@/views/Youtuberank.vue'
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,11 @@ const routes = [
     path: '/channel',
     name: 'Channel',
     component: Channel
+  },
+  {
+    path: '/rank',
+    name: 'Youtuberank',
+    component: Youtuberank
   },
 
   // 지훈
