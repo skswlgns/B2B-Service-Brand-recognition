@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="(Item, index) in selected" :key="index">
-      <div class="card mx-auto mb-2 data" outlined>
+      <div class="card mx-auto mb-2 data">
         <v-list-item three-line>
           <v-list-item-avatar size="100">
             <img alt="user" :src="Item.image" />
@@ -85,12 +85,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.data {
-  /* the other rules */
-  transition: all 0.6s;
-}
-.data:hover {
-  transform: scale(1.1);
-}
-</style>

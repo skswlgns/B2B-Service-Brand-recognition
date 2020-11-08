@@ -1,6 +1,5 @@
 <template>
   <div class="card">
-    <h2 style="font-size:16px; padding:8px;">{{ this.text }}채널 검색결과</h2>
     <v-carousel hide-delimiters height="100%">
       <v-carousel-item light v-for="i in len" :key="i" style="padding-left:88px;">
         <v-row>
@@ -29,8 +28,8 @@ export default {
     text: ''
   }),
   created() {
-    // this.init()
     this.text = this.getsearchText()
+    this.init()
   },
   methods: {
     ...mapGetters(searchStore, ['getsearchText']),

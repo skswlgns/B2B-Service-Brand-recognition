@@ -1,10 +1,7 @@
 <template>
-  <div style="padding-top: 88px;">
-    <h2 style="text-align:center; font-size:48px; padding-bottom:48px">
-      스크랩한 채널
-    </h2>
+  <div>
     <div v-for="(Item, index) in selected" :key="index">
-      <v-card class="mx-auto mb-2 card" outlined>
+      <div class="card mx-auto mb-2 data">
         <v-list-item three-line>
           <v-list-item-avatar size="100">
             <img alt="user" :src="Item.image" />
@@ -43,13 +40,15 @@
             </v-btn>
           </v-list-item-action>
         </v-list-item>
-      </v-card>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { mapActions } from 'vuex'
+const searchStore = 'searchStore'
 export default {
   data: () => ({
     active: true,
@@ -75,10 +74,11 @@ export default {
     selected: []
   }),
   created() {
-    this.initialize()
+    // this.initialize()
   },
 
   methods: {
+    ...mapActions(searchStore, ['getSearchChannel']),
     change(index) {
       alert(this.selected[index].active)
       if (!this.selected[index].active) {
@@ -112,11 +112,11 @@ export default {
 }
 </script>
 <style scoped>
-.card {
+.data {
   /* the other rules */
   transition: all 0.6s;
 }
-.card:hover {
+.data:hover {
   transform: scale(1.1);
 }
 </style>

@@ -1,12 +1,15 @@
 <template>
   <v-app>
     <div>
-      <!-- <h1 style="font-size:24px; padding-top:24px; padding-bottom: 8px;">
-        '{{ this.searchText }}'(으)로 검색한 결과입니다.
-      </h1> -->
-      <!-- <SearchChannel v-bind:title="this.searchText"></SearchChannel> -->
+      <div class="card-title">
+        스크랩한 채널
+      </div>
       <ScrapChannel></ScrapChannel>
-      <ScrapVideo style="overflow-y: auto;"></ScrapVideo>
+      <!-- <ScrapVideo style="overflow-y: auto;"></ScrapVideo> -->
+      <div class="card-title">
+        스크랩한 영상
+      </div>
+      <ScrapVideo></ScrapVideo>
     </div>
   </v-app>
 </template>

@@ -2,8 +2,9 @@
   <div>
     <div>
       <div class="card-title">'{{ this.text }}'(으)로 검색한 결과입니다.</div>
+      <div class="card-title">채널</div>
       <SearchChannel></SearchChannel>
-      <div class="card-title"></div>
+      <div class="card-title">영상</div>
       <SearchVideo></SearchVideo>
     </div>
   </div>
