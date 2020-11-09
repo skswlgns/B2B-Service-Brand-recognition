@@ -48,7 +48,7 @@ const routes = [
     component: SearchChannel
   },
   {
-    path: '/search',
+    path: '/search/:text',
     name: 'Search',
     component: Search
   },

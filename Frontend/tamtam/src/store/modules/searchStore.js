@@ -40,12 +40,7 @@ const searchStore = {
   actions: {
     search({ commit }, text) {
       commit('setsearchText', text)
-      router.push({ name: 'Search', key: ['aaa'] })
-      // router.push({ name: 'Search', key: ['aaa'] }).catch(error => {
-      //   if (error.name === 'NavigationDuplicated') {
-      //     location.reload()
-      //   }
-      // })
+      router.push({ name: 'Search', params: { text: text } })
     },
     // 스크랩한 채널 가져오기
     async getScrapChannel({ commit }) {
