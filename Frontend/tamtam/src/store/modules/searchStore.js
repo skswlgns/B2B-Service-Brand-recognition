@@ -2,7 +2,7 @@ import axios from 'axios'
 import cookies from 'vue-cookies'
 import router from '../../router'
 
-const API_SERVER_URL = 'http://localhost:3000/api'
+const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 const config = {
   headers: { token: cookies.get('token'), company_id: cookies.get('companyId') }
 }

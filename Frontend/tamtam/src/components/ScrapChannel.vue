@@ -32,12 +32,7 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-btn icon color="white" @click="change(index)">
-              <v-icon v-if="!Item.active" color="grey lighten-1">
-                mdi-star-outline
-              </v-icon>
-            </v-btn>
-            <v-btn icon color="white" @click="change(index)">
-              <v-icon v-if="Item.active" color="yellow darken-3">
+              <v-icon color="yellow darken-3">
                 mdi-star
               </v-icon>
             </v-btn>
@@ -51,24 +46,24 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 const searchStore = 'searchStore'
+const channelStore = 'channelStore'
 export default {
-  data: () => ({
-    active: true
-  }),
+  data: () => ({}),
   created() {
     this.getScrapChannel()
   },
   computed: {
-    ...mapState(searchStore, ['channel']),
-    ...mapState(searchStore, ['channelStatus'])
+    ...mapState(searchStore, ['channel'])
   },
   methods: {
     ...mapActions(searchStore, ['getScrapChannel']),
-    change(index) {
-      if (!this.selected[index].active) {
-        this.selected[index].active = true
-      } else {
-        this.selected[index].active = false
+    ...mapActions(channelStore, ['scrap']),
+    async change(index) {
+      // 스크랩 취소ㄱㄱ
+      const answer = confirm('스크랩 취소 하시겠습니까?')
+      if (answer) {
+        await this.scrap(this.channel[index]._id)
+        await this.getScrapChannel()
       }
     },
     move(channerId) {

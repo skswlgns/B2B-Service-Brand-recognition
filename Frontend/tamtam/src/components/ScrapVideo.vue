@@ -55,12 +55,6 @@ export default {
   }),
   created() {
     this.getScrapVideo()
-    // this.videos = this.getVideo()
-    // alert(this.videos.length)
-    // this.len = parseInt(this.videos.length / 3)
-    // if (this.videos.length % 3 !== 0) {
-    //   this.len += 1
-    // }
   },
   computed: {
     ...mapState(searchStore, ['video'])
