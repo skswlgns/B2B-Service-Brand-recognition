@@ -55,14 +55,7 @@ export default {
     len: 0,
     show: false
   }),
-  created() {
-    // this.videos = this.getVideo()
-    // alert(this.videos.length)
-    // this.len = parseInt(this.videos.length / 3)
-    // if (this.videos.length % 3 !== 0) {
-    //   this.len += 1
-    // }
-  },
+  created() {},
   computed: {
     ...mapState(searchStore, ['video'])
   },

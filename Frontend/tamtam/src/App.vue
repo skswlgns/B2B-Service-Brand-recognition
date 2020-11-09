@@ -52,7 +52,8 @@ export default {
   mounted() {},
   methods: {
     searching() {
-      if (this.text.trim() !== '') {
+      this.text = this.text.trim()
+      if (this.text !== '') {
         cookies.set('searchText', this.text)
         this.search(this.text)
         this.text = ''
