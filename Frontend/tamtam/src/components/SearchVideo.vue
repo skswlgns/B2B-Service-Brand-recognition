@@ -1,15 +1,19 @@
 <template>
   <div class="card">
     <v-carousel hide-delimiters height="100%">
-      <v-carousel-item light v-for="i in len" :key="i">
+      <v-carousel-item
+        light
+        v-for="i in video.length % 3 !== 0 ? parseInt(video.length / 3) + 1 : parseInt(video.length / 3)"
+        :key="i"
+      >
         <v-row>
           <v-col v-for="j in 3" :key="j" sm="4">
-            <v-card class="data" v-if="videos[(i - 1) * 3 + (j - 1)]">
-              <v-img alt="user" :src="videos[(i - 1) * 3 + (j - 1)].snippet.thumbnails.medium.url" />
+            <v-card flat tile class="data" v-if="video[(i - 1) * 3 + (j - 1)]">
+              <v-img alt="user" :src="video[(i - 1) * 3 + (j - 1)].video_thumbnails" />
               <v-card-actions>
                 <h2
                   style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
-                  v-html="videos[(i - 1) * 3 + (j - 1)].snippet.title"
+                  v-html="video[(i - 1) * 3 + (j - 1)].video_title"
                 ></h2>
                 <v-spacer></v-spacer>
 
@@ -37,37 +41,27 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
     videos: [],
     len: 0,
-    show: false,
-    text: ''
+    show: false
   }),
   created() {
-    this.text = this.getsearchText()
-    this.init()
+    // this.videos = this.getVideo()
+    // alert(this.videos.length)
+    // this.len = parseInt(this.videos.length / 3)
+    // if (this.videos.length % 3 !== 0) {
+    //   this.len += 1
+    // }
+  },
+  computed: {
+    ...mapState(searchStore, ['video'])
   },
   methods: {
-    ...mapGetters(searchStore, ['getsearchText']),
-
-    init() {
-      // 백엔드 연결
-      // const url = 'http://localhost:3000/api/video/5f9e7736c24b5734cc5fe5e1';
-      const url =
-        'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBOoucBKPmX2PzsuBbhyIxaQki54e4Fh_g&part=snippet&regionCode=KR&maxResults=6&type=video&q=' +
-        this.text
-      axios.get(url).then(res => {
-        this.videos = res.data.items
-        this.len = parseInt(this.videos.length / 3)
-        if (this.videos.length % 3 !== 0) {
-          this.len += 1
-        }
-      })
-    }
+    ...mapGetters(searchStore, ['getVideo'])
   }
 }
 </script>

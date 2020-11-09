@@ -13,7 +13,7 @@
 <script>
 import SearchVideo from '@/components/SearchVideo.vue'
 import SearchChannel from '@/components/SearchChannel.vue'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 const searchStore = 'searchStore'
 export default {
   name: 'Search',
@@ -26,10 +26,12 @@ export default {
   }),
   created() {
     this.text = this.getsearchText()
+    this.getSearch(this.text)
   },
   mounted() {},
   methods: {
-    ...mapGetters(searchStore, ['getsearchText'])
+    ...mapGetters(searchStore, ['getsearchText']),
+    ...mapActions(searchStore, ['getSearch'])
   },
   computed: {}
 }
