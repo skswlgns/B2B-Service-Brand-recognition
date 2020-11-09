@@ -26,8 +26,26 @@
         width: 25rem;
       }
       .rank_fr {
-        display: flex;
-        flex-direction: column;
+        @include shadow;
+        text-align: center;
+        margin-bottom: #{$base-margin * 5};
+        .rank-title {
+          display: flex;
+          margin: 1rem;
+          justify-content: space-between;
+          align-items: center;
+          div {
+            font-size: #{$base-fontsize * 1.2};
+          }
+          a {
+            text-decoration: none;
+          }
+        }
+      }
+      .rank {
+        img {
+          border-radius: 50%;
+        }
       }
     }
   }

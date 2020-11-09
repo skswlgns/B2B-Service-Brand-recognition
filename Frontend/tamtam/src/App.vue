@@ -59,6 +59,9 @@ export default {
   },
   computed: {
     ...mapState(userStore, ['user_nickname'])
+  },
+  mounted() {
+    console.log(this.user_nickname)
   }
 }
 </script>

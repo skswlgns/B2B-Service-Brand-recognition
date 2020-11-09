@@ -143,8 +143,13 @@ export default {
       }
     }
   },
+  props: {
+    channelId: {
+      type: String
+    }
+  },
   methods: {
-    ...mapActions(channelStore, ['change']),
+    ...mapActions(channelStore, ['change', 'getChannelData']),
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
       const myChart = new Chart(ctx, {
@@ -161,6 +166,7 @@ export default {
   mounted() {
     this.createChart('wChart', this.wholeData)
     this.createChart('subscribe-line', this.subData)
+    this.getChannelData(this.channelId)
   },
   updated() {
     if (this.isActive === 'views') {
