@@ -1,5 +1,8 @@
 <template>
-  <div class="card">
+  <div v-if="channel.length === 0">
+    <h2>채널이 없습니다..</h2>
+  </div>
+  <div v-else class="card">
     <v-carousel hide-delimiters height="100%">
       <v-carousel-item
         light

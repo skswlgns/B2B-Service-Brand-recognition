@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import cookies from 'vue-cookies'
 import { mapState, mapActions } from 'vuex'
 const userStore = 'userStore'
 const searchStore = 'searchStore'
@@ -51,8 +52,13 @@ export default {
   mounted() {},
   methods: {
     searching() {
-      this.search(this.text)
-      this.text = ''
+      if (this.text.trim() !== '') {
+        cookies.set('searchText', this.text)
+        this.search(this.text)
+        this.text = ''
+      } else {
+        alert('검색어 또는 동영상 URL을 입력해주세요.')
+      }
     },
     ...mapActions(userStore, ['logout']),
     ...mapActions(searchStore, ['search'])

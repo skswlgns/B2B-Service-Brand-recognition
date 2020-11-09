@@ -10,13 +10,13 @@ const config = {
 const searchStore = {
   namespaced: true,
   state: {
-    searchText: cookies.get('searchText'),
+    searchText: '',
     channel: [],
     video: []
   },
   mutations: {
-    setSearchText(state, text) {
-      cookies.set('searchText', text)
+    setsearchText(state, text) {
+      state.searchText = text
     },
     setChannel(state, data) {
       state.channel = data
@@ -27,7 +27,8 @@ const searchStore = {
   },
   getters: {
     getsearchText(state) {
-      return cookies.get('searchText')
+      state.searchText = cookies.get('searchText')
+      return state.searchText
     },
     getChannel(state) {
       return state.channel
@@ -38,17 +39,13 @@ const searchStore = {
   },
   actions: {
     search({ commit }, text) {
-      if (text === '' || text === undefined) {
-        alert('검색어 또는 동영상 URL을 입력해주세요.')
-      } else {
-        commit('setSearchText', text)
-        router.push({ name: 'Search', key: ['aaa'] })
-        // router.push({ name: 'Search', key: ['aaa'] }).catch(error => {
-        //   if (error.name === 'NavigationDuplicated') {
-        //     location.reload()
-        //   }
-        // })
-      }
+      commit('setsearchText', text)
+      router.push({ name: 'Search', key: ['aaa'] })
+      // router.push({ name: 'Search', key: ['aaa'] }).catch(error => {
+      //   if (error.name === 'NavigationDuplicated') {
+      //     location.reload()
+      //   }
+      // })
     },
     // 스크랩한 채널 가져오기
     async getScrapChannel({ commit }) {

@@ -1,10 +1,16 @@
 <template>
-  <div class="card">
+  <div v-if="video.length === 0">
+    <h2>
+      영상이 없습니다..
+    </h2>
+  </div>
+  <div v-else class="card">
     <v-carousel hide-delimiters height="100%">
       <v-carousel-item
         light
         v-for="i in video.length % 3 !== 0 ? parseInt(video.length / 3) + 1 : parseInt(video.length / 3)"
         :key="i"
+        style="padding-left:8px; padding-right:8px"
       >
         <v-row>
           <v-col v-for="j in 3" :key="j" sm="4">

@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="channel.length === 0">
+    <h2>스크랩한 영상이 없습니다..</h2>
+  </div>
+  <div v-else>
     <div v-for="(Item, index) in channel" :key="index">
       <div class="card mx-auto mb-2 data">
         <v-list-item three-line>
@@ -8,7 +11,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <div class="overline mb-1" outlined>
-              it/기술/컴퓨터
+              카테고리 자리인데..
             </div>
             <v-list-item-title class="headline mb-1">
               {{ Item.channel_name }}
@@ -56,7 +59,8 @@ export default {
     this.getScrapChannel()
   },
   computed: {
-    ...mapState(searchStore, ['channel'])
+    ...mapState(searchStore, ['channel']),
+    ...mapState(searchStore, ['channelStatus'])
   },
   methods: {
     ...mapActions(searchStore, ['getScrapChannel']),
