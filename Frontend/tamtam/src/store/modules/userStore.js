@@ -7,7 +7,8 @@ const userStore = {
   namespaced: true,
   state: {
     token: cookies.get('token'),
-    user_nickname: cookies.get('nick')
+    user_nickname: cookies.get('nick'),
+    company_id: cookies.get('companyId')
   },
   mutations: {
     setToken(state, data) {
@@ -17,6 +18,9 @@ const userStore = {
     setNickname(state, nickname) {
       state.user_nickname = nickname
       cookies.set('nick', nickname)
+    },
+    setCompanyId(state, companyId) {
+      cookies.set('companyId', companyId)
     }
   },
   actions: {
@@ -26,6 +30,7 @@ const userStore = {
         .then(response => {
           commit('setToken', response.data.token)
           commit('setNickname', response.data.company_nickname)
+          commit('setCompanyId', response.data.company_id)
         })
         .catch(error => {
           console.log(error)
