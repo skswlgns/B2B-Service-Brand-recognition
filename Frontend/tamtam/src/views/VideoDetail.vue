@@ -1,52 +1,47 @@
 <template>
   <section class="grid-container">
-    <!-- 타임라인 파트 -->
-    <article class="card timeline-card dump">
-      <header>타임라인 파트</header>
-      <div>{{ videoData }}</div>
+    <!-- Timeline Card -->
+    <article class="card timeline-card">
+      <!-- Timeline background bar -->
+      <div class="timeline-section">
+        <div class="timeline-background-bar"></div>
 
-      <!-- 타임라인바 -->
-      <div></div>
-      <!-- 타임라인 -->
-      <br />
-      <hr />
-      <ul v-for="company in videoData.video_record" :key="company._id">
-        <li>
-          {{ company.company_id.company_nickname }}
+        <!-- Timeline Records -->
+        <div v-for="(company, company_index) in videoData.video_record" :key="company._id">
           <ul v-for="(record, record_index) in company.timelines" :key="record_index">
-            <div v-if="focusedCompany == null">
-              <li>
-                {{ record }}
-                <v-btn color="primary" small @click="playerSeekTo(record[1] / 1000)">이동하기</v-btn>
-              </li>
-            </div>
-            <div v-else>
-              <li v-if="focusedCompany === company.company_id.company_nickname">
-                {{ record }}
-                <v-btn color="primary" small @click="playerSeekTo(record[1] / 1000)">이동하기</v-btn>
-              </li>
+            <div v-show="!focusedCompany || focusedCompany === company.company_id.company_nickname">
+              <li
+                :id="'record-' + company_index + '-' + record_index"
+                :class="`timeline-record background-` + company_index"
+                @click="playerSeekTo(record[1])"
+              ></li>
             </div>
           </ul>
-          <br />
-          <hr />
-        </li>
-      </ul>
+        </div>
+      </div>
 
-      <!-- 브랜드 선택 버튼 -->
-      <br />
-      <hr />
-      <ul>
-        <li v-for="company in videoData.video_record" :key="company._id">
-          <v-btn color="primary" small @click="choiceCompany(company.company_id.company_nickname)">
-            {{ company.company_id.company_nickname }}
-          </v-btn>
-        </li>
-      </ul>
+      <!-- Timestamp -->
+      <div class="timestamp-section">
+        <span>00:00</span>
+        <span>00:00</span>
+      </div>
+
+      <!-- Company Toggle -->
+      <div class="company-toggle-section">
+        <div
+          :id="'company-button-' + company_index"
+          class="company-button"
+          v-for="(company, company_index) in videoData.video_record"
+          :key="company._id"
+          @click="choiceCompany(company_index, company.company_id.company_nickname)"
+        >
+          {{ company.company_id.company_nickname }}
+        </div>
+      </div>
     </article>
 
-    <!-- 비디오 파트 -->
+    <!-- Video Card -->
     <article class="card video-card">
-      <v-btn color="primary" small @click="videoPlay()">재생하기</v-btn>
       <div id="yt-player"></div>
       <p>video_title: {{ videoData.video_title }}</p>
       <p>video_views: {{ videoData.video_views }}</p>
@@ -55,6 +50,7 @@
       <p>video_date: {{ videoData.video_date }}</p>
       <p>video_time: {{ videoData.video_time }}</p>
       <p>video_content: {{ videoData.video_content }}</p>
+      <p>video_category: {{ videoData.video_category }}</p>
       <p>_id: {{ videoData._id }}</p>
       <p>video_youtube_id: {{ videoData.video_youtube_id }}</p>
       <p>channel_id: {{ videoData.channel_id }}</p>
@@ -64,7 +60,7 @@
       <p>scrap_company_id: {{ videoData.scrap_company_id }}</p>
     </article>
 
-    <!-- 추천 동영상 파트 -->
+    <!-- Recommandation Card -->
     <article class="card recommend-video-card">
       <header>추천 동영상 파트</header>
     </article>
@@ -81,7 +77,7 @@ export default {
   data() {
     return {
       player: {},
-      focusedCompany: null
+      focusedCompany: false
     }
   },
   beforeCreate() {
@@ -98,7 +94,7 @@ export default {
 
     await this.getVideoData(this.$route.params.video_youtube_id)
 
-    // Load the IFrame Player API code asynchronously.
+    // youtube iframe 만들기
     const tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
     const firstScriptTag = document.getElementsByTagName('script')[0]
@@ -112,17 +108,30 @@ export default {
           onReady: window.onPlayerReady
         }
       })
-      console.log('this.player', this.player)
+      // console.log('this.player', this.player)
     }
 
     window.onPlayerReady = event => {
-      console.log('onPlayerReady')
-      // event.target.playVideo()
-      console.log('event.target.playVideo()')
+      event.target.playVideo()
+      // console.log('onPlayerReady')
+      // console.log('event.target.playVideo()')
       // this.player.playVideo()
       // this.player.unMute()
       // this.playerSeekTo(20)
     }
+
+    // 각 company-record style, hover 적용해주기
+    const videoDuration = this.videoData.video_time
+    this.videoData.video_record.forEach((company, companyIndex) => {
+      company.timelines.forEach((record, recordIndex) => {
+        const recordElement = document.getElementById(`record-${companyIndex}-${recordIndex}`)
+        if (recordElement) {
+          recordElement.style.width = `${((record[2] - record[1]) / videoDuration) * 100}%`
+          recordElement.style.left = `${(record[1] / videoDuration) * 100}%`
+          // recordElement.style.left = `30px`
+        }
+      })
+    })
   },
   beforeUpdate() {
     console.log('beforeUpdate')
@@ -155,14 +164,19 @@ export default {
 
     // 해당 브랜드 선택하여 타임라인 자세히보기 & 취소하기
     // 추천동영상 리스트도 변경하는 로직 필요
-    choiceCompany: function(company) {
-      console.log('choiceCompany')
-      console.log(company)
-
+    choiceCompany: function(companyIndex, company) {
       if (this.focusedCompany === company) {
-        this.focusedCompany = null
+        this.focusedCompany = false
+        document.getElementById(`company-button-${companyIndex}`).className = `company-button`
       } else {
+        // 선택한 company 이외에 toggle이 되어있는 경우 모두 style 해제
+        for (let i = 0; i < this.videoData.video_record.length; i++) {
+          document.getElementById(`company-button-${i}`).className = `company-button`
+        }
         this.focusedCompany = company
+        document.getElementById(
+          `company-button-${companyIndex}`
+        ).className = `toggle-selected company-button background-${companyIndex}`
       }
     }
   }

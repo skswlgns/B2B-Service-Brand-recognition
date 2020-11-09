@@ -181,9 +181,10 @@ companyRoutes.get('/', async (req, res) => {
 companyRoutes.get('/video', async (req, res) => {
   if (req.headers.token) {
     try {
-      await CompanyModel.findOne({
+      const company = await CompanyModel.findOne({
         _id: req.headers.company_id
-      })
+      }).populate('company_video')
+      res.status(200).send(company)
     } catch (err) {
       res.status(500).send(err)
     }

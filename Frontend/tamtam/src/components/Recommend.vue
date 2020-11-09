@@ -1,12 +1,12 @@
 <template>
-  <div style="padding-top: 88px;">
-    <h2 style="text-align:center; font-size:46px;">인기 유투버 추천</h2>
+  <div>
     <v-carousel cycle hide-delimiters light height="100%">
-      <v-carousel-item style="padding:56px" v-for="i in len" :key="i">
+      <v-carousel-item v-for="i in len" :key="i">
         <v-layout row>
           <v-flex sm4 v-for="j in 3" :key="j" pl-4 pr-4>
             <v-hover>
-              <v-card
+              <div
+                class="card"
                 slot-scope="{ hover }"
                 :class="`elevation-${hover ? 5 : 30}`"
                 v-if="selected[(i - 1) * 3 + (j - 1)]"
@@ -31,7 +31,7 @@
                     <div>{{ selected[(i - 1) * 3 + (j - 1)].viewCount }}</div>
                   </v-flex>
                 </div>
-              </v-card>
+              </div>
             </v-hover>
           </v-flex>
         </v-layout>
@@ -49,10 +49,7 @@ export default {
       'UCdUcjkyZtf-1WJyPPiETF1g',
       'UCZf4ZESHAIuRtZ-eoMSL97A',
       'UCwx6n_4OcLgzAGdty0RWCoA',
-      'UC0SoPwEH3idvemSDvKaYgGA',
-      'UCp-C7mtkuOw6q8E1Uc2NVpQ',
-      'UCYAvG7-sBBztgDtwKil1RTQ',
-      'UCFxZimsJ4gupYy7xzmStOcA'
+      'UC0SoPwEH3idvemSDvKaYgGA'
     ],
     Item: {
       channerId: '',
@@ -76,7 +73,7 @@ export default {
     init() {
       for (const id of this.list) {
         const url =
-          'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyCVD77dDLlsToi0KYQKA9HynfKs2o6SzUE&part=snippet, brandingSettings, contentDetails, statistics, topicDetails&id=' +
+          'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyBQbAtGm7FHazDtqEv7xsyyDmU31k-kzyI&part=snippet, brandingSettings, contentDetails, statistics, topicDetails&id=' +
           id
         axios.get(url).then(res => {
           this.Item = []
