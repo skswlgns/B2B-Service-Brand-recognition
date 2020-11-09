@@ -28,6 +28,11 @@ const channelSchema = new mongoose.Schema({
     type: String,
     allowNull: false
   },
+  channel_avg_views: {
+    type: Number,
+    allowNull: false,
+    default: 0
+  },
   scrap_company_id: [
     {
       type: Schema.Types.ObjectId,
