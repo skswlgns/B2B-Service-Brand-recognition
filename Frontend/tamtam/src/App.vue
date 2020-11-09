@@ -6,9 +6,9 @@
         <span class="icon"><i class="fa fa-search"></i></span>
         <input
           type="text"
-          v-model="searchText"
           placeholder="검색 또는 동영상 URL을 입력해주세요."
-          @keyup.enter="moveSearch"
+          v-model="text"
+          @keyup.enter="searching()"
         />
       </span>
       <menu>
@@ -17,7 +17,7 @@
           <menu>
             <menuitem><router-link to="/whole">전체 기업 분석</router-link></menuitem>
             <menuitem><router-link to="/myAnalysis">내 기업 분석</router-link></menuitem>
-            <menuitem><router-link to="#">My Page</router-link></menuitem>
+            <menuitem><router-link to="/myPage">My Page</router-link></menuitem>
             <menuitem
               ><div class="logout" @click="logout()">
                 Log Out
@@ -38,24 +38,30 @@
 </template>
 
 <script>
+import cookies from 'vue-cookies'
 import { mapState, mapActions } from 'vuex'
 const userStore = 'userStore'
+const searchStore = 'searchStore'
 
 export default {
   name: 'App',
   data: () => ({
-    searchText: ''
+    text: ''
   }),
+  created() {},
+  mounted() {},
   methods: {
-    moveSearch() {
-      if (this.searchText === '') {
-        alert('검색어 또는 동영상 URL을 입력해주세요.')
+    searching() {
+      if (this.text.trim() !== '') {
+        cookies.set('searchText', this.text)
+        this.search(this.text)
+        this.text = ''
       } else {
-        this.$router.push({ name: 'Search', params: { text: this.searchText } })
-        this.searchText = ''
+        alert('검색어 또는 동영상 URL을 입력해주세요.')
       }
     },
-    ...mapActions(userStore, ['logout'])
+    ...mapActions(userStore, ['logout']),
+    ...mapActions(searchStore, ['search'])
   },
   computed: {
     ...mapState(userStore, ['user_nickname'])

@@ -1,8 +1,6 @@
 <template>
   <div v-if="video.length === 0">
-    <h2>
-      영상이 없습니다..
-    </h2>
+    <h2>스크랩한 영상이 없습니다..</h2>
   </div>
   <div v-else class="card">
     <v-carousel hide-delimiters height="100%">
@@ -47,7 +45,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
@@ -56,6 +54,7 @@ export default {
     show: false
   }),
   created() {
+    this.getScrapVideo()
     // this.videos = this.getVideo()
     // alert(this.videos.length)
     // this.len = parseInt(this.videos.length / 3)
@@ -66,9 +65,7 @@ export default {
   computed: {
     ...mapState(searchStore, ['video'])
   },
-  methods: {
-    ...mapGetters(searchStore, ['getVideo'])
-  }
+  methods: { ...mapActions(searchStore, ['getScrapVideo']) }
 }
 </script>
 

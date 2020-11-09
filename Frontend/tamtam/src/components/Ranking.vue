@@ -1,10 +1,7 @@
 <template>
-  <div style="padding-top: 88px;">
-    <h2 style="text-align:center; font-size:48px; padding-bottom:48px">
-      유투버 랭킹
-    </h2>
+  <div>
     <div v-for="(Item, index) in selected" :key="index">
-      <v-card class="mx-auto mb-2 card" outlined>
+      <div class="card mx-auto mb-2 data">
         <v-list-item three-line>
           <v-list-item-avatar size="100">
             <img alt="user" :src="Item.image" />
@@ -17,7 +14,7 @@
               {{ Item.name }}
             </v-list-item-title>
             <div class="overline mb-1" outlined>
-              <v-btn icon @click="move(Item.channerId)">
+              <v-btn icon @click="move(Item.channerId)" color="white">
                 <v-avatar size="30">
                   <img alt="user" src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png" />
                 </v-avatar>
@@ -31,7 +28,7 @@
             <v-list-item-subtitle> 영상시청수 {{ Item.viewCount }} </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-      </v-card>
+      </div>
     </div>
   </div>
 </template>
@@ -88,12 +85,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.card {
-  /* the other rules */
-  transition: all 0.6s;
-}
-.card:hover {
-  transform: scale(1.1);
-}
-</style>
