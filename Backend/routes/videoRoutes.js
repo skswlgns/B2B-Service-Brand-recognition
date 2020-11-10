@@ -282,6 +282,15 @@ videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
     try {
       const channel = await ChannelModel.findOne({ channel_youtube_id: videoYoutubeId })
       const videos = await VideoModel.find({ channel_id: channel._id })
+
+      for (let videoIndex = 0; videoIndex < videos.length; videoIndex++) {
+        const video = videos[videoIndex]
+        for (let recordIndex = 0; recordIndex < video.video_record.length; recordIndex++) {
+          const companyId = video.video_record[recordIndex].company_id
+          const company = await CompanyModel.findOne({ _id: companyId })
+          video.video_record[recordIndex].company_id = company
+        }
+      }
       res.status(200).send(videos)
     } catch (err) {
       res.status(500).send(err)
