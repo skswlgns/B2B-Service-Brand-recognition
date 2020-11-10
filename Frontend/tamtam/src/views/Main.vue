@@ -428,7 +428,7 @@ export default {
           labels: ['July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           datasets: [
             {
-              label: 'Win Tiger Tv',
+              label: 'WinTiger Tv',
               // backgroundColor: this.dynamicColors(),
               borderColor: this.dynamicColors(),
               fill: false,
