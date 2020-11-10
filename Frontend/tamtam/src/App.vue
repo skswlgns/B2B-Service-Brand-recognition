@@ -34,6 +34,9 @@
     <v-container v-if="$route.name !== 'Main'">
       <router-view :key="$route.fullPath" />
     </v-container>
+    <a href="#" style="display:scroll;position:fixed; bottom:15px;right:15px;">
+      Top
+    </a>
   </v-app>
 </template>
 

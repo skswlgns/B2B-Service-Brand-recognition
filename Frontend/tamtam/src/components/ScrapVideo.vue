@@ -13,7 +13,9 @@
         <v-row>
           <v-col v-for="j in 3" :key="j" sm="4">
             <v-card flat tile class="data" v-if="video[(i - 1) * 3 + (j - 1)]">
-              <v-img alt="user" :src="video[(i - 1) * 3 + (j - 1)].video_thumbnails" />
+              <a @click="moveVideoDetail(video[(i - 1) * 3 + (j - 1)].video_youtube_id)">
+                <v-img alt="user" :src="video[(i - 1) * 3 + (j - 1)].video_thumbnails" />
+              </a>
               <v-card-actions>
                 <h2
                   style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
@@ -21,21 +23,18 @@
                 ></h2>
                 <v-spacer></v-spacer>
 
-                <v-btn icon @click="show = !show">
-                  <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                <v-btn icon @click="show[(i - 1) * 3 + (j - 1)] = !show[(i - 1) * 3 + (j - 1)]">
+                  <v-icon>{{ show[(i - 1) * 3 + (j - 1)] ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                 </v-btn>
               </v-card-actions>
 
               <v-expand-transition>
-                <div v-show="show">
+                <div v-show="show[(i - 1) * 3 + (j - 1)]">
                   <v-card-text>
                     통계그래프 장착 예정..
                   </v-card-text>
                 </div>
               </v-expand-transition>
-              <!-- <h2
-                  style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
-                ></h2> -->
             </v-card>
           </v-col>
         </v-row>
@@ -46,20 +45,27 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import router from '@/router'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
-    videos: [],
-    len: 0,
-    show: false
+    show: []
   }),
   created() {
     this.getScrapVideo()
+    for (let index = 0; index < this.video.length; index++) {
+      this.show.push(false)
+    }
   },
   computed: {
     ...mapState(searchStore, ['video'])
   },
-  methods: { ...mapActions(searchStore, ['getScrapVideo']) }
+  methods: {
+    ...mapActions(searchStore, ['getScrapVideo']),
+    moveVideoDetail(id) {
+      router.push({ name: 'VideoDetail', params: { video_youtube_id: id } })
+    }
+  }
 }
 </script>
 
