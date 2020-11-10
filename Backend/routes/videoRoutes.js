@@ -116,6 +116,22 @@ videoRoutes.get('/', async (req, res) => {
   }
 })
 
+// 채널 아이디로 전체 비디오 조회
+videoRoutes.get('/:channel_id', async (req, res) => {
+  if (req.headers.token) {
+    const channelId = req.params.channel_id
+
+    try {
+      const videos = await VideoModel.find({ channel_id: channelId })
+      res.status(200).send(videos)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
+  }
+})
+
 // 아이디 값으로 하나의 비디오 조회
 videoRoutes.get('/:video_id', async (req, res) => {
   if (req.headers.token) {
