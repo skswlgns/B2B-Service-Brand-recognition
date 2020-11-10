@@ -5,6 +5,7 @@ const express = require('express')
 const VideoModel = require('../models/VideoModel')
 const CompanyModel = require('../models/CompanyModel')
 const ExposureModel = require('../models/ExposureModel')
+const ChannelModel = require('../models/ChannelModel')
 
 // Routes
 const videoRoutes = express.Router()
@@ -113,22 +114,6 @@ videoRoutes.get('/', async (req, res) => {
     }
   } else {
     res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
-  }
-})
-
-// 채널 아이디로 전체 비디오 조회
-videoRoutes.get('/:channel_id', async (req, res) => {
-  if (req.headers.token) {
-    const channelId = req.params.channel_id
-
-    try {
-      const videos = await VideoModel.find({ channel_id: channelId })
-      res.status(200).send(videos)
-    } catch (err) {
-      res.status(500).send(err)
-    }
-  } else {
-    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
 
@@ -290,4 +275,19 @@ videoRoutes.get('/youtube/:video_youtube_id', async (req, res) => {
   // }
 })
 
+// 유튜브 채널 아이디로 전체 비디오 조회
+videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
+  if (req.headers.token) {
+    const videoYoutubeId = req.params.video_youtube_id
+    try {
+      const channel = await ChannelModel.findOne({ channel_youtube_id: videoYoutubeId })
+      const videos = await VideoModel.find({ channel_id: channel._id })
+      res.status(200).send(videos)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
+  }
+})
 module.exports = videoRoutes
