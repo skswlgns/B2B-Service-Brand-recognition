@@ -12,6 +12,12 @@ const companySchema = new mongoose.Schema({
     allowNull: false,
     unique: true
   },
+  // company_nickname_ko: {
+  //   type: String,
+  //   // allowNull: false,
+  //   // unique: true,
+  //   default: '하이'
+  // },
   company_pwd: {
     type: String,
     allowNull: false
