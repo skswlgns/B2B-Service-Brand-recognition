@@ -9,7 +9,11 @@
           <div class="inner-header-container">
             <div class="meta">
               <div class="name">{{ channelData.channel_name }}</div>
-              <div class="subscriber">구독자: {{ channelData.channel_subscribe }}만명</div>
+              <div class="subscriber" v-if="channelData.channel_subscribe < 1000">구독자: {{ sliceViews }}명</div>
+              <div class="subscriber" v-else-if="channelData.channel_subscribe < 10000">
+                구독자: {{ sliceViews }}만명
+              </div>
+              <div class="subscriber" v-else>구독자: {{ sliceViews }}만명</div>
             </div>
             <v-btn color="#916bf6">광고 문의</v-btn>
           </div>

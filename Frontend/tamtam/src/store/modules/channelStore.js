@@ -7,11 +7,18 @@ const channelStore = {
   namespaced: true,
   state: {
     isActive: 'subscribe',
-    channelData: {}
+    channelData: {},
+    views: 0
   },
   getters: {
     sliceViews: state => {
-      return 1111
+      if (state.views < 1000) {
+        return state.views
+      } else if (state.views < 10000) {
+        return state.views / 1000
+      } else {
+        return parseInt(state.views / 10000)
+      }
     }
   },
   mutations: {
@@ -20,6 +27,7 @@ const channelStore = {
     },
     saveData(state, data) {
       state.channelData = data[0]
+      state.views = data[0].channel_subscribe
     }
   },
   actions: {
@@ -27,7 +35,6 @@ const channelStore = {
       commit('change', active)
     },
     async getChannelData({ commit }, channelId) {
-      console.log(channelId)
       const config = {
         headers: {
           token: cookies.get('token')
