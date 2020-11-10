@@ -4,12 +4,12 @@
       <div class="card">
         <div class="channel-header-container">
           <div class="img-fr">
-            <img src="../assets/images/shin.jpg" />
+            <img :src="channelData.channel_img" />
           </div>
           <div class="inner-header-container">
             <div class="meta">
-              <div class="name">신세경</div>
-              <div class="subscriber">구독자: 108만명</div>
+              <div class="name">{{ channelData.channel_name }}</div>
+              <div class="subscriber">구독자: {{ channelData.channel_subscribe }}만명</div>
             </div>
             <v-btn color="#916bf6">광고 문의</v-btn>
           </div>
@@ -39,7 +39,7 @@
 
 <script>
 import Chart from 'chart.js'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 const channelStore = 'channelStore'
 
@@ -143,8 +143,13 @@ export default {
       }
     }
   },
+  props: {
+    channelId: {
+      type: String
+    }
+  },
   methods: {
-    ...mapActions(channelStore, ['change']),
+    ...mapActions(channelStore, ['change', 'getChannelData']),
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
       const myChart = new Chart(ctx, {
@@ -156,11 +161,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(channelStore, ['isActive'])
+    ...mapState(channelStore, ['isActive', 'channelData']),
+    ...mapGetters(channelStore, ['sliceViews'])
   },
   mounted() {
     this.createChart('wChart', this.wholeData)
     this.createChart('subscribe-line', this.subData)
+    this.getChannelData(this.channelId)
   },
   updated() {
     if (this.isActive === 'views') {
