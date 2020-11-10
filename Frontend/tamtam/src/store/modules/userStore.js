@@ -16,6 +16,7 @@ const userStore = {
       router.push('/whole')
     },
     setNickname(state, nickname) {
+      state.user_nickname = nickname
       cookies.set('nick', nickname)
     },
     setCompanyId(state, companyId) {
@@ -23,8 +24,8 @@ const userStore = {
     }
   },
   actions: {
-    login({ commit }, loginData) {
-      axios
+    async login({ commit }, loginData) {
+      await axios
         .post(`${SERVER_URL}`, loginData)
         .then(response => {
           commit('setToken', response.data.token)
@@ -32,11 +33,13 @@ const userStore = {
           commit('setCompanyId', response.data.company_id)
         })
         .catch(error => {
+          alert('아이디 혹은 비밀번호를 확인해주세요.')
           console.log(error)
         })
     },
     logout() {
       cookies.remove('token')
+      cookies.remove('nick')
       router.push('/login')
     }
   }

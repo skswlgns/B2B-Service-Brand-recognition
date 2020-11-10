@@ -49,7 +49,6 @@ export default {
     text: ''
   }),
   created() {},
-  mounted() {},
   methods: {
     searching() {
       this.text = this.text.trim()
@@ -66,6 +65,9 @@ export default {
   },
   computed: {
     ...mapState(userStore, ['user_nickname'])
+  },
+  mounted() {
+    console.log(this.user_nickname)
   }
 }
 </script>
