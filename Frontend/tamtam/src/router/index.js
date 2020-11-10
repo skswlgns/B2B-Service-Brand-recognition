@@ -25,47 +25,110 @@ const routes = [
   {
     path: '/myPage',
     name: 'MyPage',
-    component: MyPage
+    component: MyPage,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/scrapVideo',
     name: 'ScrapVideo',
-    component: ScrapVideo
+    component: ScrapVideo,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/scrapChannel',
     name: 'ScrapChannel',
-    component: ScrapChannel
+    component: ScrapChannel,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/searchVideo',
     name: 'SearchVideo',
-    component: SearchVideo
+    component: SearchVideo,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/searchChannel',
     name: 'SearchChannel',
-    component: SearchChannel
+    component: SearchChannel,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/search/:text',
     name: 'Search',
-    component: Search
+    component: Search,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/myAnalysis',
     name: 'MyAnalysis',
-    component: MyAnalysis
+    component: MyAnalysis,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/ranking',
     name: 'Ranking',
-    component: Ranking
+    component: Ranking,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/recommend',
     name: 'Recommend',
-    component: Recommend
+    component: Recommend,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   // 도희
   {
@@ -83,18 +146,39 @@ const routes = [
   {
     path: '/whole',
     name: 'Whole',
-    component: Main1
+    component: Main1,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/channel/:channelId',
     name: 'Channel',
     component: Channel,
-    props: true
+    props: true,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/rank',
     name: 'Utuberank',
-    component: Utuberank
+    component: Utuberank,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   },
 
   // 지훈
@@ -103,7 +187,14 @@ const routes = [
   {
     path: '/',
     name: 'Main',
-    component: Main
+    component: Main,
+    beforeEnter(to, from, next) {
+      if (Vue.$cookies.isKey('token')) {
+        next('/whole')
+      } else {
+        next()
+      }
+    }
   },
 
   // 404
@@ -121,7 +212,14 @@ const routes = [
   {
     path: '/video/:video_youtube_id',
     name: 'VideoDetail',
-    component: VideoDetail
+    component: VideoDetail,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   }
 ]
 
