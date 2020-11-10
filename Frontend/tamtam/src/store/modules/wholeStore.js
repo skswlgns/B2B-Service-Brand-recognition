@@ -6,23 +6,29 @@ const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 const wholeStore = {
   namespaced: true,
   state: {
-    channelData: {}
+    subscribeData: {},
+    viewsData: {}
   },
   mutations: {
-    saveChannelData(state, data) {
-      state.channelData = data
+    saveSubscribeData(state, data) {
+      state.subscribeData = data
+    },
+    saveViewsData(state, data) {
+      state.viewsData = data
     }
   },
   actions: {
-    getChannel({ commit }) {
+    async getChannel({ commit }) {
       const config = {
         headers: {
           token: cookies.get('token')
         }
       }
-      axios.get(`${API_SERVER_URL}/channel`, config).then(response => {
-        commit('saveChannelData', response.data)
+      axios.get(`${API_SERVER_URL}/search/subscribe`, config).then(response => {
+        commit('saveSubscribeData', response.data)
       })
+      const response = await axios.get(`${API_SERVER_URL}/search/avgviews`, config)
+      commit('saveViewsData', response.data)
     }
   }
 }

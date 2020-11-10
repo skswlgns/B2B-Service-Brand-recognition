@@ -27,15 +27,15 @@
             <router-link to="/whole">더 보기</router-link>
           </div>
           <div class="rank">
-            <v-card v-for="(channel, i) in channelData" :key="i" class="mx-auto mb-2" max-width="344" outlined>
+            <v-card v-for="(subscribe, i) in subscribeData" :key="i" class="mx-auto mb-2" max-width="344" outlined>
               <v-list-item three-line>
-                <img :src="channel.channel_img" width="80px" />
+                <img :src="subscribe.channel_img" width="80px" />
                 <v-list-item-content>
                   <router-link
-                    :to="{ name: 'Channel', params: { channelId: channel._id } }"
+                    :to="{ name: 'Channel', params: { channelId: subscribe._id } }"
                     class="overline mb-4 headline"
                   >
-                    {{ channel.channel_name }}
+                    {{ subscribe.channel_name }}
                   </router-link>
                 </v-list-item-content>
               </v-list-item>
@@ -43,6 +43,24 @@
           </div>
         </div>
         <div class="rank_fr">
+          <div class="rank-title">
+            <div>구독자순</div>
+            <router-link to="/whole">더 보기</router-link>
+          </div>
+          <div class="rank">
+            <v-card v-for="(view, i) in viewsData" :key="i" class="mx-auto mt-2" max-width="344" outlined>
+              <v-list-item three-line>
+                <img :src="view.channel_img" width="80px" />
+                <v-list-item-content>
+                  <router-link to="" class="overline mb-4">
+                    {{ view.channel_name }}
+                  </router-link>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+          </div>
+        </div>
+        <!-- <div class="rank_fr">
           <div class="rank-title">
             <div>구독자순</div>
             <router-link to="/whole">더 보기</router-link>
@@ -59,25 +77,7 @@
               </v-list-item>
             </v-card>
           </div>
-        </div>
-        <div class="rank_fr">
-          <div class="rank-title">
-            <div>구독자순</div>
-            <router-link to="/whole">더 보기</router-link>
-          </div>
-          <div class="rank">
-            <v-card v-for="(channel, i) in channelData" :key="i" class="mx-auto mt-2" max-width="344" outlined>
-              <v-list-item three-line>
-                <img :src="channel.channel_img" width="80px" />
-                <v-list-item-content>
-                  <router-link to="" class="overline mb-4">
-                    {{ channel.channel_name }}
-                  </router-link>
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -218,7 +218,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(wholeStore, ['channelData'])
+    ...mapState(wholeStore, ['subscribeData', 'viewsData'])
   },
   methods: {
     ...mapActions(wholeStore, ['getChannel']),
