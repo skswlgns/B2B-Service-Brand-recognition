@@ -49,6 +49,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import router from '@/router'
 const searchStore = 'searchStore'
 const channelStore = 'channelStore'
 export default {
@@ -71,7 +72,7 @@ export default {
     },
     // 채널 디테일로 이동할꺼임
     moveChannelDetail(channerId) {
-      window.open('https://www.youtube.com/channel/' + channerId)
+      router.push({ name: 'Channel', params: { channelId: channerId } })
     },
     moveYoutube(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)

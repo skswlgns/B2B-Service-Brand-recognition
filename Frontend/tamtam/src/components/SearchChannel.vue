@@ -15,7 +15,7 @@
             <a>
               <v-avatar size="80" class="data" v-if="channel[(i - 1) * 11 + (j - 1)]">
                 <v-img
-                  @click="detail((i - 1) * 11 + (j - 1))"
+                  @click="moveChannelDetail(channel[(i - 1) * 11 + (j - 1)].channel_youtube_id)"
                   alt="user"
                   :src="channel[(i - 1) * 11 + (j - 1)].channel_img"
                 />
@@ -29,6 +29,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex'
+import router from '@/router'
 const searchStore = 'searchStore'
 
 export default {
@@ -39,9 +40,8 @@ export default {
   },
   methods: {
     ...mapGetters(searchStore, ['getChannel']),
-    detail(idx) {
-      // alert(idx)
-      window.open('https://www.youtube.com/channel/' + this.channel[idx].channel_youtube_id)
+    moveChannelDetail(channerId) {
+      router.push({ name: 'Channel', params: { channelId: channerId } })
     }
   }
 }

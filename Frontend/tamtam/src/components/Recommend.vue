@@ -12,25 +12,25 @@
                 v-if="channel[(i - 1) * 3 + (j - 1)]"
                 outlined
               >
-                <div class="data mb-8 pa-8" style="text-align:center;">
-                  <v-flex style="margin-top:8px;">
-                    <v-avatar size="100">
-                      <img alt="user" :src="channel[(i - 1) * 3 + (j - 1)].channel_img" />
-                    </v-avatar>
-                  </v-flex>
-                  <v-flex style="overflow-y: auto; height:100px">
-                    <h2 style="margin-top:40px;">
-                      {{ channel[(i - 1) * 3 + (j - 1)].channel_name }}
-                    </h2>
-                  </v-flex>
-                  <v-flex style="margin-top:40px;">
-                    <div>
-                      {{ channel[(i - 1) * 3 + (j - 1)].channel_subscribe }}
-                    </div>
-                    <div>{{ channel[(i - 1) * 3 + (j - 1)].channel_video_cnt }}</div>
-                    <div>{{ channel[(i - 1) * 3 + (j - 1)].channel_avg_views }}</div>
-                  </v-flex>
-                </div>
+                <a style="color: black" @click="moveChannelDetail(channel[(i - 1) * 3 + (j - 1)].channel_youtube_id)">
+                  <div class="data mb-8 pa-8" style="text-align:center;">
+                    <v-flex style="margin-top:8px;">
+                      <v-avatar size="100">
+                        <img alt="user" :src="channel[(i - 1) * 3 + (j - 1)].channel_img" />
+                      </v-avatar>
+                    </v-flex>
+                    <v-flex style="overflow-y: auto; height:100px">
+                      <h2 style="margin-top:40px;">
+                        {{ channel[(i - 1) * 3 + (j - 1)].channel_name }}
+                      </h2>
+                    </v-flex>
+                    <v-flex style="margin-top:40px;">
+                      <div>구독자수 {{ channel[(i - 1) * 3 + (j - 1)].channel_subscribe }}</div>
+                      <div>영상수 {{ channel[(i - 1) * 3 + (j - 1)].channel_video_cnt }}</div>
+                      <div>평균영상시청수 {{ channel[(i - 1) * 3 + (j - 1)].channel_avg_views }}</div>
+                    </v-flex>
+                  </div>
+                </a>
               </div>
             </v-hover>
           </v-flex>
@@ -42,6 +42,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import router from '@/router'
 const channelStore = 'channelStore'
 
 export default {
@@ -57,8 +58,8 @@ export default {
   },
   methods: {
     ...mapActions(channelStore, ['searchChannel']),
-    move(channerId) {
-      window.open('https://www.youtube.com/channel/' + channerId)
+    moveChannelDetail(channerId) {
+      router.push({ name: 'Channel', params: { channelId: channerId } })
     }
   }
 }
