@@ -16,8 +16,8 @@ searchRoutes.get('/:content', async (req, res) => {
   if (req.headers.token) {
     const content = req.params.content
     try {
-      const videos = await VideoModel.find({ video_title: { $regex: content } })
-      const channels = await ChannelModel.find({ channel_name: { $regex: content } })
+      const videos = await VideoModel.find({ video_title: { $regex: content, $options: 'i' } })
+      const channels = await ChannelModel.find({ channel_name: { $regex: content, $options: 'i' } })
       const searchData = { videos: videos, channels: channels }
       res.status(200).send(searchData)
     } catch (err) {
