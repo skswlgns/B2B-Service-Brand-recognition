@@ -16,6 +16,7 @@ const userStore = {
       router.push('/whole')
     },
     setNickname(state, nickname) {
+      state.user_nickname = nickname
       cookies.set('nick', nickname)
     },
     setCompanyId(state, companyId) {
@@ -23,8 +24,8 @@ const userStore = {
     }
   },
   actions: {
-    login({ commit }, loginData) {
-      axios
+    async login({ commit }, loginData) {
+      await axios
         .post(`${SERVER_URL}`, loginData)
         .then(response => {
           commit('setToken', response.data.token)
@@ -37,6 +38,7 @@ const userStore = {
     },
     logout() {
       cookies.remove('token')
+      cookies.remove('nick')
       router.push('/login')
     }
   }
