@@ -56,6 +56,8 @@ searchRoutes.get('/avgviews', async (req, res) => {
   }
 })
 
+// 추천영상
+
 // 검색
 searchRoutes.get('/:content', async (req, res) => {
   if (req.headers.token) {
