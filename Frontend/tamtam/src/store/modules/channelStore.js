@@ -9,7 +9,13 @@ const channelStore = {
   namespaced: true,
   state: {
     isActive: 'subscribe',
-    channel: []
+    channel: [],
+    channelData: {}
+  },
+  getters: {
+    sliceViews: state => {
+      return 1111
+    }
   },
   mutations: {
     change(state, active) {
@@ -17,6 +23,9 @@ const channelStore = {
     },
     setchannel(state, channel) {
       state.channel = channel
+    },
+    saveData(state, data) {
+      state.channelData = data[0]
     }
   },
   actions: {
@@ -30,10 +39,21 @@ const channelStore = {
       }
       await axios.put(`${API_SERVER_URL}/channel/scrap`, body, config)
     },
+
     // 전체 채널 조회
     async searchChannel({ commit }) {
       const response = await axios.get(`${API_SERVER_URL}/channel`, config)
       commit('setchannel', response.data)
+    },
+    async getChannelData({ commit }, channelId) {
+      console.log(channelId)
+      const config = {
+        headers: {
+          token: cookies.get('token')
+        }
+      }
+      const response = await axios.get(`${API_SERVER_URL}/channel/${channelId}`, config)
+      commit('saveData', response.data)
     }
   }
 }
