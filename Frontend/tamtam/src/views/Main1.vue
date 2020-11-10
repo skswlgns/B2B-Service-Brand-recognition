@@ -21,60 +21,63 @@
       </div>
       <div class="card-title">YouTuber</div>
       <div class="frame">
-        <div class="shadow rank_fr">
-          <span>구독자순</span>
+        <div class="rank_fr">
+          <div class="rank-title">
+            <div>구독자순</div>
+            <router-link to="/whole">더 보기</router-link>
+          </div>
           <div class="rank">
-            <v-card class="mx-auto" max-width="344" outlined>
+            <v-card v-for="(subscribe, i) in subscribeData" :key="i" class="mx-auto mb-2" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
+                <img :src="subscribe.channel_img" width="80px" />
                 <v-list-item-content>
-                  <div class="overline mb-4">
-                    OVERLINE
-                  </div>
-                  <v-list-item-title class="headline mb-1">
-                    Headline 5
-                  </v-list-item-title>
+                  <router-link
+                    :to="{ name: 'Channel', params: { channelId: subscribe._id } }"
+                    class="overline mb-4 headline"
+                  >
+                    {{ subscribe.channel_name }}
+                  </router-link>
                 </v-list-item-content>
               </v-list-item>
             </v-card>
           </div>
         </div>
-        <div class="shadow rank_fr">
-          <span>구독자순</span>
+        <div class="rank_fr">
+          <div class="rank-title">
+            <div>구독자순</div>
+            <router-link to="/whole">더 보기</router-link>
+          </div>
           <div class="rank">
-            <v-card class="mx-auto" max-width="344" outlined>
+            <v-card v-for="(view, i) in viewsData" :key="i" class="mx-auto mt-2" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
+                <img :src="view.channel_img" width="80px" />
                 <v-list-item-content>
-                  <div class="overline mb-4">
-                    OVERLINE
-                  </div>
-                  <!-- <v-list-item-title class="headline mb-1">
-                    Headline 5
-                  </v-list-item-title> -->
+                  <router-link to="" class="overline mb-4">
+                    {{ view.channel_name }}
+                  </router-link>
                 </v-list-item-content>
               </v-list-item>
             </v-card>
           </div>
         </div>
-        <div class="shadow rank_fr">
-          <span>구독자순</span>
+        <!-- <div class="rank_fr">
+          <div class="rank-title">
+            <div>구독자순</div>
+            <router-link to="/whole">더 보기</router-link>
+          </div>
           <div class="rank">
-            <v-card class="mx-auto" max-width="344" outlined>
+            <v-card v-for="(channel, i) in channelData" :key="i" class="mx-auto mt-2" max-width="344" outlined>
               <v-list-item three-line>
-                <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
+                <img :src="channel.channel_img" width="80px" />
                 <v-list-item-content>
-                  <div class="overline mb-4">
-                    OVERLINE
-                  </div>
-                  <v-list-item-title class="headline mb-1">
-                    Headline 5
-                  </v-list-item-title>
+                  <router-link to="" class="overline mb-4">
+                    {{ channel.channel_name }}
+                  </router-link>
                 </v-list-item-content>
               </v-list-item>
             </v-card>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -82,6 +85,9 @@
 
 <script>
 import Chart from 'chart.js'
+import { mapState, mapActions } from 'vuex'
+
+const wholeStore = 'wholeStore'
 
 export default {
   name: 'Main1',
@@ -211,7 +217,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState(wholeStore, ['subscribeData', 'viewsData'])
+  },
   methods: {
+    ...mapActions(wholeStore, ['getChannel']),
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
       const myChart = new Chart(ctx, {
@@ -221,6 +231,9 @@ export default {
       })
       return myChart
     }
+  },
+  created() {
+    this.getChannel()
   },
   mounted() {
     this.createChart('wChart', this.wholeData)
