@@ -43,7 +43,9 @@
 
     <!-- Video Card -->
     <article class="card video-card">
-      <div id="yt-player-serction" class="video-player-section"></div>
+      <div id="yt-player-serction" class="video-player-section">
+        <div id="yt-player"></div>
+      </div>
       <div class="video-info-section">
         <p>{{ videoData.video_category }}</p>
         <p class="video-title">{{ videoData.video_title }}</p>
@@ -106,58 +108,21 @@ export default {
   async mounted() {
     console.log('mounted')
 
+    // videoData 불러오기
     await this.getVideoData(this.$route.params.video_youtube_id)
 
     // youtube iframe 만들기
-    // const playerSection = document.getElementById('yt-player-serction')
-    // let playerElement = document.getElementById('yt-player')
-    // if (playerElement) {
-    //   playerElement.remove()
-    // }
-    // const newPlayerElement = document.createElement('div')
-    // newPlayerElement.setAttribute('id', 'yt-player')
-    // newPlayerElement.setAttribute('class', 'youtube-iframe')
-    // playerSection.appendChild(newPlayerElement)
-    // console.log(playerSection)
-
-    const playerSection = document.getElementById('yt-player-serction')
-    let playerElement = document.getElementById('yt-player')
-    if (playerElement) {
-      playerElement.remove()
-    }
-    const newPlayerElement = document.createElement('div')
-    newPlayerElement.setAttribute('id', 'yt-player')
-    newPlayerElement.setAttribute('class', 'youtube-iframe')
-    playerSection.appendChild(newPlayerElement)
-    playerElement = document.getElementById('yt-player')
-    console.log(playerSection)
-
     const tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
     const firstScriptTag = document.getElementsByTagName('script')[0]
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 
-    console.log(!this.player)
-    window.onYouTubeIframeAPIReady = () => {
-      this.player = new window.YT.Player('yt-player', {
-        videoId: this.videoData.video_youtube_id,
-        playerVars: { controls: 1, modestbranding: 1 },
-        events: {
-          onReady: window.onPlayerReady
-        }
-      })
-      console.log(this.player)
-    }
-
-    if (!this.player) {
-      this.player = new window.YT.Player('yt-player', {
-        videoId: this.videoData.video_youtube_id,
-        playerVars: { controls: 1, modestbranding: 1 },
-        events: {
-          onReady: window.onPlayerReady
-        }
-      })
-      console.log(this.player)
+    if (!window.onYouTubeIframeAPIReady) {
+      window.onYouTubeIframeAPIReady = () => {
+        this.makePlayerObject(this.videoData.video_youtube_id)
+      }
+    } else {
+      this.makePlayerObject(this.videoData.video_youtube_id)
     }
 
     // 자동재생 설정
@@ -166,6 +131,7 @@ export default {
     }
 
     // youtube iframe CSS 적용하기
+    const playerElement = document.getElementById('yt-player')
     playerElement.style.position = 'absolute'
     playerElement.style.width = '100%'
     playerElement.style.height = '100%'
@@ -201,6 +167,16 @@ export default {
   },
   methods: {
     ...mapActions(videoDetailStore, ['getVideoData']),
+
+    makePlayerObject: function(videoYoutubeId) {
+      this.player = new window.YT.Player('yt-player', {
+        videoId: this.videoData.video_youtube_id,
+        playerVars: { controls: 1, modestbranding: 1 },
+        events: {
+          onReady: window.onPlayerReady
+        }
+      })
+    },
 
     // 동영상 시간 이동하기
     playerSeekTo: function(seconds) {
