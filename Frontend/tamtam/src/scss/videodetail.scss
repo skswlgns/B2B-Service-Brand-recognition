@@ -12,6 +12,7 @@
 }
 
 .background-0 {
+  z-index: 5;
   color: white;
   font-size: larger;
   background-color: #{$base-purple};
@@ -20,6 +21,7 @@
 }
 
 .background-1 {
+  z-index: 4;
   color: white;
   background-color: #{$base-blue};
   border: 3px solid #{$base-blue};
@@ -27,6 +29,7 @@
 }
 
 .background-2 {
+  z-index: 3;
   color: white;
   background-color: #{$base-red};
   border: 3px solid #{$base-red};
@@ -34,6 +37,7 @@
 }
 
 .background-3 {
+  z-index: 2;
   color: white;
   background-color: #{$base-green};
   border: 3px solid #{$base-green};
@@ -41,11 +45,10 @@
 }
 
 .timeline-card {
-  margin: #{$base-margin * 6} #{$base-margin} #{$base-margin} #{$base-margin};
+  margin: #{$base-margin};
   grid-column: 1/4;
   display: grid;
   grid-template-rows: #{$base-margin * 6 + $base-fontsize} #{$base-fontsize * 2.5} #{$base-fontsize * 4.25};
-  margin-top: 50px;
   user-select: none;
   transition: all ease 0.25s;
 
@@ -64,7 +67,6 @@
     }
 
     .timeline-record {
-      z-index: 4;
       position: absolute;
       height: #{$base-fontsize};
       border-radius: #{$base-fontsize * 0.5};
@@ -161,7 +163,7 @@
     width: 100%;
     height: 0;
     padding-bottom: 56.25%;
-    background-color: lightgrey;
+    background-color: z;
     border-radius: 8px 8px 0 0;
   }
 
