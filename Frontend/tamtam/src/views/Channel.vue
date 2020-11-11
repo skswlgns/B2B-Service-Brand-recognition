@@ -196,7 +196,6 @@ export default {
       axios.get(`${API_SERVER_URL}/video/videos/${this.youtubeChannelId}`, config).then(response => {
         const video = this.videoData.concat(response.data)
         this.videoData = video
-        $state.loaded()
       })
       // axios
       //   .get(api, {
