@@ -34,6 +34,7 @@ const userStore = {
           commit('setCompanyId', response.data.company_id)
         })
         .catch(error => {
+          alert('아이디 혹은 비밀번호를 확인해주세요.')
           console.log(error)
         })
     },
