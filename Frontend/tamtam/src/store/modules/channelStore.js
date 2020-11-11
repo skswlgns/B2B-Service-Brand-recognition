@@ -14,7 +14,7 @@ const channelStore = {
     isActive: 'subscribe',
     channelData: {},
     views: 0,
-    // videoData: {},
+    videoData: {},
     youtubeChannelId: ''
   },
   getters: {
@@ -45,8 +45,8 @@ const channelStore = {
     change({ commit }, active) {
       commit('change', active)
     },
-    async getChannelData({ commit, dispatch }, data) {
-      const response = await axios.get(`${API_SERVER_URL}/channel/${data.id}`, config)
+    async getChannelData({ commit, dispatch }, channelId) {
+      const response = await axios.get(`${API_SERVER_URL}/channel/${channelId}`, config)
       commit('saveData', response.data)
       // const youtube = {
       //   Id: response.data[0].channel_youtube_id,
