@@ -6,32 +6,53 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+.display-none {
+  opacity: 0;
+  transition: opacity ease 0.25s;
+}
+
 .background-0 {
+  color: white;
+  font-size: larger;
   background-color: #{$base-purple};
+  border: 3px solid #{$base-purple};
+  transition: all ease 0.25s;
 }
 
 .background-1 {
+  color: white;
   background-color: #{$base-blue};
+  border: 3px solid #{$base-blue};
+  transition: all ease 0.25s;
 }
 
 .background-2 {
+  color: white;
   background-color: #{$base-red};
+  border: 3px solid #{$base-red};
+  transition: all ease 0.25s;
 }
 
 .background-3 {
+  color: white;
   background-color: #{$base-green};
+  border: 3px solid #{$base-green};
+  transition: all ease 0.25s;
 }
 
 .timeline-card {
   margin: #{$base-margin * 6} #{$base-margin} #{$base-margin} #{$base-margin};
   grid-column: 1/4;
   display: grid;
-  grid-template-rows: #{$base-margin * 5 + $base-fontsize} #{$base-fontsize * 1.5} #{$base-fontsize * 5} #{$base-padding};
+  grid-template-rows: #{$base-margin * 6 + $base-fontsize} #{$base-fontsize * 2.5} #{$base-fontsize * 4.25};
   margin-top: 50px;
+  user-select: none;
+  transition: all ease 0.25s;
 
   .timeline-section {
     position: relative;
-    margin: #{$base-margin * 3} #{$base-margin * 2} #{$base-margin * 2};
+    margin: #{$base-margin * 4} #{$base-margin * 4} #{$base-margin * 2};
+    transition: all ease 0.25s;
 
     .timeline-background-bar {
       width: 100%;
@@ -43,22 +64,30 @@
     }
 
     .timeline-record {
-      // position: ;
       z-index: 4;
       position: absolute;
-      // height: 20px;
       height: #{$base-fontsize};
-      // border-radius: 10px;
       border-radius: #{$base-fontsize * 0.5};
+      transition: all ease 0.25s;
+    }
 
-      .tmp {
-      }
+    .timeline-record:hover {
+      z-index: 100;
+      border: 3px solid rgb(255, 255, 255, 0.2);
+      transform: scaleX(1.2) scaleY(1.4);
+      transition: all ease 0.25s;
+      cursor: pointer;
+      filter: brightness(110%);
     }
   }
 
   .timestamp-section {
-    display: grid;
+    display: flex;
+    padding: 0 #{$base-padding * 2};
+    font-size: #{$base-fontsize * 1};
     justify-content: space-between;
+    color: #{$base-purple};
+    font-weight: 400;
   }
 
   .company-toggle-section {
@@ -67,19 +96,57 @@
     justify-items: start;
 
     .company-button {
-      display: block;
-      padding: #{$base-padding};
+      display: flex;
       width: 100%;
       height: 100%;
-      border-right: 1px solid lightgray;
+      font-size: #{$base-fontsize * 1};
+      font-weight: 500;
+      padding: #{$base-fontsize * 1.25} 0 #{$base-fontsize * 0.5};
+      border: none;
+      border-right: 1px solid #e3e3e3;
+      text-align: center;
+      justify-content: space-around;
+      cursor: pointer;
+    }
+
+    .company-button:first-child {
+      border-radius: 0 0 0 8px;
     }
 
     .company-button:last-child {
       border-right: 0px;
+      border-radius: 0 0 8px 0;
+      transition: all ease 0.25s;
+    }
+
+    .toggle-unselected:hover {
+      background-color: #f3f3f3;
+      transition: all ease 0.25s;
     }
 
     .toggle-selected {
-      border-bottom: #{$base-fontsize * 0.5} solid red;
+      border-bottom: #{$base-fontsize * 0.5} solid white;
+      box-shadow: 0px -12px 8px -8px hsla(0, 0, 0, 0.2) inset;
+    }
+
+    .selected-0 {
+      color: #{$base-purple};
+      border-bottom: #{$base-fontsize * 0.5} solid #{$base-purple};
+    }
+
+    .selected-1 {
+      color: #{$base-blue};
+      border-bottom: #{$base-fontsize * 0.5} solid #{$base-blue};
+    }
+
+    .selected-2 {
+      color: #{$base-red};
+      border-bottom: #{$base-fontsize * 0.5} solid #{$base-red};
+    }
+
+    .selected-3 {
+      color: #{$base-green};
+      border-bottom: #{$base-fontsize * 0.5} solid #{$base-green};
     }
   }
 }
@@ -87,112 +154,65 @@
 .video-card {
   margin: #{$base-margin};
   grid-column: 1/3;
-  height: 1000px;
+  // height: 1000px;
 
-  .yt-player {
-    width: 500px;
-    // height: 600px;
+  .video-player-section {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    background-color: lightgrey;
     border-radius: 8px 8px 0 0;
+  }
+
+  .video-info-section {
+    padding: #{$base-padding * 2};
+    font-size: #{$base-fontsize * 0.8};
+
+    p {
+      margin-bottom: #{$base-margin * 2};
+    }
+
+    .video-title {
+      font-size: #{$base-fontsize};
+    }
+
+    .video-small {
+    }
   }
 }
 
 .recommend-video-card {
+  font-size: #{$base-fontsize * 0.5};
   padding: #{$base-padding * 2};
   margin: #{$base-margin};
   grid-column: 3/4;
-}
 
-.background {
-  transform: translateX(-12rem);
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(#654a86, #534292);
-  .Logo {
-    position: relative;
-    text-align: center;
-    top: 12.5%;
-    color: hsl(0, 0, 100);
-    font-size: 2rem;
-    margin: 0;
+  header {
+    font-size: #{$base-fontsize};
+    margin-bottom: #{$base-margin};
   }
-  .signup {
-    position: relative;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    width: 400px;
-    background: hsl(0, 0, 100);
-    border-radius: 10px;
-    box-shadow: 0 3px 25px hsla(0, 0, 0, 0.2);
-    display: flex;
-    .signup-classic {
-      width: 100%;
-      padding: 30px 50px;
-      h1 {
-        text-align: center;
-        color: #9378b1;
-        font-size: 1.5rem;
-      }
-      .form {
-        fieldset {
-          border: none;
-          padding: 0;
-          margin: 20px 0;
-          position: relative;
 
-          input {
-            width: 100%;
-            height: 48px;
-            color: hsl(0, 0, 20);
-            padding: 15px 40px 15px 15px;
-            border-radius: 5px;
-            font-size: 14px;
-            outline: none !important;
-            border: 1px solid hsla(0, 0, 0, 0.3);
-            box-shadow: inset 0 1px 4px hsla(0, 0, 0, 0.2);
-            vertical-align: top;
-          }
-        }
-        button {
-          width: 100%;
-          outline: none !important;
-          border: none;
-          text-transform: uppercase;
-          font-weight: bold;
-          box-shadow: 0 3px 0px hsla(86, 21%, 44%, 0.2);
-          text-shadow: 0 2px 3px hsla(0, 0, 0, 0.2);
-        }
-        .btn {
-          display: block;
-          background: hsl(86, 76%, 71%);
-          color: hsl(0, 0, 100);
-          text-decoration: none;
-          margin: 20px 0;
-          padding: 15px 15px;
-          border-radius: 5px;
-          position: relative;
-          background: linear-gradient(0.25turn, #79589f, #8f5899);
-        }
-      }
-      fieldset::after {
-        font-family: FontAwesome;
-        position: absolute;
-        right: 15px;
-        top: 12px;
-        z-index: 2;
-        width: 20px;
-        color: hsla(0, 0, 0, 0.2);
-        text-align: center;
-        color: #7c5ca1;
-      }
-      .email::after {
-        content: '\f007';
-      }
+  hr {
+    margin-bottom: #{$base-margin};
+  }
 
-      fieldset.password::after {
-        content: '\f023';
-      }
-    }
+  .recommend-list {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1.2fr;
+    column-gap: #{$base-margin};
+    margin-bottom: #{$base-margin};
+    cursor: pointer;
+  }
+
+  .recommend-thumbnail {
+    height: 100%;
+    grid-column: 1/2;
+  }
+
+  .recommend-info {
+    width: 100%;
+    grid-column: 2/3;
   }
 }
