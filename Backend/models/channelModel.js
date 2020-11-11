@@ -33,6 +33,11 @@ const channelSchema = new mongoose.Schema({
     allowNull: false,
     default: 0
   },
+  channel_category: {
+    type: String,
+    allowNull: false,
+    default: 'IT'
+  },
   scrap_company_id: [
     {
       type: Schema.Types.ObjectId,

@@ -117,6 +117,20 @@ videoRoutes.get('/', async (req, res) => {
   }
 })
 
+// 무한스크롤 비디오 조회
+videoRoutes.get('/infinity', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const videoAll = await VideoModel.find()
+      res.status(200).send(videoAll.slice(req.body.limit, req.body.limit + 4))
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
+  }
+})
+
 // 아이디 값으로 하나의 비디오 조회
 videoRoutes.get('/:video_id', async (req, res) => {
   if (req.headers.token) {
@@ -279,9 +293,11 @@ videoRoutes.get('/youtube/:video_youtube_id', async (req, res) => {
 videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
   if (req.headers.token) {
     const videoYoutubeId = req.params.video_youtube_id
+    const limit = req.body.limit
     try {
       const channel = await ChannelModel.findOne({ channel_youtube_id: videoYoutubeId })
-      const videos = await VideoModel.find({ channel_id: channel._id })
+      let videos = await VideoModel.find({ channel_id: channel._id })
+      videos = videos.slice(limit, limit + 4)
 
       for (let videoIndex = 0; videoIndex < videos.length; videoIndex++) {
         const video = videos[videoIndex]
