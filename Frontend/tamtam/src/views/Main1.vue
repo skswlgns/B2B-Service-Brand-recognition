@@ -6,18 +6,18 @@
         <div class="whole shadow chart">
           <canvas id="wChart"></canvas>
         </div>
-        <div class="shadow">
+        <!-- <div class="shadow">
           <canvas id="wCircle"></canvas>
-        </div>
+        </div> -->
       </div>
       <div class="card-title">업계 브랜드 노출 순위</div>
       <div class="frame">
         <div class="whole shadow chart">
           <canvas id="cLine"></canvas>
         </div>
-        <div class="whole shadow">
+        <!-- <div class="whole shadow">
           <canvas id="cDoughnut"></canvas>
-        </div>
+        </div> -->
       </div>
       <div class="card-title">YouTuber</div>
       <div class="frame">

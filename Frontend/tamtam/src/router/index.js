@@ -7,6 +7,7 @@ import SearchVideo from '@/components/SearchVideo.vue'
 import SearchChannel from '@/components/SearchChannel.vue'
 import ScrapVideo from '@/components/ScrapVideo.vue'
 import ScrapChannel from '@/components/ScrapChannel.vue'
+import ContactChannel from '@/components/ContactChannel.vue'
 
 import MyPage from '@/views/MyPage.vue'
 import MyAnalysis from '@/views/MyAnalysis.vue'
@@ -22,6 +23,18 @@ import Utuberank from '@/views/Utuberank.vue'
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/contactChannel',
+    name: 'ContactChannel',
+    component: ContactChannel,
+    beforeEnter(to, from, next) {
+      if (!Vue.$cookies.isKey('token')) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
+  },
   {
     path: '/myPage',
     name: 'MyPage',

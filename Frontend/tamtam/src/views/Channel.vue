@@ -49,16 +49,7 @@
 import Chart from 'chart.js'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
-// import axios from 'axios'
-// import cookies from 'vue-cookies'
 import Video from '../components/Video.vue'
-
-// const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
-// const config = {
-//   headers: {
-//     token: cookies.get('token')
-//   }
-// }
 
 // const api = 'http://hn.algolia.com/api/v1/search_by_date?tags=story'
 
