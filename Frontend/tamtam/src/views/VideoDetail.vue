@@ -54,7 +54,8 @@
         <span class="video-small">좋아요: {{ videoData.video_like }}</span>
         <span class="video-small">싫어요: {{ videoData.video_dislike }}</span>
         <a :href="videoData.video_url">유튜브로 보러가기</a>
-        <v-btn>동영상 스크랩하기</v-btn>
+        <v-btn v-show="!show" @click="scrapVideo()">동영상 스크랩하기</v-btn>
+        <v-btn v-show="show" @click="scrapVideo()">동영상 스크랩 취소하기</v-btn>
         <v-btn>해당 동영상 통계에서 제외하기</v-btn>
         <p>{{ videoData.video_content }}</p>
       </div>
@@ -85,7 +86,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import router from '../router'
-
+import cookies from 'vue-cookies'
 const videoDetailStore = 'videoDetailStore'
 
 export default {
@@ -93,7 +94,9 @@ export default {
   data() {
     return {
       player: {},
-      focusedCompany: false
+      focusedCompany: false,
+      show: false,
+      company_id: cookies.get('companyId')
     }
   },
   beforeCreate() {
@@ -110,6 +113,9 @@ export default {
 
     // videoData 불러오기
     await this.getVideoData(this.$route.params.video_youtube_id)
+
+    // videoData 불러오기
+    await this.getRecommendVideoData()
 
     // youtube iframe 만들기
     const tag = document.createElement('script')
@@ -149,6 +155,7 @@ export default {
         }
       })
     })
+    this.changeShow()
   },
   beforeUpdate() {
     console.log('beforeUpdate')
@@ -166,8 +173,36 @@ export default {
     ...mapState(videoDetailStore, ['videoData', 'recommendVideos'])
   },
   methods: {
-    ...mapActions(videoDetailStore, ['getVideoData']),
+    ...mapActions(videoDetailStore, ['getVideoData', 'getRecommendVideoData', 'scrap']),
 
+    scrapVideo: async function() {
+      let answer
+      if (this.show === true) {
+        answer = confirm('스크랩 취소 하시겠습니까?')
+      } else {
+        answer = confirm('스크랩 하시겠습니까?')
+      }
+      if (answer) {
+        await this.scrap(this.videoData._id)
+        // 데이터 다시 받아오기
+        await this.getVideoData(this.$route.params.video_youtube_id)
+        this.changeShow()
+      }
+    },
+    changeShow: function() {
+      let flag = false
+      for (const iterator of this.videoData.scrap_company_id) {
+        if (iterator === this.company_id) {
+          flag = true
+          break
+        }
+      }
+      if (flag) {
+        this.show = true
+      } else {
+        this.show = false
+      }
+    },
     makePlayerObject: function(videoYoutubeId) {
       this.player = new window.YT.Player('yt-player', {
         videoId: this.videoData.video_youtube_id,

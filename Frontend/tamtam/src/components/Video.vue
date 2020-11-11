@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     infiniteHandler($state) {
+      config.headers.company_id = cookies.get('companyId')
       axios.get(`${API_SERVER_URL}/video/videos/${this.Id}`, this.limit, config).then(response => {
         const video = this.videoData.concat(response.data)
         this.videoData = video

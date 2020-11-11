@@ -17,6 +17,14 @@
               <div class="subscriber" v-else>구독자: {{ sliceViews }}만명</div>
             </div>
             <v-btn color="#916bf6">광고 문의</v-btn>
+            <v-btn icon @click="scrapChannel()">
+              <v-icon v-show="!show">
+                mdi-star-outline
+              </v-icon>
+              <v-icon color="yellow darken-3" v-show="show">
+                mdi-star
+              </v-icon>
+            </v-btn>
           </div>
         </div>
       </div>
@@ -48,7 +56,7 @@
 <script>
 import Chart from 'chart.js'
 import { mapState, mapGetters, mapActions } from 'vuex'
-
+import cookies from 'vue-cookies'
 import Video from '../components/Video.vue'
 
 // const api = 'http://hn.algolia.com/api/v1/search_by_date?tags=story'
@@ -62,6 +70,8 @@ export default {
   },
   data() {
     return {
+      show: false,
+      company_id: cookies.get('companyId'),
       limit: 0,
       wholeData: {
         type: 'horizontalBar',
@@ -165,6 +175,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(channelStore, ['scrap']),
     ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo']),
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
@@ -174,6 +185,34 @@ export default {
         options: chartData.options
       })
       return myChart
+    },
+    async scrapChannel(index) {
+      let answer
+      if (this.show === true) {
+        answer = confirm('스크랩 취소 하시겠습니까?')
+      } else {
+        answer = confirm('스크랩 하시겠습니까?')
+      }
+      if (answer) {
+        await this.scrap(this.channelId)
+        // 데이터 다시 받아오기
+        await this.getChannelData(this.channelId)
+        this.changeShow()
+      }
+    },
+    changeShow() {
+      let flag = false
+      for (const iterator of this.channelData.scrap_company_id) {
+        if (iterator === this.company_id) {
+          flag = true
+          break
+        }
+      }
+      if (flag) {
+        this.show = true
+      } else {
+        this.show = false
+      }
     }
   },
   computed: {
@@ -183,10 +222,13 @@ export default {
   created() {
     this.getChannelData(this.channelId)
   },
-  mounted() {
-    this.createChart('wChart', this.wholeData)
-    this.createChart('subscribe-line', this.subData)
+  async mounted() {
+    await this.createChart('wChart', this.wholeData)
+    await this.createChart('subscribe-line', this.subData)
+    await this.getChannelData(this.channelId)
+    this.changeShow()
   },
+
   updated() {
     if (this.isActive === 'views') {
       this.createChart('views-line', this.viewsData)

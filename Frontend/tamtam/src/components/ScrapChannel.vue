@@ -1,19 +1,24 @@
 <template>
-  <div v-if="channel.length === 0">
-    <h2>스크랩한 채널이 없습니다..</h2>
+  <div class="card" v-if="channel.length === 0">
+    <div class="out">
+      <div class="in">
+        <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
+        <div class="out">스크랩한 채널이 없습니다.</div>
+      </div>
+    </div>
   </div>
   <div v-else class="card">
     <div style="height:48px;">
       <div style="float:left;" class="pa-3">
         스크랩한 채널
       </div>
-      <div style="margin-left:80%; display:inline-block;" class="pa-3">
+      <div style="margin-left:70%; display:inline-block;" class="pa-3">
         더 보기
       </div>
     </div>
     <v-row no-gutters>
       <v-col class="pa-2" v-for="i in 4" :key="i" cols="12" sm="3">
-        <v-card @click="moveChannelDetail(channel[i - 1])" class="data" outlined tile v-if="channel[i - 1]">
+        <v-card @click="moveChannelDetail(channel[i - 1]._id)" class="data" outlined tile v-if="channel[i - 1]">
           <div style="padding:5%">
             <v-list-item two-line>
               <a>

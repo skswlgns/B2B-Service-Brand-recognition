@@ -1,8 +1,11 @@
 <template>
-  <div v-if="video.length === 0">
-    <h2>
-      영상이 없습니다..
-    </h2>
+  <div class="card" v-if="video.length === 0">
+    <div class="out">
+      <div class="in">
+        <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
+        <div class="out">영상이 없습니다.</div>
+      </div>
+    </div>
   </div>
   <div v-else class="card">
     <v-carousel hide-delimiters height="100%">

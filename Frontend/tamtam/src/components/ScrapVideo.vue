@@ -1,13 +1,18 @@
 <template>
-  <div v-if="video.length === 0">
-    <h2>스크랩한 영상이 없습니다..</h2>
+  <div class="card" v-if="video.length === 0">
+    <div class="out">
+      <div class="in">
+        <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
+        <div class="out">스크랩한 영상이 없습니다.</div>
+      </div>
+    </div>
   </div>
   <div v-else class="card">
     <div style="height:48px;">
       <div style="float:left;" class="pa-3">
         스크랩한 영상
       </div>
-      <div style="margin-left:80%; display:inline-block;" class="pa-3">
+      <div style="margin-left:70%; display:inline-block;" class="pa-3">
         더 보기
       </div>
     </div>
@@ -22,12 +27,12 @@
               style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
               v-html="video[i - 1].video_title"
             ></h2>
-            <v-spacer></v-spacer>
-
-            <v-btn icon @click="show[i - 1] = !show[i - 1]">
-              <v-icon>{{ show[i - 1] ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
           </v-card-actions>
+          <v-expand-transition>
+            <v-card-text>
+              브랜드 노출 영상 퍼센트
+            </v-card-text>
+          </v-expand-transition>
         </v-card>
       </v-col>
     </v-row>
@@ -39,14 +44,9 @@ import { mapState, mapActions } from 'vuex'
 import router from '@/router'
 const searchStore = 'searchStore'
 export default {
-  data: () => ({
-    show: []
-  }),
+  data: () => ({}),
   created() {
     this.getScrapVideo()
-    for (let index = 0; index < this.video.length; index++) {
-      this.show.push(false)
-    }
   },
   computed: {
     ...mapState(searchStore, ['video'])
