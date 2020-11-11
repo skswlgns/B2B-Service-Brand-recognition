@@ -3,7 +3,7 @@
     <div class="main1">
       <div class="card-title">전체 브랜드 노출 순위</div>
       <div class="frame">
-        <div class="whole shadow">
+        <div class="whole shadow chart">
           <canvas id="wChart"></canvas>
         </div>
         <div class="shadow">
@@ -12,7 +12,7 @@
       </div>
       <div class="card-title">업계 브랜드 노출 순위</div>
       <div class="frame">
-        <div class="whole shadow">
+        <div class="whole shadow chart">
           <canvas id="cLine"></canvas>
         </div>
         <div class="whole shadow">
@@ -52,7 +52,7 @@
               <v-list-item three-line>
                 <img :src="view.channel_img" width="80px" />
                 <v-list-item-content>
-                  <router-link to="" class="overline mb-4">
+                  <router-link :to="{ name: 'Channel', params: { channelId: view._id } }" class="overline mb-4">
                     {{ view.channel_name }}
                   </router-link>
                 </v-list-item-content>

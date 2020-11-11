@@ -30,8 +30,8 @@
     <!-- <v-container v-if="$route.path === '/'">
       <Main1 />
     </v-container> -->
-    <router-view v-if="$route.name === 'Main'" />
-    <v-container v-if="$route.name !== 'Main'">
+    <router-view v-if="$route.name === 'Main' || $route.name === 'Login'" />
+    <v-container v-if="$route.name !== 'Main' && $route.name !== 'Login'">
       <router-view :key="$route.fullPath" />
     </v-container>
   </v-app>

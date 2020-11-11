@@ -34,9 +34,20 @@
       </div>
     </div>
     <div class="fr-youtube">
-      <div class="card">
-        <span>동영상</span>
-      </div>
+      <v-row>
+        <v-col v-for="(video, i) in videoData" :key="i" cols="3">
+          <v-card class="mx-auto">
+            <img :src="video.video_thumbnails" />
+            <v-card-text></v-card-text>
+            <v-spacer></v-spacer>
+          </v-card>
+        </v-col>
+      </v-row>
+      <!-- <div v-for="(item, $index) in list" :key="$index">
+        {{ $index }}: {{ item.title }}
+        <hr />
+      </div> -->
+      <infinite-loading class="" @infinite="infiniteHandler"></infinite-loading>
     </div>
   </div>
 </template>
@@ -44,13 +55,30 @@
 <script>
 import Chart from 'chart.js'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import InfiniteLoading from 'vue-infinite-loading'
+import axios from 'axios'
+import cookies from 'vue-cookies'
+
+const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
+const config = {
+  headers: {
+    token: cookies.get('token')
+  }
+}
+
+// const api = 'http://hn.algolia.com/api/v1/search_by_date?tags=story'
 
 const channelStore = 'channelStore'
 
 export default {
   name: 'Channel',
+  components: {
+    InfiniteLoading
+  },
   data() {
     return {
+      page: 1,
+      videoData: [],
       wholeData: {
         type: 'horizontalBar',
         data: {
@@ -153,7 +181,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(channelStore, ['change', 'getChannelData']),
+    ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo']),
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
       const myChart = new Chart(ctx, {
@@ -162,16 +190,43 @@ export default {
         options: chartData.options
       })
       return myChart
+    },
+    infiniteHandler($state) {
+      console.log(this.youtubeChannelId)
+      axios.get(`${API_SERVER_URL}/video/videos/${this.youtubeChannelId}`, config).then(response => {
+        const video = this.videoData.concat(response.data)
+        this.videoData = video
+        $state.loaded()
+      })
+      // axios
+      //   .get(api, {
+      //     params: {
+      //       page: this.page
+      //     }
+      //   })
+      //   .then(({ data }) => {
+      //     // console.log({ data })
+      //     if (data.hits.length) {
+      //       console.log(data.his)
+      //       this.page += 2
+      //       this.list.push(...data.hits)
+      //       $state.loaded()
+      //     } else {
+      //       $state.complete()
+      //     }
+      //   })
     }
   },
   computed: {
-    ...mapState(channelStore, ['isActive', 'channelData']),
+    ...mapState(channelStore, ['isActive', 'channelData', 'youtubeChannelId']),
     ...mapGetters(channelStore, ['sliceViews'])
+  },
+  created() {
+    this.getChannelData(this.data)
   },
   mounted() {
     this.createChart('wChart', this.wholeData)
     this.createChart('subscribe-line', this.subData)
-    this.getChannelData(this.channelId)
   },
   updated() {
     if (this.isActive === 'views') {
@@ -179,6 +234,7 @@ export default {
     } else {
       this.createChart('subscribe-line', this.subData)
     }
+    // this.youtubeChannelId = data[0].channel_youtube_id
   }
 }
 </script>
