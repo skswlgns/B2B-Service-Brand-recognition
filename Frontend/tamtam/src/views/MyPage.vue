@@ -19,7 +19,7 @@
       <div class="card " style="margin-top:8px;">
         <v-row class="mx-2">
           <v-col cols="6">
-            <div class="data mb-8 pa-8" style="text-align:center;">
+            <div style="text-align:center;">
               <v-flex style="margin-top:8px;">
                 <v-avatar size="100"> </v-avatar>
               </v-flex>
@@ -34,14 +34,13 @@
             </div>
           </v-col>
           <v-col cols="6">
-            <div class="chart-fr">
+            <div>
               <canvas id="subscribe-line"></canvas>
             </div>
           </v-col>
         </v-row>
       </div>
       <!-- <ContactChannel></ContactChannel> -->
-      <div class="card-title">관련 유튜버 랭킹</div>
       <Ranking></Ranking>
     </div>
     <div v-else-if="myPage">
@@ -61,7 +60,7 @@ import ScrapVideo from '@/components/ScrapVideo.vue'
 import Ranking from '@/components/Ranking.vue'
 import Recommend from '@/components/Recommend.vue'
 import Chart from 'chart.js'
-
+import cookies from 'vue-cookies'
 export default {
   name: 'Search',
   components: {
@@ -73,8 +72,9 @@ export default {
   },
   data() {
     return {
-      showAnalysis: false,
-      myPage: true,
+      company_id: cookies.get('companyId'),
+      showAnalysis: true,
+      myPage: false,
       subData: {
         type: 'line',
         data: {
@@ -122,27 +122,10 @@ export default {
         options: chartData.options
       })
       return myChart
-    },
-    async scrapCancel(index) {
-      let answer
-      if (this.show === true) {
-        answer = confirm('스크랩 취소 하시겠습니까?')
-      } else {
-        answer = confirm('스크랩 하시겠습니까?')
-      }
-      if (answer) {
-        await this.scrap(this.channelId)
-        // 데이터 다시 받아오기
-        await this.getChannelData(this.channelId)
-        this.changeShow()
-      }
     }
   },
-  async mounted() {
-    await this.createChart('subscribe-line', this.subData)
-  },
-  updated() {
-    this.createChart('views-line', this.viewsData)
+  mounted() {
+    this.createChart('subscribe-line', this.subData)
   }
 }
 </script>

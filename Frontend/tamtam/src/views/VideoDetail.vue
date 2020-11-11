@@ -114,6 +114,9 @@ export default {
     // videoData 불러오기
     await this.getVideoData(this.$route.params.video_youtube_id)
 
+    // videoData 불러오기
+    await this.getRecommendVideoData()
+
     // youtube iframe 만들기
     const tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
@@ -170,11 +173,9 @@ export default {
     ...mapState(videoDetailStore, ['videoData', 'recommendVideos'])
   },
   methods: {
-    ...mapActions(videoDetailStore, ['scrap']),
-    ...mapActions(videoDetailStore, ['getVideoData']),
+    ...mapActions(videoDetailStore, ['getVideoData', 'getRecommendVideoData', 'scrap']),
 
     scrapVideo: async function() {
-      alert(this.videoData._id)
       let answer
       if (this.show === true) {
         answer = confirm('스크랩 취소 하시겠습니까?')

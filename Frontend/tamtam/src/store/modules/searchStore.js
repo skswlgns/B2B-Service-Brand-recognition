@@ -44,16 +44,19 @@ const searchStore = {
     },
     // 스크랩한 채널 가져오기
     async getScrapChannel({ commit }) {
+      config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/company/channel`, config)
       commit('setChannel', response.data.company_channel)
     },
     // 스크랩한 영상 가져오기
     async getScrapVideo({ commit }) {
+      config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/company/video`, config)
       commit('setVideo', response.data.company_video)
     },
     // 검색 데이터 가져오기
     async getSearch({ commit }, text) {
+      config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/search/${text}`, config)
       commit('setVideo', response.data.videos)
       commit('setChannel', response.data.channels)
