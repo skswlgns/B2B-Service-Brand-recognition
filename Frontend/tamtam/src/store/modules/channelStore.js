@@ -9,12 +9,20 @@ const channelStore = {
   namespaced: true,
   state: {
     isActive: 'subscribe',
-    channel: [],
-    channelData: {}
+    channelData: {},
+    views: 0,
+    videoData: {},
+    youtubeChannelId: ''
   },
   getters: {
     sliceViews: state => {
-      return 1111
+      if (state.views < 1000) {
+        return state.views
+      } else if (state.views < 10000) {
+        return state.views / 1000
+      } else {
+        return parseInt(state.views / 10000)
+      }
     }
   },
   mutations: {
@@ -26,6 +34,11 @@ const channelStore = {
     },
     saveData(state, data) {
       state.channelData = data[0]
+      state.views = data[0].channel_subscribe
+      state.youtubeChannelId = data[0].channel_youtube_id
+    },
+    saveVideo(state, data) {
+      state.videoData = data
     }
   },
   actions: {
@@ -56,6 +69,16 @@ const channelStore = {
       }
       const response = await axios.get(`${API_SERVER_URL}/channel/${channelId}`, config)
       commit('saveData', response.data)
+      // const youtube = {
+      //   Id: response.data[0].channel_youtube_id,
+      //   page: data.page
+      // }
+      // dispatch('getVideo', youtube)
+    },
+    async getVideo({ commit }, youtube) {
+      console.log(youtube)
+      // const response = await axios.get(`${API_SERVER_URL}/video/videos/${Id}`, config)
+      // commit('saveVideo', response.data)
     }
   }
 }

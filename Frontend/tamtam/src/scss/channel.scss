@@ -49,5 +49,8 @@
   }
   .fr-youtube {
     margin: #{$base-margin * 6} 0 #{$base-margin};
+    img {
+      max-width: inherit;
+    }
   }
 }
