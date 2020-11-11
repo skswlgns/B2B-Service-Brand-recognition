@@ -73,12 +73,10 @@ export default {
 
 <style scoped>
 .data {
-  /* opacity: 0.7; */
   transition: all 0.6s;
   top: 0;
 }
 .data:hover {
   top: -10px;
-  /* opacity: 1; */
 }
 </style>

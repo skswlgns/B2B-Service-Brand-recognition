@@ -37,9 +37,11 @@ const channelStore = {
       const body = {
         channel_id: id
       }
-      await axios.put(`${API_SERVER_URL}/channel/scrap`, body, config)
+      const res = await axios.put(`${API_SERVER_URL}/channel/scrap`, body, config)
+      if (res.data.message === '채널 스크랩 완료' || res.data.message === '채널 스크랩 취소') {
+        // alert('스크랩 완료')
+      }
     },
-
     // 전체 채널 조회
     async searchChannel({ commit }) {
       const response = await axios.get(`${API_SERVER_URL}/channel`, config)

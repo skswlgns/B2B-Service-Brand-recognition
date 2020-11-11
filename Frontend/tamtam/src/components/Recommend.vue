@@ -12,7 +12,7 @@
                 v-if="channel[(i - 1) * 3 + (j - 1)]"
                 outlined
               >
-                <a style="color: black" @click="moveChannelDetail(channel[(i - 1) * 3 + (j - 1)].channel_youtube_id)">
+                <a style="color: black" @click="moveChannelDetail(channel[(i - 1) * 3 + (j - 1)]._id)">
                   <div class="data mb-8 pa-8" style="text-align:center;">
                     <v-flex style="margin-top:8px;">
                       <v-avatar size="100">
@@ -20,9 +20,12 @@
                       </v-avatar>
                     </v-flex>
                     <v-flex style="overflow-y: auto; height:100px">
-                      <h2 style="margin-top:40px;">
+                      <h2 style="margin-top:40px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                         {{ channel[(i - 1) * 3 + (j - 1)].channel_name }}
                       </h2>
+                      <div class="overline mb-1" outlined>
+                        {{ channel[(i - 1) * 3 + (j - 1)].channel_category }}
+                      </div>
                     </v-flex>
                     <v-flex style="margin-top:40px;">
                       <div>구독자수 {{ channel[(i - 1) * 3 + (j - 1)].channel_subscribe }}</div>

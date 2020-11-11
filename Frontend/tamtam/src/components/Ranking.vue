@@ -2,17 +2,17 @@
   <div>
     <div v-for="(Item, index) in channel" :key="index">
       <div class="card mx-auto mb-2 data">
-        <v-list-item three-line>
-          <a @click="moveChannelDetail(Item.channel_youtube_id)">
+        <v-list-item two-line>
+          <a @click="moveChannelDetail(Item._id)">
             <v-list-item-avatar size="100">
               <img alt="user" :src="Item.channel_img" />
             </v-list-item-avatar>
           </a>
           <v-list-item-content>
             <div class="overline mb-1" outlined>
-              카테고리자리..
+              {{ Item.channel_category }}
             </div>
-            <a style="color: black" @click="moveChannelDetail(Item.channel_youtube_id)">
+            <a style="color: black" @click="moveChannelDetail(Item._id)">
               <v-list-item-title class="headline mb-1">
                 {{ Item.channel_name }}
               </v-list-item-title>
@@ -26,10 +26,17 @@
             </div>
           </v-list-item-content>
 
-          <v-list-item-content>
-            <v-list-item-subtitle> 구독자수 {{ Item.channel_subscribe }} </v-list-item-subtitle>
-            <v-list-item-subtitle> 영상수 {{ Item.channel_video_cnt }} </v-list-item-subtitle>
-            <v-list-item-subtitle> 평균영상시청수 {{ Item.channel_avg_views }} </v-list-item-subtitle>
+          <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
+            <v-list-item-subtitle>구독자수</v-list-item-subtitle>
+            <v-list-item-title class="v-list-item-title">{{ Item.channel_subscribe }} </v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
+            <v-list-item-subtitle>영상수</v-list-item-subtitle>
+            <v-list-item-title class="v-list-item-title">{{ Item.channel_video_cnt }} </v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-content style="text-align: center">
+            <v-list-item-subtitle>영상별 평균 조회수</v-list-item-subtitle>
+            <v-list-item-title class="v-list-item-title">{{ Item.channel_avg_views }} </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </div>
@@ -69,5 +76,9 @@ export default {
 }
 .data:hover {
   transform: scale(1.1);
+}
+.v-list-item-title {
+  font-weight: 900;
+  font-size: 24px;
 }
 </style>

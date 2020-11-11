@@ -20,6 +20,7 @@ const userStore = {
       cookies.set('nick', nickname)
     },
     setCompanyId(state, companyId) {
+      state.companyId = companyId
       cookies.set('companyId', companyId)
     }
   },

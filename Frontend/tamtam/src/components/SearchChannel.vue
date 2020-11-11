@@ -15,7 +15,7 @@
             <a>
               <v-avatar size="80" class="data" v-if="channel[(i - 1) * 11 + (j - 1)]">
                 <v-img
-                  @click="moveChannelDetail(channel[(i - 1) * 11 + (j - 1)].channel_youtube_id)"
+                  @click="moveChannelDetail(channel[(i - 1) * 11 + (j - 1)]._id)"
                   alt="user"
                   :src="channel[(i - 1) * 11 + (j - 1)].channel_img"
                 />
@@ -49,12 +49,10 @@ export default {
 
 <style scoped>
 .data {
-  /* opacity: 0.7; */
   transition: all 0.6s;
   top: 0;
 }
 .data:hover {
   top: -10px;
-  /* opacity: 1; */
 }
 </style>

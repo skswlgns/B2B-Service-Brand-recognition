@@ -2,7 +2,32 @@
   <div v-if="channel.length === 0">
     <h2>스크랩한 영상이 없습니다..</h2>
   </div>
-  <div v-else>
+  <div v-else class="card">
+    <v-carousel hide-delimiters height="100%">
+      <v-carousel-item
+        light
+        v-for="i in channel.length % 11 !== 0 ? parseInt(channel.length / 11) + 1 : parseInt(channel.length / 11)"
+        :key="i"
+        style="padding-left:88px;"
+      >
+        <v-row>
+          <v-col v-for="j in 11" :key="j" lg="1">
+            <a>
+              <v-avatar size="80" class="data" v-if="channel[(i - 1) * 11 + (j - 1)]">
+                <v-img
+                  @click="moveChannelDetail(channel[(i - 1) * 11 + (j - 1)]._id)"
+                  alt="user"
+                  :src="channel[(i - 1) * 11 + (j - 1)].channel_img"
+                />
+              </v-avatar>
+            </a>
+          </v-col>
+        </v-row>
+      </v-carousel-item>
+    </v-carousel>
+  </div>
+
+  <!-- <div v-else>
     <div v-for="(Item, index) in channel" :key="index">
       <div class="card mx-auto mb-2 data">
         <v-list-item three-line>
@@ -43,8 +68,8 @@
           </v-list-item-action>
         </v-list-item>
       </div>
-    </div>
-  </div>
+    </div> 
+  </div>-->
 </template>
 
 <script>
@@ -82,10 +107,10 @@ export default {
 </script>
 <style scoped>
 .data {
-  /* the other rules */
   transition: all 0.6s;
+  top: 0;
 }
 .data:hover {
-  transform: scale(1.1);
+  top: -10px;
 }
 </style>
