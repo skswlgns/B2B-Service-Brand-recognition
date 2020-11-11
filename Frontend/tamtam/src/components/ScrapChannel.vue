@@ -1,75 +1,52 @@
 <template>
   <div v-if="channel.length === 0">
-    <h2>스크랩한 영상이 없습니다..</h2>
+    <h2>스크랩한 채널이 없습니다..</h2>
   </div>
   <div v-else class="card">
-    <v-carousel hide-delimiters height="100%">
-      <v-carousel-item
-        light
-        v-for="i in channel.length % 11 !== 0 ? parseInt(channel.length / 11) + 1 : parseInt(channel.length / 11)"
-        :key="i"
-        style="padding-left:88px;"
-      >
-        <v-row>
-          <v-col v-for="j in 11" :key="j" lg="1">
-            <a>
-              <v-avatar size="80" class="data" v-if="channel[(i - 1) * 11 + (j - 1)]">
-                <v-img
-                  @click="moveChannelDetail(channel[(i - 1) * 11 + (j - 1)]._id)"
-                  alt="user"
-                  :src="channel[(i - 1) * 11 + (j - 1)].channel_img"
-                />
-              </v-avatar>
-            </a>
-          </v-col>
-        </v-row>
-      </v-carousel-item>
-    </v-carousel>
-  </div>
-
-  <!-- <div v-else>
-    <div v-for="(Item, index) in channel" :key="index">
-      <div class="card mx-auto mb-2 data">
-        <v-list-item three-line>
-          <a @click="moveChannelDetail(Item.channel_youtube_id)">
-            <v-list-item-avatar size="100">
-              <img alt="user" :src="Item.channel_img" />
-            </v-list-item-avatar>
-          </a>
-          <v-list-item-content>
-            <div class="overline mb-1" outlined>
-              카테고리 자리인데..
-            </div>
-            <a style="color: black" @click="moveChannelDetail(Item.channel_youtube_id)">
-              <v-list-item-title class="headline mb-1">
-                {{ Item.channel_name }}
-              </v-list-item-title>
-            </a>
-            <div class="overline mb-1" outlined>
-              <a @click="moveYoutube(Item.channel_youtube_id)">
-                <v-avatar size="30">
-                  <img alt="user" src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png" />
+    <div style="height:48px;">
+      <div style="float:left;" class="pa-3">
+        스크랩한 채널
+      </div>
+      <div style="margin-left:80%; display:inline-block;" class="pa-3">
+        더 보기
+      </div>
+    </div>
+    <v-row no-gutters>
+      <v-col class="pa-2" v-for="i in 4" :key="i" cols="12" sm="3">
+        <v-card @click="moveChannelDetail(channel[i - 1])" class="data" outlined tile v-if="channel[i - 1]">
+          <div style="padding:5%">
+            <v-list-item two-line>
+              <a>
+                <v-avatar size="50" v-if="channel[i - 1]">
+                  <v-img alt="user" :src="channel[i - 1].channel_img" />
                 </v-avatar>
               </a>
-            </div>
-          </v-list-item-content>
-
-          <v-list-item-content>
-            <v-list-item-subtitle> 구독자수 {{ Item.channel_subscribe }} </v-list-item-subtitle>
-            <v-list-item-subtitle> 영상수 {{ Item.channel_video_cnt }} </v-list-item-subtitle>
-            <v-list-item-subtitle> 평균영상시청수 {{ Item.channel_avg_views }} </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-btn icon color="white" @click="scrapCancel(index)">
-              <v-icon color="yellow darken-3">
-                mdi-star
-              </v-icon>
-            </v-btn>
-          </v-list-item-action>
-        </v-list-item>
-      </div>
-    </div> 
-  </div>-->
+              <v-list-item-content style="text-align:center;">
+                <div>
+                  {{ channel[i - 1].channel_name }}
+                </div>
+                <a style="color: black">
+                  <v-list-item-title>
+                    {{ channel[i - 1].channel_category }}
+                  </v-list-item-title>
+                </a>
+                <!-- <div>
+                  <v-btn icon color="white">
+                    <v-avatar size="30">
+                      <img
+                        alt="user"
+                        src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png"
+                      />
+                    </v-avatar>
+                  </v-btn>
+                </div> -->
+              </v-list-item-content>
+            </v-list-item>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
