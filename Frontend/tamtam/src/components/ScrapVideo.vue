@@ -7,7 +7,7 @@
       <div style="float:left;" class="pa-3">
         스크랩한 영상
       </div>
-      <div style="margin-left:80%; display:inline-block;" class="pa-3">
+      <div style="margin-left:70%; display:inline-block;" class="pa-3">
         더 보기
       </div>
     </div>
@@ -22,12 +22,12 @@
               style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
               v-html="video[i - 1].video_title"
             ></h2>
-            <v-spacer></v-spacer>
-
-            <v-btn icon @click="show[i - 1] = !show[i - 1]">
-              <v-icon>{{ show[i - 1] ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
           </v-card-actions>
+          <v-expand-transition>
+            <v-card-text>
+              브랜드 노출 영상 퍼센트
+            </v-card-text>
+          </v-expand-transition>
         </v-card>
       </v-col>
     </v-row>
@@ -40,7 +40,7 @@ import router from '@/router'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
-    show: []
+    show: true
   }),
   created() {
     this.getScrapVideo()

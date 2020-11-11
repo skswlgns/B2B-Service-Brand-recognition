@@ -1,5 +1,8 @@
 import axios from 'axios'
-
+import cookies from 'vue-cookies'
+const config = {
+  headers: { token: cookies.get('token'), company_id: cookies.get('companyId') }
+}
 const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 
 const videoDetailStore = {
@@ -103,6 +106,16 @@ const videoDetailStore = {
     }
   },
   actions: {
+    // 스크랩 하기/취소
+    async scrap({ commit }, id) {
+      const body = {
+        _id: id
+      }
+      const res = await axios.put(`${API_SERVER_URL}/video/scrap`, body, config)
+      if (res.data.message === '채널 스크랩 완료' || res.data.message === '채널 스크랩 취소') {
+        alert('스크랩 완료 || 취소 완료')
+      }
+    },
     // videoData API
     async getVideoData({ commit }, videoYoutubeId) {
       const response = await axios.get(`${API_SERVER_URL}/video/youtube/${videoYoutubeId}`)
