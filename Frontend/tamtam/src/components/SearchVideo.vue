@@ -15,7 +15,9 @@
         <v-row>
           <v-col v-for="j in 3" :key="j" sm="4">
             <v-card flat tile class="data" v-if="video[(i - 1) * 3 + (j - 1)]">
-              <v-img alt="user" :src="video[(i - 1) * 3 + (j - 1)].video_thumbnails" />
+              <a @click="moveVideoDetail(video[(i - 1) * 3 + (j - 1)].video_youtube_id)">
+                <v-img alt="user" :src="video[(i - 1) * 3 + (j - 1)].video_thumbnails" />
+              </a>
               <v-card-actions>
                 <h2
                   style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
@@ -48,6 +50,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import router from '@/router'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
@@ -60,19 +63,20 @@ export default {
     ...mapState(searchStore, ['video'])
   },
   methods: {
-    ...mapGetters(searchStore, ['getVideo'])
+    ...mapGetters(searchStore, ['getVideo']),
+    moveVideoDetail(id) {
+      router.push({ name: 'VideoDetail', params: { video_youtube_id: id } })
+    }
   }
 }
 </script>
 
 <style scoped>
 .data {
-  /* opacity: 0.7; */
   transition: all 0.6s;
   top: 0;
 }
 .data:hover {
   top: -10px;
-  /* opacity: 1; */
 }
 </style>
