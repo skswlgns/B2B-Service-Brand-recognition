@@ -117,6 +117,29 @@ videoRoutes.get('/', async (req, res) => {
   }
 })
 
+// 비디오 count & time
+videoRoutes.get('/count', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const videoCount = await VideoModel.find().count()
+      const videoAll = await VideoModel.find()
+      let videoTime = 0
+      for (let i = 0; i < videoCount; i++) {
+        videoTime = videoTime + videoAll[i].video_time
+      }
+      const videoData = {
+        videoTime: videoTime,
+        videoCount: videoCount
+      }
+      res.status(200).send(videoData)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
+  }
+})
+
 // 무한스크롤 비디오 조회
 videoRoutes.get('/infinity', async (req, res) => {
   if (req.headers.token) {
