@@ -11,9 +11,7 @@ const channelStore = {
     isActive: 'subscribe',
     channelData: {},
     views: 0,
-    videoData: {},
-    youtubeChannelId: '',
-    channel: {}
+    videoData: {}
   },
   getters: {
     sliceViews: state => {
@@ -36,7 +34,7 @@ const channelStore = {
     saveData(state, data) {
       state.channelData = data[0]
       state.views = data[0].channel_subscribe
-      state.youtubeChannelId = data[0].channel_youtube_id
+      cookies.set('channelId', data[0].channel_youtube_id)
     },
     saveVideo(state, data) {
       state.videoData = data
@@ -64,6 +62,11 @@ const channelStore = {
       commit('setchannel', response.data)
     },
     async getChannelData({ commit }, channelId) {
+      const config = {
+        headers: {
+          token: cookies.get('token')
+        }
+      }
       config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/channel/${channelId}`, config)
       commit('saveData', response.data)
@@ -72,11 +75,6 @@ const channelStore = {
       //   page: data.page
       // }
       // dispatch('getVideo', youtube)
-    },
-    async getVideo({ commit }, youtube) {
-      console.log(youtube)
-      // const response = await axios.get(`${API_SERVER_URL}/video/videos/${Id}`, config)
-      // commit('saveVideo', response.data)
     }
   }
 }
