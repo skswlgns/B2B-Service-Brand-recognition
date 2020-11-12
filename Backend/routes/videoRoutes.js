@@ -121,17 +121,32 @@ videoRoutes.get('/', async (req, res) => {
 videoRoutes.get('/count', async (req, res) => {
   if (req.headers.token) {
     try {
+      const companyId = req.headers.company_id
       const videoCount = await VideoModel.find().count()
       const videoAll = await VideoModel.find()
-      let videoTime = 0
+      let companyCount = 0
+      let companyTime = 0
       for (let i = 0; i < videoCount; i++) {
-        videoTime = videoTime + videoAll[i].video_time
+        if (videoAll[i].video_record.length > 0) {
+          let flag = false
+          for (let j = 0; j < videoAll[i].video_record.length; j++) {
+            console.log(companyTime)
+            if (videoAll[i].video_record[j].company_id === companyId) {
+              companyTime = companyTime + videoAll[i].video_record[j].total_exposure_time
+              if (flag === false) {
+                companyCount = companyCount + 1
+                flag = true
+              }
+            }
+            flag = false
+          }
+        }
       }
-      const videoData = {
-        videoTime: videoTime,
-        videoCount: videoCount
+      const companyData = {
+        companyCount: companyCount,
+        companyTime: companyTime
       }
-      res.status(200).send(videoData)
+      res.status(200).send(companyData)
     } catch (err) {
       res.status(500).send(err)
     }
@@ -144,8 +159,8 @@ videoRoutes.get('/count', async (req, res) => {
 videoRoutes.get('/infinity', async (req, res) => {
   if (req.headers.token) {
     try {
-      const videoAll = await VideoModel.find()
-      res.status(200).send(videoAll.slice(req.body.limit, req.body.limit + 4))
+      const videoAll = await VideoModel.find({ _id: req.headers.company_id })
+      res.status(200).send(videoAll.slice(req.headers.limit, req.headers.limit + 4))
     } catch (err) {
       res.status(500).send(err)
     }
@@ -316,7 +331,7 @@ videoRoutes.get('/youtube/:video_youtube_id', async (req, res) => {
 videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
   if (req.headers.token) {
     const videoYoutubeId = req.params.video_youtube_id
-    const limit = req.body.limit
+    const limit = req.headers.limit
     try {
       const channel = await ChannelModel.findOne({ channel_youtube_id: videoYoutubeId })
       let videos = await VideoModel.find({ channel_id: channel._id })
