@@ -15,16 +15,21 @@
                 구독자: {{ sliceViews }}만명
               </div>
               <div class="subscriber" v-else>구독자: {{ sliceViews }}만명</div>
+              <v-btn icon @click="moveYoutube(channelData.channel_youtube_id)" color="white">
+                <v-avatar size="30">
+                  <img alt="user" src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png" />
+                </v-avatar>
+              </v-btn>
+              <v-btn icon @click="scrapChannel()">
+                <v-icon v-show="!show">
+                  mdi-star-outline
+                </v-icon>
+                <v-icon color="yellow darken-3" v-show="show">
+                  mdi-star
+                </v-icon>
+              </v-btn>
             </div>
             <v-btn color="#916bf6">광고 문의</v-btn>
-            <v-btn icon @click="scrapChannel()">
-              <v-icon v-show="!show">
-                mdi-star-outline
-              </v-icon>
-              <v-icon color="yellow darken-3" v-show="show">
-                mdi-star
-              </v-icon>
-            </v-btn>
           </div>
         </div>
       </div>
@@ -177,6 +182,9 @@ export default {
   methods: {
     ...mapActions(channelStore, ['scrap']),
     ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo']),
+    moveYoutube(channerId) {
+      window.open('https://www.youtube.com/channel/' + channerId)
+    },
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
       const myChart = new Chart(ctx, {
