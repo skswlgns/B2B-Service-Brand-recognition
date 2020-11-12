@@ -26,20 +26,23 @@
     <div v-else>
       <router-view />
     </div>
+    <GoTop></GoTop>
   </v-app>
 </template>
-
 <script>
 import cookies from 'vue-cookies'
 import { mapState, mapActions } from 'vuex'
+import GoTop from '@/components/GoTop.vue'
 const userStore = 'userStore'
 const searchStore = 'searchStore'
-
 export default {
   name: 'App',
   data: () => ({
     text: ''
   }),
+  components: {
+    GoTop
+  },
   created() {},
   methods: {
     searching() {

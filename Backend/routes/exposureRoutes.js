@@ -10,7 +10,7 @@ const exposureRoutes = express.Router()
 
 // // API
 
-// // 모든 기록 데이터 조회
+// 모든 기록 데이터 조회
 exposureRoutes.get('/', async (req, res) => {
   if (req.headers.token) {
     const exposureAll = await ExposureModel.find()
@@ -28,7 +28,7 @@ exposureRoutes.get('/', async (req, res) => {
   }
 })
 
-// // 기업별 기록 데이터 조회
+// 기업별 기록 데이터 조회
 exposureRoutes.get('/company', async (req, res) => {
   if (req.headers.token) {
     try {

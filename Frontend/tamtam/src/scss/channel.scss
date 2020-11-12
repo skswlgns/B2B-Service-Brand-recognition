@@ -52,5 +52,14 @@
     img {
       max-width: inherit;
     }
+    .v-card__title {
+      background: #f1f1f1;
+      font-size: #{$base-fontsize};
+    }
+    .views {
+      background: #f1f1f1;
+      padding: 0 16px;
+      font-size: #{$base-fontsize * 0.5};
+    }
   }
 }

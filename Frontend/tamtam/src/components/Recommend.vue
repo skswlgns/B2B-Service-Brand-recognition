@@ -28,9 +28,6 @@
                       </div>
                     </v-flex>
                     <v-flex style="margin-top:40px;">
-                      <a href="#" style="display:scroll;position:fixed; bottom:15px;right:15px;">
-                        Top
-                      </a>
                       <div>구독자수 {{ channel[(i - 1) * 3 + (j - 1)].channel_subscribe }}</div>
                       <div>영상수 {{ channel[(i - 1) * 3 + (j - 1)].channel_video_cnt }}</div>
                       <div>평균영상시청수 {{ channel[(i - 1) * 3 + (j - 1)].channel_avg_views }}</div>
