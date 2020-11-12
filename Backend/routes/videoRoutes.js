@@ -339,11 +339,14 @@ videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
 
       for (let videoIndex = 0; videoIndex < videos.length; videoIndex++) {
         const video = videos[videoIndex]
+        let real_total = 0
         for (let recordIndex = 0; recordIndex < video.video_record.length; recordIndex++) {
+          real_total = real_total + video.video_record[recordIndex].total_exposure_time
           const companyId = video.video_record[recordIndex].company_id
           const company = await CompanyModel.findOne({ _id: companyId })
           video.video_record[recordIndex].company_id = company
         }
+        video.video_total = real_total
       }
       res.status(200).send(videos)
     } catch (err) {
