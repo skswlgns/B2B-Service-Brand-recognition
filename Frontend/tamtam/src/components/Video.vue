@@ -13,7 +13,7 @@
           </div>
           <div class="views" v-else>조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
           <v-card-text>
-            <canvas></canvas>
+            <canvas :id="video._id"></canvas>
           </v-card-text>
           <v-spacer></v-spacer>
         </v-card>
@@ -95,9 +95,6 @@ export default {
                     )
                   }
                 }
-                this.createChart(response.data[i].chart, response.data[i].chartData)
-                console.log(response.data[i].chart)
-                console.log(response.data[i].chartData)
               }
               if (this.videoData.length / 4 === 0) {
                 $state.complete()
@@ -127,14 +124,13 @@ export default {
       return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
   },
-  created() {},
-
-  mounted() {
-    console.log(this.videoData)
-    // for (let i = 0; i < this.videoData.length; i++) {
-    //   const chart = this.videoData[i].chart
-    // this.createChart(chart, this.youtube[i].Circle)
-    // }
+  updated() {
+    if (this.videoData.length) {
+      for (let i = 0; i < this.videoData.length; i++) {
+        console.log(this.videoData[i])
+        this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
+      }
+    }
   }
 }
 </script>
