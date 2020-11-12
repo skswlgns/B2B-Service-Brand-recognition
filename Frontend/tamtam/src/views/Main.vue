@@ -493,7 +493,6 @@ export default {
       const chart = 'chart' + i
       this.createChart(chart, this.youtube[i].Circle)
     }
-    console.log(this.createChart('chLine', this.Line))
   }
 }
 </script>
