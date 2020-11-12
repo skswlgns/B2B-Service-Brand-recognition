@@ -12,13 +12,13 @@
       <div style="float:left;" class="pa-3">
         스크랩한 영상
       </div>
-      <div style="margin-left:70%; display:inline-block;" class="pa-3">
+      <div align="right" @click="moredata()" v-if="this.video.length > 3" class="pa-3">
         더 보기
       </div>
     </div>
     <v-row no-gutters>
-      <v-col class="pa-2" v-for="i in 3" :key="i" cols="12" sm="4">
-        <v-card outlined tile v-if="video[i - 1]">
+      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="4">
+        <v-card class="data" outlined tile v-if="video[i - 1]">
           <a @click="moveVideoDetail(video[i - 1].video_youtube_id)">
             <v-img alt="user" :src="video[i - 1].video_thumbnails" />
           </a>
@@ -44,7 +44,9 @@ import { mapState, mapActions } from 'vuex'
 import router from '@/router'
 const searchStore = 'searchStore'
 export default {
-  data: () => ({}),
+  data: () => ({
+    len: 3
+  }),
   created() {
     this.getScrapVideo()
   },
@@ -53,6 +55,9 @@ export default {
   },
   methods: {
     ...mapActions(searchStore, ['getScrapVideo']),
+    moredata() {
+      this.len = this.video.length
+    },
     moveVideoDetail(id) {
       router.push({ name: 'VideoDetail', params: { video_youtube_id: id } })
     }
