@@ -1,6 +1,5 @@
 <template>
   <div class="fr">
-    {{ channelData }}
     <div class="fr-profile">
       <div class="card">
         <div class="channel-header-container">
@@ -48,8 +47,8 @@
       </div>
     </div>
     <div class="fr-youtube">
-      {{ channelData.channel_youtube_id }}
       <Video :channelId="channelData.channel_youtube_id" />
+      <!-- <Video /> -->
       <!-- <div v-for="(item, $index) in list" :key="$index">
         {{ $index }}: {{ item.title }}
         <hr />
