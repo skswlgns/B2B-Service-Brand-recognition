@@ -12,7 +12,7 @@
       <div style="float:left;" class="pa-3">
         스크랩한 영상
       </div>
-      <div @click="moredata()" v-if="this.video.length > 3" style="margin-left:70%; display:inline-block;" class="pa-3">
+      <div align="right" @click="moredata()" v-if="this.video.length > 3" class="pa-3">
         더 보기
       </div>
     </div>

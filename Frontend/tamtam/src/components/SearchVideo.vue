@@ -12,7 +12,7 @@
       <div style="float:left;" class="pa-3">
         영상
       </div>
-      <div @click="moredata()" v-if="this.video.length > 3" tyle="margin-left:70%; display:inline-block;" class="pa-3">
+      <div @click="moredata()" v-if="this.video.length > 3" align="right" class="pa-3">
         더 보기
       </div>
     </div>
