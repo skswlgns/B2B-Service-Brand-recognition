@@ -1,0 +1,21 @@
+@import './variable';
+@import './mixin';
+
+.chart-title {
+  padding: #{$base-padding * 2} #{$base-padding * 2} #{$base-padding * 1};
+  font-size: #{$base-fontsize * 1.2};
+}
+.chart-body {
+  width: 100%;
+  padding: #{$base-padding * 4} #{$base-padding * 3} #{$base-padding * 3};
+}
+
+.chart-subtitle {
+  color: gray;
+  font-size: #{$base-fontsize};
+  padding: #{$base-padding * 2} #{$base-padding * 2} 0;
+}
+
+.chart-header {
+  grid-column: 1/3;
+}

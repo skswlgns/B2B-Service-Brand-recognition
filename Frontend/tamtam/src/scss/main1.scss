@@ -1,54 +1,56 @@
 @import './variable';
 @import './mixin';
 
-.frame {
-  .main1 {
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(6);
+  width: 100%;
+}
+
+.all-exposure-chart-card {
+  grid-column: 1/7;
+  height: 400px;
+  margin: #{$base-margin};
+}
+
+.ind-exposure-chart-section {
+  grid-column: 7/13;
+  margin: #{$base-margin};
+}
+
+.exposure-charts-section {
+  grid-column: 1/13;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: #{$base-margin};
+}
+
+.ranking-section-card {
+  grid-column: 1/13;
+  margin: #{$base-margin};
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.rank_fr {
+  text-align: center;
+  margin-bottom: #{$base-margin * 5};
+  .rank-title {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    .shadow {
-      display: flex;
-      align-items: center;
-      @include shadow;
+    margin: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    div {
+      font-size: #{$base-fontsize * 1.2};
     }
-    // .title {
-    //   margin: 3rem 0 1rem;
-    // }
-    .frame {
-      // display: flex;
-      // justify-content: space-between;
-      display: grid;
-      // grid-template-columns: repeat(5, 1fr);
-      #wChart,
-      #cLine {
-        padding: 2rem;
-      }
-      #wCircle,
-      #cDoughnut {
-        // width: 25rem;
-      }
-      .rank_fr {
-        @include shadow;
-        text-align: center;
-        margin-bottom: #{$base-margin * 5};
-        .rank-title {
-          display: flex;
-          margin: 1rem;
-          justify-content: space-between;
-          align-items: center;
-          div {
-            font-size: #{$base-fontsize * 1.2};
-          }
-          a {
-            text-decoration: none;
-          }
-        }
-      }
-      .rank {
-        img {
-          border-radius: 50%;
-        }
-      }
+    a {
+      text-decoration: none;
     }
+  }
+}
+.rank {
+  img {
+    border-radius: 50%;
   }
 }

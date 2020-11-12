@@ -170,7 +170,7 @@ export default {
     console.log('destroyed')
   },
   computed: {
-    ...mapState(videoDetailStore, ['videoData', 'recommendVideos'])
+    ...mapState('videoDetailStore', ['videoData', 'recommendVideos'])
   },
   methods: {
     ...mapActions(videoDetailStore, ['getVideoData', 'getRecommendVideoData', 'scrap']),
