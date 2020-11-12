@@ -15,6 +15,19 @@
                 구독자: {{ sliceViews }}만명
               </div>
               <div class="subscriber" v-else>구독자: {{ sliceViews }}만명</div>
+              <v-btn icon @click="moveYoutube(channelData.channel_youtube_id)" color="white">
+                <v-avatar size="30">
+                  <img alt="user" src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png" />
+                </v-avatar>
+              </v-btn>
+              <v-btn icon @click="scrapChannel()">
+                <v-icon v-show="!show">
+                  mdi-star-outline
+                </v-icon>
+                <v-icon color="yellow darken-3" v-show="show">
+                  mdi-star
+                </v-icon>
+              </v-btn>
             </div>
             <v-btn color="#916bf6">광고 문의</v-btn>
           </div>
@@ -48,7 +61,7 @@
 <script>
 import Chart from 'chart.js'
 import { mapState, mapGetters, mapActions } from 'vuex'
-
+import cookies from 'vue-cookies'
 import Video from '../components/Video.vue'
 
 // const api = 'http://hn.algolia.com/api/v1/search_by_date?tags=story'
@@ -62,6 +75,8 @@ export default {
   },
   data() {
     return {
+      show: false,
+      company_id: cookies.get('companyId'),
       limit: 0,
       wholeData: {
         type: 'horizontalBar',
@@ -165,7 +180,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(channelStore, ['scrap']),
     ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo']),
+    moveYoutube(channerId) {
+      window.open('https://www.youtube.com/channel/' + channerId)
+    },
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
       const myChart = new Chart(ctx, {
@@ -174,6 +193,34 @@ export default {
         options: chartData.options
       })
       return myChart
+    },
+    async scrapChannel(index) {
+      let answer
+      if (this.show === true) {
+        answer = confirm('스크랩 취소 하시겠습니까?')
+      } else {
+        answer = confirm('스크랩 하시겠습니까?')
+      }
+      if (answer) {
+        await this.scrap(this.channelId)
+        // 데이터 다시 받아오기
+        await this.getChannelData(this.channelId)
+        this.changeShow()
+      }
+    },
+    changeShow() {
+      let flag = false
+      for (const iterator of this.channelData.scrap_company_id) {
+        if (iterator === this.company_id) {
+          flag = true
+          break
+        }
+      }
+      if (flag) {
+        this.show = true
+      } else {
+        this.show = false
+      }
     }
   },
   computed: {
@@ -183,10 +230,13 @@ export default {
   created() {
     this.getChannelData(this.channelId)
   },
-  mounted() {
-    this.createChart('wChart', this.wholeData)
-    this.createChart('subscribe-line', this.subData)
+  async mounted() {
+    await this.createChart('wChart', this.wholeData)
+    await this.createChart('subscribe-line', this.subData)
+    await this.getChannelData(this.channelId)
+    this.changeShow()
   },
+
   updated() {
     if (this.isActive === 'views') {
       this.createChart('views-line', this.viewsData)
