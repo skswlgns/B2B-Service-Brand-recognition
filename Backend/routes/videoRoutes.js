@@ -117,12 +117,50 @@ videoRoutes.get('/', async (req, res) => {
   }
 })
 
+// 비디오 count & time
+videoRoutes.get('/count', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const companyId = req.headers.company_id
+      const videoCount = await VideoModel.find().count()
+      const videoAll = await VideoModel.find()
+      let companyCount = 0
+      let companyTime = 0
+      for (let i = 0; i < videoCount; i++) {
+        if (videoAll[i].video_record.length > 0) {
+          let flag = false
+          for (let j = 0; j < videoAll[i].video_record.length; j++) {
+            console.log(companyTime)
+            if (videoAll[i].video_record[j].company_id === companyId) {
+              companyTime = companyTime + videoAll[i].video_record[j].total_exposure_time
+              if (flag === false) {
+                companyCount = companyCount + 1
+                flag = true
+              }
+            }
+            flag = false
+          }
+        }
+      }
+      const companyData = {
+        companyCount: companyCount,
+        companyTime: companyTime
+      }
+      res.status(200).send(companyData)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
+  }
+})
+
 // 무한스크롤 비디오 조회
 videoRoutes.get('/infinity', async (req, res) => {
   if (req.headers.token) {
     try {
-      const videoAll = await VideoModel.find()
-      res.status(200).send(videoAll.slice(req.body.limit, req.body.limit + 4))
+      const videoAll = await VideoModel.find({ _id: req.headers.company_id })
+      res.status(200).send(videoAll.slice(req.headers.limit, req.headers.limit + 4))
     } catch (err) {
       res.status(500).send(err)
     }
@@ -301,11 +339,14 @@ videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
 
       for (let videoIndex = 0; videoIndex < videos.length; videoIndex++) {
         const video = videos[videoIndex]
+        let real_total = 0
         for (let recordIndex = 0; recordIndex < video.video_record.length; recordIndex++) {
+          real_total = real_total + video.video_record[recordIndex].total_exposure_time
           const companyId = video.video_record[recordIndex].company_id
           const company = await CompanyModel.findOne({ _id: companyId })
           video.video_record[recordIndex].company_id = company
         }
+        video.video_total = real_total
       }
       res.status(200).send(videos)
     } catch (err) {

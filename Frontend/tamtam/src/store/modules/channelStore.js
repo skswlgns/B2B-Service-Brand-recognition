@@ -46,6 +46,7 @@ const channelStore = {
     },
     // 스크랩 하기/취소
     async scrap({ commit }, id) {
+      config.headers.company_id = cookies.get('companyId')
       const body = {
         channel_id: id
       }
@@ -56,6 +57,7 @@ const channelStore = {
     },
     // 전체 채널 조회
     async searchChannel({ commit }) {
+      config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/channel`, config)
       commit('setchannel', response.data)
     },
@@ -65,6 +67,7 @@ const channelStore = {
           token: cookies.get('token')
         }
       }
+      config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/channel/${channelId}`, config)
       commit('saveData', response.data)
       // const youtube = {

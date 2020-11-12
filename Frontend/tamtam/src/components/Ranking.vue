@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="card-title">관련 유튜버 랭킹</div>
     <div v-for="(Item, index) in channel" :key="index">
       <div class="card mx-auto mb-2 data">
         <v-list-item two-line>
@@ -53,6 +54,7 @@ export default {
   data: () => ({}),
   created() {
     this.searchChannel()
+    // alert(this.channelId)
   },
   computed: {
     ...mapState(channelStore, ['channel'])
