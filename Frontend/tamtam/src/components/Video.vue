@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col v-for="(video, i) in videoData" :key="i" cols="3">
-        {{ video.video_record }}
+        <!-- {{ video.video_record }} -->
         <v-card class="mx-auto">
           <v-img :src="video.video_thumbnails" />
           <v-card-title v-if="video.video_title.length > 25">{{ video.video_title.slice(0, 25) }}</v-card-title>
@@ -31,6 +31,8 @@ import Chart from 'chart.js'
 
 const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 
+const _ = require('lodash')
+
 export default {
   name: 'Video',
   data() {
@@ -43,20 +45,14 @@ export default {
       },
       videoData: [],
       Id: cookies.get('channelId'),
-      Circle: {
+      chartData: {
         type: 'doughnut',
         data: {
-          labels: ['삼성', 'LG', '애플', 'Sony', 'Philips'],
+          labels: [],
           datasets: [
             {
-              data: [70, 8, 4, 8, 10],
-              backgroundColor: [
-                this.dynamicColors(),
-                this.dynamicColors(),
-                this.dynamicColors(),
-                this.dynamicColors(),
-                this.dynamicColors()
-              ]
+              data: [],
+              backgroundColor: []
             }
           ]
         },
@@ -67,8 +63,7 @@ export default {
           animation: false,
           pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' }
         }
-      },
-      chart: null
+      }
     }
   },
   components: {
@@ -80,20 +75,29 @@ export default {
         .get(`${API_SERVER_URL}/video/videos/${this.Id}`, this.config)
         .then(response => {
           setTimeout(() => {
+            for (let k = 0; k < response.data.length; k++) {
+              response.data[k].chartData = _.cloneDeep(this.chartData)
+              response.data[k].chart = response.data[k]._id
+            }
             if (response.data.length) {
               this.videoData = this.videoData.concat(response.data)
               $state.loaded()
               this.config.headers.limit += 4
               for (let i = 0; i < response.data.length; i++) {
                 if (response.data[i].video_record) {
-                  console.log(response.data[i].video_record)
                   for (let j = 0; j < response.data[i].video_record.length; j++) {
-                    console.log(response.data[i].video_record[i].total_exposure_time)
-                    // for (let k = 0; k < response.data[i].video_record[i].total_exposure_time.length; k++) {
-                    //   console.log()
-                    // }
+                    response.data[i].chartData.data.datasets[0].data.push(
+                      (response.data[i].video_record[j].total_exposure_time / response.data[i].video_total) * 100
+                    )
+                    response.data[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+                    response.data[i].chartData.data.labels.push(
+                      response.data[i].video_record[j].company_id.company_nickname
+                    )
                   }
                 }
+                this.createChart(response.data[i].chart, response.data[i].chartData)
+                console.log(response.data[i].chart)
+                console.log(response.data[i].chartData)
               }
               if (this.videoData.length / 4 === 0) {
                 $state.complete()
@@ -115,9 +119,23 @@ export default {
         options: chartData.options
       })
       return myChart
+    },
+    dynamicColors() {
+      const r = Math.floor(Math.random() * 255)
+      const g = Math.floor(Math.random() * 255)
+      const b = Math.floor(Math.random() * 255)
+      return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
   },
-  created() {}
+  created() {},
+
+  mounted() {
+    console.log(this.videoData)
+    // for (let i = 0; i < this.videoData.length; i++) {
+    //   const chart = this.videoData[i].chart
+    // this.createChart(chart, this.youtube[i].Circle)
+    // }
+  }
 }
 </script>
 
