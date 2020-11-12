@@ -12,12 +12,17 @@
       <div style="float:left;" class="pa-3">
         스크랩한 채널
       </div>
-      <div style="margin-left:70%; display:inline-block;" class="pa-3">
+      <div
+        @click="moredata()"
+        v-if="this.channel.length > 4"
+        style="margin-left:70%; display:inline-block;"
+        class="pa-3"
+      >
         더 보기
       </div>
     </div>
     <v-row no-gutters>
-      <v-col class="pa-2" v-for="i in 4" :key="i" cols="12" sm="3">
+      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="3">
         <v-card @click="moveChannelDetail(channel[i - 1]._id)" class="data" outlined tile v-if="channel[i - 1]">
           <div style="padding:5%">
             <v-list-item two-line>
@@ -30,21 +35,6 @@
                 <div>
                   {{ channel[i - 1].channel_name }}
                 </div>
-                <a style="color: black">
-                  <v-list-item-title>
-                    {{ channel[i - 1].channel_category }}
-                  </v-list-item-title>
-                </a>
-                <!-- <div>
-                  <v-btn icon color="white">
-                    <v-avatar size="30">
-                      <img
-                        alt="user"
-                        src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png"
-                      />
-                    </v-avatar>
-                  </v-btn>
-                </div> -->
               </v-list-item-content>
             </v-list-item>
           </div>
@@ -58,9 +48,10 @@
 import { mapActions, mapState } from 'vuex'
 import router from '@/router'
 const searchStore = 'searchStore'
-const channelStore = 'channelStore'
 export default {
-  data: () => ({}),
+  data: () => ({
+    len: 4
+  }),
   created() {
     this.getScrapChannel()
   },
@@ -69,13 +60,8 @@ export default {
   },
   methods: {
     ...mapActions(searchStore, ['getScrapChannel']),
-    ...mapActions(channelStore, ['scrap']),
-    async scrapCancel(index) {
-      const answer = confirm('스크랩 취소 하시겠습니까?')
-      if (answer) {
-        await this.scrap(this.channel[index]._id)
-        await this.getScrapChannel()
-      }
+    moredata() {
+      this.len = this.channel.length
     },
     // 채널 디테일로 이동할꺼임
     moveChannelDetail(channerId) {

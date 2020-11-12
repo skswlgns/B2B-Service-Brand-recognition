@@ -3,48 +3,65 @@
     <div class="out">
       <div class="in">
         <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
-        <div class="out">채널이 없습니다.</div>
+        <div class="out">검색된 채널이 없습니다.</div>
       </div>
     </div>
   </div>
   <div v-else class="card">
-    <v-carousel hide-delimiters height="100%">
-      <v-carousel-item
-        light
-        v-for="i in channel.length % 11 !== 0 ? parseInt(channel.length / 11) + 1 : parseInt(channel.length / 11)"
-        :key="i"
-        style="padding-left:88px;"
+    <div style="height:48px;">
+      <div style="float:left;" class="pa-3">
+        채널
+      </div>
+      <div
+        @click="moredata()"
+        v-if="this.channel.length > 4"
+        style="margin-left:70%; display:inline-block;"
+        class="pa-3"
       >
-        <v-row>
-          <v-col v-for="j in 11" :key="j" lg="1">
-            <a>
-              <v-avatar size="80" class="data" v-if="channel[(i - 1) * 11 + (j - 1)]">
-                <v-img
-                  @click="moveChannelDetail(channel[(i - 1) * 11 + (j - 1)]._id)"
-                  alt="user"
-                  :src="channel[(i - 1) * 11 + (j - 1)].channel_img"
-                />
-              </v-avatar>
-            </a>
-          </v-col>
-        </v-row>
-      </v-carousel-item>
-    </v-carousel>
+        더 보기
+      </div>
+    </div>
+    <v-row no-gutters>
+      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="3">
+        <v-card @click="moveChannelDetail(channel[i - 1]._id)" class="data" outlined tile v-if="channel[i - 1]">
+          <div style="padding:5%">
+            <v-list-item two-line>
+              <a>
+                <v-avatar size="50" v-if="channel[i - 1]">
+                  <v-img alt="user" :src="channel[i - 1].channel_img" />
+                </v-avatar>
+              </a>
+              <v-list-item-content style="text-align:center;">
+                <div>
+                  {{ channel[i - 1].channel_name }}
+                </div>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
+
 <script>
 import { mapGetters, mapState } from 'vuex'
 import router from '@/router'
 const searchStore = 'searchStore'
 
 export default {
-  data: () => ({}),
+  data: () => ({
+    len: 4
+  }),
   created() {},
   computed: {
     ...mapState(searchStore, ['channel'])
   },
   methods: {
     ...mapGetters(searchStore, ['getChannel']),
+    moredata() {
+      this.len = this.channel.length
+    },
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
     }
