@@ -48,6 +48,7 @@
       </div>
     </div>
     <div class="fr-youtube">
+      {{ channelData.channel_youtube_id }}
       <Video :channelId="channelData.channel_youtube_id" />
       <!-- <div v-for="(item, $index) in list" :key="$index">
         {{ $index }}: {{ item.title }}

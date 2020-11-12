@@ -61,9 +61,6 @@ export default {
     // 채널 디테일로 이동할꺼임
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
-    },
-    moveYoutube(channerId) {
-      window.open('https://www.youtube.com/channel/' + channerId)
     }
   }
 }
