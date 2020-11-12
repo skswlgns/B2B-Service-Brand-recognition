@@ -10,8 +10,10 @@
           </div>
           <router-link class="menu" to="/whole">전체 기업 분석</router-link>
           <router-link class="menu" to="/myAnalysis">내 기업 분석</router-link>
+
           <router-link class="menu" to="/myPage">My Page</router-link>
         </div>
+        <v-divider></v-divider>
         <div>
           <div>{{ user_nickname }}</div>
           <v-btn class="logout" elevation="4" rounded outlined @click="logout()">Log Out</v-btn>

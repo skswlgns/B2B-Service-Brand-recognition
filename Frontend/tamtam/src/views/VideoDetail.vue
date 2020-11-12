@@ -86,8 +86,6 @@
 import { mapActions, mapState } from 'vuex'
 import router from '../router'
 
-const videoDetailStore = 'videoDetailStore'
-
 export default {
   name: 'VideoDetail',
   data() {
@@ -163,10 +161,10 @@ export default {
     console.log('destroyed')
   },
   computed: {
-    ...mapState(videoDetailStore, ['videoData', 'recommendVideos'])
+    ...mapState('videoDetailStore', ['videoData', 'recommendVideos'])
   },
   methods: {
-    ...mapActions(videoDetailStore, ['getVideoData']),
+    ...mapActions('videoDetailStore', ['getVideoData']),
 
     makePlayerObject: function(videoYoutubeId) {
       this.player = new window.YT.Player('yt-player', {

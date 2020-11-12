@@ -1,26 +1,38 @@
 <template>
-  <div class="frame">
-    <div class="main1">
-      <div class="card-title">전체 브랜드 노출 순위</div>
-      <div class="frame">
-        <div class="whole shadow chart">
-          <canvas id="wChart"></canvas>
-        </div>
-        <!-- <div class="shadow">
-          <canvas id="wCircle"></canvas>
-        </div> -->
+  <div class="grid-container">
+    <!-- 개별카드 -->
+    <article class="card all-exposure-chart-card">
+      <div class="chart-title">전체 브랜드 노출 순위</div>
+      <v-divider></v-divider>
+      <AllExposureChart />
+    </article>
+
+    <article class="ind-exposure-chart-section">
+      <div class="chart-title">업계 브랜드 노출 순위</div>
+      <div class="chart-body card">
+        <IndExposureChart />
       </div>
-      <div class="card-title">업계 브랜드 노출 순위</div>
-      <div class="frame">
-        <div class="whole shadow chart">
-          <canvas id="cLine"></canvas>
-        </div>
-        <!-- <div class="whole shadow">
-          <canvas id="cDoughnut"></canvas>
-        </div> -->
+    </article>
+
+    <!-- 카드 한번에 -->
+    <article class="card exposure-charts-section">
+      <div class="chart-header">
+        <div class="chart-title">브랜드 노출 순위</div>
+        <v-divider></v-divider>
       </div>
+      <div>
+        <p class="chart-subtitle">전체 브랜드 순위</p>
+        <AllExposureChartCopy />
+      </div>
+      <div>
+        <p class="chart-subtitle">IT 업계 브랜드 순위</p>
+        <IndExposureChartCopy />
+      </div>
+    </article>
+
+    <article class="card ranking-section-card">
       <div class="card-title">YouTuber</div>
-      <div class="frame">
+      <div>
         <div class="rank_fr">
           <div class="rank-title">
             <div>구독자순</div>
@@ -42,6 +54,8 @@
             </v-card>
           </div>
         </div>
+      </div>
+      <div>
         <div class="rank_fr">
           <div class="rank-title">
             <div>구독자순</div>
@@ -60,162 +74,31 @@
             </v-card>
           </div>
         </div>
-        <!-- <div class="rank_fr">
-          <div class="rank-title">
-            <div>구독자순</div>
-            <router-link to="/whole">더 보기</router-link>
-          </div>
-          <div class="rank">
-            <v-card v-for="(channel, i) in channelData" :key="i" class="mx-auto mt-2" max-width="344" outlined>
-              <v-list-item three-line>
-                <img :src="channel.channel_img" width="80px" />
-                <v-list-item-content>
-                  <router-link to="" class="overline mb-4">
-                    {{ channel.channel_name }}
-                  </router-link>
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </div>
-        </div> -->
       </div>
-    </div>
+    </article>
   </div>
 </template>
 
 <script>
 import Chart from 'chart.js'
 import { mapState, mapActions } from 'vuex'
+import AllExposureChart from '@/components/charts/AllExposureChart.vue'
+import IndExposureChart from '@/components/charts/IndExposureChart.vue'
+import AllExposureChartCopy from '@/components/charts/AllExposureChartCopy.vue'
+import IndExposureChartCopy from '@/components/charts/IndExposureChartCopy.vue'
 
 const wholeStore = 'wholeStore'
 
 export default {
   name: 'Main1',
+  components: {
+    AllExposureChart,
+    IndExposureChart,
+    AllExposureChartCopy,
+    IndExposureChartCopy
+  },
   data() {
-    return {
-      wholeData: {
-        type: 'horizontalBar',
-        data: {
-          labels: ['도희', '승범', '용욱', '다인', '지훈'],
-          datasets: [
-            {
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 4],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-              ],
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true
-                }
-              }
-            ]
-          }
-        }
-      },
-      wholeCirlce: {
-        type: 'pie',
-        data: {
-          labels: ['도희', '승범', '용욱', '다인', '지훈'],
-          datasets: [
-            {
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 4],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-              ],
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {}
-      },
-      induLine: {
-        type: 'line',
-        data: {
-          labels: ['도희', '승범', '용욱', '다인', '지훈'],
-          datasets: [
-            {
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 4],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-              ],
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {}
-      },
-      induDoughnut: {
-        type: 'doughnut',
-        data: {
-          labels: ['도희', '승범', '용욱', '다인', '지훈'],
-          datasets: [
-            {
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 4],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-              ],
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {}
-      }
-    }
+    return {}
   },
   computed: {
     ...mapState(wholeStore, ['subscribeData', 'viewsData'])
@@ -224,26 +107,22 @@ export default {
     ...mapActions(wholeStore, ['getChannel']),
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
-      const myChart = new Chart(ctx, {
+      const newChart = new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,
         options: chartData.options
       })
-      return myChart
+      return newChart
     }
   },
-  created() {
-    this.getChannel()
-  },
+  created() {},
   mounted() {
-    this.createChart('wChart', this.wholeData)
-    this.createChart('wCircle', this.wholeCirlce)
-    this.createChart('cLine', this.induLine)
-    this.createChart('cDoughnut', this.induDoughnut)
+    this.getChannel()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../scss/main1.scss';
+@import '@/scss/main1.scss';
+@import '@/scss/charts.scss';
 </style>
