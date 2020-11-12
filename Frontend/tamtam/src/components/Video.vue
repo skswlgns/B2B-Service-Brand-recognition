@@ -1,8 +1,8 @@
 <template>
   <div>
-    {{ channelId }}
     <v-row>
       <v-col v-for="(video, i) in videoData" :key="i" cols="3">
+        {{ video.video_record }}
         <v-card class="mx-auto">
           <img :src="video.video_thumbnails" />
           <v-card-text></v-card-text>
@@ -20,42 +20,54 @@ import axios from 'axios'
 import cookies from 'vue-cookies'
 
 const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
-const config = {
-  headers: {
-    token: cookies.get('token')
-  }
-}
 
 export default {
   name: 'Video',
   data() {
     return {
-      limit: 0,
+      config: {
+        headers: {
+          token: cookies.get('token'),
+          limit: 0
+        }
+      },
+      count: {
+        limit: 0
+      },
       videoData: [],
-      Id: ''
+      Id: cookies.get('channelId')
     }
   },
   components: {
     InfiniteLoading
   },
-  props: {
-    channelId: {
-      type: String
-    }
-  },
   methods: {
     infiniteHandler($state) {
-      axios.get(`${API_SERVER_URL}/video/videos/${this.Id}`, this.limit, config).then(response => {
-        const video = this.videoData.concat(response.data)
-        this.videoData = video
-      })
+      axios
+        .get(`${API_SERVER_URL}/video/videos/${this.Id}`, this.config)
+        .then(response => {
+          setTimeout(() => {
+            if (response.data.length) {
+              this.videoData = this.videoData.concat(response.data)
+              $state.loaded()
+              this.config.headers.limit += 4
+              if (this.videoData.length / 4 === 0) {
+                $state.complete()
+              }
+            } else {
+              $state.complete()
+            }
+          }, 1000)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
-  mounted() {
-    console.log(this.channelId)
-    this.Id = this.channelId
-  }
+  created() {}
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import '../scss/channel.scss';
+</style>

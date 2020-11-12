@@ -293,7 +293,7 @@ videoRoutes.get('/youtube/:video_youtube_id', async (req, res) => {
 videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
   if (req.headers.token) {
     const videoYoutubeId = req.params.video_youtube_id
-    const limit = req.body.limit
+    const limit = req.headers.limit
     try {
       const channel = await ChannelModel.findOne({ channel_youtube_id: videoYoutubeId })
       let videos = await VideoModel.find({ channel_id: channel._id })
