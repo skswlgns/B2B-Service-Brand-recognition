@@ -4,8 +4,12 @@
       <v-col v-for="(video, i) in videoData" :key="i" cols="3">
         <v-card class="mx-auto">
           <v-img :src="video.video_thumbnails" />
-          <v-card-title v-if="video.video_title.length > 25">{{ video.video_title.slice(0, 25) }}</v-card-title>
-          <v-card-title v-else>{{ video.video_title }}</v-card-title>
+          <v-card-title v-if="video.video_title.length > 20">
+            <router-link to="">{{ video.video_title.slice(0, 20) + '...' }}</router-link></v-card-title
+          >
+          <v-card-title v-else
+            ><router-link to="">{{ video.video_title }}</router-link></v-card-title
+          >
           <div class="views" v-if="video.video_views < 1000">조회수 : {{ video.video_views }}회</div>
           <div class="views" v-else-if="video.video_views < 10000">
             조회수 : {{ parseInt(video.video_views / 1000) }}천회
@@ -83,27 +87,13 @@ export default {
               $state.loaded()
               this.config.headers.limit += 4
               for (let i = 0; i < response.data.length; i++) {
-                this.videoData[i].chartData = {
-                  type: 'doughnut',
-                  data: {
-                    labels: [],
-                    datasets: [
-                      {
-                        label: '# of Votes',
-                        data: [],
-                        backgroundColor: [],
-                        borderColor: [],
-                        borderWidth: 1
-                      }
-                    ]
-                  },
-                  options: {}
-                }
                 // this.videoData.chart = null
                 if (response.data[i].video_record) {
                   for (let j = 0; j < response.data[i].video_record.length; j++) {
                     response.data[i].chartData.data.datasets[0].data.push(
-                      (response.data[i].video_record[j].total_exposure_time / response.data[i].video_total) * 100
+                      Math.round(
+                        (response.data[i].video_record[j].total_exposure_time / response.data[i].video_total) * 100
+                      )
                     )
                     response.data[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
                     response.data[i].chartData.data.labels.push(
