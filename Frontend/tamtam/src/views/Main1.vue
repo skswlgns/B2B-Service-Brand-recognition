@@ -82,10 +82,10 @@
 <script>
 import Chart from 'chart.js'
 import { mapState, mapActions } from 'vuex'
-import AllExposureChart from '@/components/charts/AllExposureChart.vue'
-import IndExposureChart from '@/components/charts/IndExposureChart.vue'
-import AllExposureChartCopy from '@/components/charts/AllExposureChartCopy.vue'
-import IndExposureChartCopy from '@/components/charts/IndExposureChartCopy.vue'
+import AllExposureChart from '@/components/ChartComponents/AllExposureChart.vue'
+import IndExposureChart from '@/components/ChartComponents/IndExposureChart.vue'
+import AllExposureChartCopy from '@/components/ChartComponents/AllExposureChartCopy.vue'
+import IndExposureChartCopy from '@/components/ChartComponents/IndExposureChartCopy.vue'
 
 const wholeStore = 'wholeStore'
 
@@ -123,6 +123,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/main1.scss';
+@import '@/scss/Main/main1.scss';
 @import '@/scss/charts.scss';
 </style>
