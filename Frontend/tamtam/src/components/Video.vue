@@ -30,6 +30,8 @@ import Chart from 'chart.js'
 
 const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 
+const _ = require('lodash')
+
 export default {
   name: 'Video',
   data() {
@@ -41,7 +43,26 @@ export default {
         }
       },
       videoData: [],
-      Id: cookies.get('channelId')
+      Id: cookies.get('channelId'),
+      chartData: {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [
+            {
+              data: [],
+              backgroundColor: []
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          legend: { position: 'right' },
+          maintainAspectRatio: false,
+          animation: false,
+          pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' }
+        }
+      }
     }
   },
   components: {
@@ -53,6 +74,10 @@ export default {
         .get(`${API_SERVER_URL}/video/videos/${this.Id}`, this.config)
         .then(response => {
           setTimeout(() => {
+            for (let k = 0; k < response.data.length; k++) {
+              response.data[k].chartData = _.cloneDeep(this.chartData)
+              response.data[k].chart = response.data[k]._id
+            }
             if (response.data.length) {
               this.videoData = this.videoData.concat(response.data)
               $state.loaded()
@@ -77,15 +102,13 @@ export default {
                 // this.videoData.chart = null
                 if (response.data[i].video_record) {
                   for (let j = 0; j < response.data[i].video_record.length; j++) {
-                    if (response.data[i].video_record[j].total_exposure_time) {
-                      this.videoData[i].chartData.data.datasets[0].data.push(
-                        (response.data[i].video_record[j].total_exposure_time / response.data[i].video_total) * 100
-                      )
-                      this.videoData[i].chartData.data.labels.push(
-                        response.data[i].video_record[j].company_id.company_nickname
-                      )
-                      this.videoData[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
-                    }
+                    response.data[i].chartData.data.datasets[0].data.push(
+                      (response.data[i].video_record[j].total_exposure_time / response.data[i].video_total) * 100
+                    )
+                    response.data[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+                    response.data[i].chartData.data.labels.push(
+                      response.data[i].video_record[j].company_id.company_nickname
+                    )
                   }
                   // this.createChart(this.videoData[i]._id, this.videoData[i].chartData)
                 } else {
@@ -120,12 +143,12 @@ export default {
       return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
   },
-  mounted() {
-    // console.log(this.videoData)
-  },
   updated() {
-    for (let i = 0; i < this.videoData.length; i++) {
-      this.createChart(this.videoData[i]._id, this.videoData[i].chartData)
+    if (this.videoData.length) {
+      for (let i = 0; i < this.videoData.length; i++) {
+        console.log(this.videoData[i])
+        this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
+      }
     }
   }
 }
