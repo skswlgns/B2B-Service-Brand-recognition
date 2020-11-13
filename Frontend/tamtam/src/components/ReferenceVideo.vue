@@ -8,12 +8,14 @@
     </div>
   </div>
   <div v-else class="card">
-    <div style="height:48px;">
-      <div style="float:left;" class="pa-3">
-        기업 관련 영상(해당 브랜드가 많이 나온거? or 한번이라도 나온거?) 제작중
-      </div>
-      <div align="right" @click="moredata()" v-if="this.video.length > 3" class="pa-3">
-        더 보기
+    <div class="rank_fr">
+      <div style="height:48px;" class="rank-title">
+        <div>
+          기업 관련 영상(해당 브랜드가 많이 나온거? or 한번이라도 나온거?) 제작중
+        </div>
+        <a align="right" @click="moredata()" v-if="this.video.length > 3">
+          더 보기
+        </a>
       </div>
     </div>
     <v-row no-gutters>
@@ -75,4 +77,8 @@ export default {
   top: -10px;
   /* opacity: 1; */
 }
+</style>
+<style lang="scss" scoped>
+@import '@/scss/myAnalysis.scss';
+@import '@/scss/charts.scss';
 </style>

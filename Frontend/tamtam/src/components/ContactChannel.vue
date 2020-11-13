@@ -12,7 +12,7 @@
       <div style="float:left;" class="pa-3">
         컨택한 채널
       </div>
-      <div @click="moredata()" v-if="this.contactChannel.length > 4" align="right" class="pa-3">
+      <div @click="moredata()" v-if="this.contactChannel.length > 4" align="right" class="pa-3 cursor">
         더 보기
       </div>
     </div>
@@ -78,5 +78,10 @@ export default {
 }
 .data:hover {
   top: -10px;
+}
+.cursor {
+  cursor: pointer;
+  color: rgb(92, 107, 192);
+  font-weight: bold;
 }
 </style>

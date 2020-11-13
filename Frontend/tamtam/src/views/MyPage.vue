@@ -22,8 +22,7 @@
     </div>
     <div>
       <ScrapVideo class="component"></ScrapVideo>
-      <div class="card-title">유투버 추천</div>
-      <Recommend></Recommend>
+      <Recommend class="component"></Recommend>
     </div>
   </div>
 </template>
