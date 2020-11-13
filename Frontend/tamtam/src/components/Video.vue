@@ -2,7 +2,6 @@
   <div>
     <v-row>
       <v-col v-for="(video, i) in videoData" :key="i" cols="3">
-        {{ video.video_record }}
         <v-card class="mx-auto">
           <v-img :src="video.video_thumbnails" />
           <v-card-title v-if="video.video_title.length > 25">{{ video.video_title.slice(0, 25) }}</v-card-title>
@@ -13,7 +12,7 @@
           </div>
           <div class="views" v-else>조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
           <v-card-text>
-            <canvas></canvas>
+            <canvas :id="video._id"></canvas>
           </v-card-text>
           <v-spacer></v-spacer>
         </v-card>
@@ -42,33 +41,7 @@ export default {
         }
       },
       videoData: [],
-      Id: cookies.get('channelId'),
-      Circle: {
-        type: 'doughnut',
-        data: {
-          labels: ['삼성', 'LG', '애플', 'Sony', 'Philips'],
-          datasets: [
-            {
-              data: [70, 8, 4, 8, 10],
-              backgroundColor: [
-                this.dynamicColors(),
-                this.dynamicColors(),
-                this.dynamicColors(),
-                this.dynamicColors(),
-                this.dynamicColors()
-              ]
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          legend: { position: 'right' },
-          maintainAspectRatio: false,
-          animation: false,
-          pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' }
-        }
-      },
-      chart: null
+      Id: cookies.get('channelId')
     }
   },
   components: {
@@ -85,14 +58,38 @@ export default {
               $state.loaded()
               this.config.headers.limit += 4
               for (let i = 0; i < response.data.length; i++) {
+                this.videoData[i].chartData = {
+                  type: 'doughnut',
+                  data: {
+                    labels: [],
+                    datasets: [
+                      {
+                        label: '# of Votes',
+                        data: [],
+                        backgroundColor: [],
+                        borderColor: [],
+                        borderWidth: 1
+                      }
+                    ]
+                  },
+                  options: {}
+                }
+                // this.videoData.chart = null
                 if (response.data[i].video_record) {
-                  console.log(response.data[i].video_record)
                   for (let j = 0; j < response.data[i].video_record.length; j++) {
-                    console.log(response.data[i].video_record[i].total_exposure_time)
-                    // for (let k = 0; k < response.data[i].video_record[i].total_exposure_time.length; k++) {
-                    //   console.log()
-                    // }
+                    if (response.data[i].video_record[j].total_exposure_time) {
+                      this.videoData[i].chartData.data.datasets[0].data.push(
+                        (response.data[i].video_record[j].total_exposure_time / response.data[i].video_total) * 100
+                      )
+                      this.videoData[i].chartData.data.labels.push(
+                        response.data[i].video_record[j].company_id.company_nickname
+                      )
+                      this.videoData[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+                    }
                   }
+                  // this.createChart(this.videoData[i]._id, this.videoData[i].chartData)
+                } else {
+                  console.log('없음')
                 }
               }
               if (this.videoData.length / 4 === 0) {
@@ -101,7 +98,7 @@ export default {
             } else {
               $state.complete()
             }
-          }, 500)
+          }, 1000)
         })
         .catch(error => {
           console.log(error)
@@ -115,9 +112,22 @@ export default {
         options: chartData.options
       })
       return myChart
+    },
+    dynamicColors() {
+      const r = Math.floor(Math.random() * 255)
+      const g = Math.floor(Math.random() * 255)
+      const b = Math.floor(Math.random() * 255)
+      return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
   },
-  created() {}
+  mounted() {
+    // console.log(this.videoData)
+  },
+  updated() {
+    for (let i = 0; i < this.videoData.length; i++) {
+      this.createChart(this.videoData[i]._id, this.videoData[i].chartData)
+    }
+  }
 }
 </script>
 
