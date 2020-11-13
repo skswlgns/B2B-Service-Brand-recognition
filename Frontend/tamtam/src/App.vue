@@ -43,7 +43,9 @@ export default {
   components: {
     GoTop
   },
-  created() {},
+  computed: {
+    ...mapState(userStore, ['user_nickname'])
+  },
   methods: {
     searching() {
       this.text = this.text.trim()
@@ -58,9 +60,7 @@ export default {
     ...mapActions(userStore, ['logout']),
     ...mapActions(searchStore, ['search'])
   },
-  computed: {
-    ...mapState(userStore, ['user_nickname'])
-  },
+  created() {},
   mounted() {}
 }
 </script>

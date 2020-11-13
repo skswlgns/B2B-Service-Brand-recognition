@@ -1,0 +1,45 @@
+@import '@/scss/_variable.scss';
+
+div {
+  header {
+    font-size: #{$base-fontsize};
+    margin-bottom: #{$base-margin};
+  }
+
+  hr {
+    margin-bottom: #{$base-margin};
+  }
+
+  .recommend-list {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    column-gap: #{$base-margin};
+    margin-bottom: #{$base-margin};
+    cursor: pointer;
+  }
+
+  .recommend-thumbnail {
+    width: 100%;
+    grid-column: 1/2;
+  }
+
+  .recommend-info {
+    width: 100%;
+    grid-column: 2/3;
+
+    p {
+      color: gray;
+    }
+
+    .info-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      word-wrap: break-word;
+      color: black;
+    }
+  }
+}
