@@ -127,7 +127,6 @@ export default {
   updated() {
     if (this.videoData.length) {
       for (let i = 0; i < this.videoData.length; i++) {
-        console.log(this.videoData[i])
         this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
       }
     }
