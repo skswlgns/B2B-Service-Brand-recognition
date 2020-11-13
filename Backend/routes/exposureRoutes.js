@@ -60,4 +60,40 @@ exposureRoutes.get('/industry', async (req, res) => {
   }
 })
 
+// 4주 기업 노출 시간
+exposureRoutes.get('/fourweek', async (req, res) => {
+  try {
+    if (req.headers.token) {
+      const exposures = await ExposureModel.find({
+        company_id: req.body.company_id
+      })
+
+      let temp_1 = 0
+      let temp_2 = 0
+      let temp_3 = 0
+      let temp_4 = 0
+
+      for (let i = 0; i < exposures.length; i++) {
+        if (exposures[i].exposure_date >= '2020-10-19' && exposures[i].exposure_date <= '2020-10-25') {
+          temp_1 += exposures[i].exposure_time
+        } else if (exposures[i].exposure_date >= '2020-10-26' && exposures[i].exposure_date <= '2020-11-01') {
+          temp_2 += exposures[i].exposure_time
+        } else if (exposures[i].exposure_date >= '2020-11-02' && exposures[i].exposure_date <= '2020-11-08') {
+          temp_3 += exposures[i].exposure_time
+        } else if (exposures[i].exposure_date >= '2020-11-09' && exposures[i].exposure_date <= '2020-11-15') {
+          temp_4 += exposures[i].exposure_time
+        }
+      }
+      // [4주차, 3주차, 2주차, 1주차]
+      const result = [temp_1, temp_2, temp_3, temp_4]
+      const company = await CompanyModel.findOneAndUpdate({ _id: req.body.company_id }, { company_four_week: result })
+      res.status(200).send(company)
+    } else {
+      res.status(403).send({ message: '로그인이 필요한 기능입니다. ' })
+    }
+  } catch (err) {
+    res.status(500).send(err)
+  }
+})
+
 module.exports = exposureRoutes

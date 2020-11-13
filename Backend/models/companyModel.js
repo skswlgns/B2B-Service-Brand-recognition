@@ -31,6 +31,10 @@ const companySchema = new mongoose.Schema({
     allowNull: false,
     default: 0
   },
+  company_four_week: {
+    type: Array,
+    allowNull: false
+  },
   company_exception: [
     {
       type: Schema.Types.ObjectId,
