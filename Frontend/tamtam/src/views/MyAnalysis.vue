@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import ScrapChannelChart from '@/components/charts/ScrapChannelChart.vue'
-import CompareExposureChart from '@/components/charts/CompareExposureChart.vue'
-import ReferenceVideo from '@/components/ReferenceVideo.vue'
+import ScrapChannelChart from '@/components/ChartComponents/ScrapChannelChart.vue'
+import CompareExposureChart from '@/components/ChartComponents/CompareExposureChart.vue'
+import ReferenceVideo from '@/components/CompanyAnalysisComponents/ReferenceVideo.vue'
 import { mapActions, mapState } from 'vuex'
 const companyStore = 'companyStore'
 

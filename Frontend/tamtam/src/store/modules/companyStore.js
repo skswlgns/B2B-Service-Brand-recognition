@@ -10,9 +10,13 @@ const searchStore = {
   namespaced: true,
   state: {
     companyCount: '',
-    companyTime: ''
+    companyTime: '',
+    companyList: []
   },
   mutations: {
+    setCompanyList(state, data) {
+      state.companyList = data
+    },
     setCompanyCount(state, data) {
       state.companyCount = data + '개'
     },
@@ -45,6 +49,12 @@ const searchStore = {
       const response = await axios.get(`${API_SERVER_URL}/video/count`, config)
       commit('setCompanyCount', response.data.companyCount)
       commit('setCompanyTime', response.data.companyTime)
+    },
+    // 전체 기업리스트 가져오기
+    async getCompanyList({ commit }) {
+      // config.headers.company_id = cookies.get('companyId')
+      const response = await axios.get(`${API_SERVER_URL}/company`)
+      commit('setCompanyList', response.data)
     }
   }
 }

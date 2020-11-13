@@ -3,17 +3,14 @@
     <div class="out">
       <div class="in">
         <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
-        <div class="out">스크랩한 영상이 없습니다.</div>
+        <div class="out">영상이 없습니다.</div>
       </div>
     </div>
   </div>
   <div v-else class="card">
     <div style="height:48px;">
       <div style="float:left;" class="pa-3">
-        스크랩한 영상
-      </div>
-      <div align="right" @click="moredata()" v-if="this.video.length > 3" class="pa-3">
-        더 보기
+        영상
       </div>
     </div>
     <v-row no-gutters>
@@ -36,25 +33,31 @@
         </v-card>
       </v-col>
     </v-row>
+    <div v-if="this.video.length > 3" style="height:48px;">
+      <div style="float:left;" class="pa-3"></div>
+      <div align="right" class="pa-3">
+        <div @click="moredata()" class="cursor">
+          더 보기
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import router from '@/router'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
     len: 3
   }),
-  created() {
-    this.getScrapVideo()
-  },
+  created() {},
   computed: {
     ...mapState(searchStore, ['video'])
   },
   methods: {
-    ...mapActions(searchStore, ['getScrapVideo']),
+    ...mapGetters(searchStore, ['getVideo']),
     moredata() {
       this.len = this.video.length
     },
@@ -67,12 +70,10 @@ export default {
 
 <style scoped>
 .data {
-  /* opacity: 0.7; */
   transition: all 0.6s;
   top: 0;
 }
 .data:hover {
   top: -10px;
-  /* opacity: 1; */
 }
 </style>

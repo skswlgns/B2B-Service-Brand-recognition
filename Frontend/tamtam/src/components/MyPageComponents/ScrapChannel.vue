@@ -3,19 +3,11 @@
     <div class="out">
       <div class="in">
         <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
-        <div class="out">검색된 채널이 없습니다.</div>
+        <div class="out">스크랩한 채널이 없습니다.</div>
       </div>
     </div>
   </div>
   <div v-else class="card">
-    <div style="height:48px;">
-      <div style="float:left;" class="pa-3">
-        채널
-      </div>
-      <div @click="moredata()" v-if="this.channel.length > 4" align="right" class="pa-3">
-        더 보기
-      </div>
-    </div>
     <v-row no-gutters>
       <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="3">
         <v-card @click="moveChannelDetail(channel[i - 1]._id)" class="data" outlined tile v-if="channel[i - 1]">
@@ -36,34 +28,43 @@
         </v-card>
       </v-col>
     </v-row>
+    <div style="height:48px;">
+      <div style="float:left;" class="pa-3"></div>
+      <div v-if="this.channel.length > 4" align="right" class="pa-3">
+        <div @click="moredata()" class="cursor">
+          더 보기
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import router from '@/router'
 const searchStore = 'searchStore'
-
 export default {
   data: () => ({
     len: 4
   }),
-  created() {},
+  created() {
+    this.getScrapChannel()
+  },
   computed: {
     ...mapState(searchStore, ['channel'])
   },
   methods: {
-    ...mapGetters(searchStore, ['getChannel']),
+    ...mapActions(searchStore, ['getScrapChannel']),
     moredata() {
       this.len = this.channel.length
     },
+    // 채널 디테일로 이동할꺼임
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
     }
   }
 }
 </script>
-
 <style scoped>
 .data {
   transition: all 0.6s;
@@ -71,5 +72,10 @@ export default {
 }
 .data:hover {
   top: -10px;
+}
+.cursor {
+  cursor: pointer;
+  color: rgb(92, 107, 192);
+  font-weight: bold;
 }
 </style>

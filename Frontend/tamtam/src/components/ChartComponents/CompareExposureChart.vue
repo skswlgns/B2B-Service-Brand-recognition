@@ -2,7 +2,7 @@
   <div>
     <div class="chart-body">
       <div align="right">
-        <v-select :items="items" label="비교하기" solo> </v-select>
+        <v-select @input="changedLabel" :items="items" label="비교하기" solo> </v-select>
       </div>
 
       <canvas id="all-exposure-chart"></canvas>
@@ -12,67 +12,31 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import cookies from 'vue-cookies'
+import Chart from 'chart.js'
+const companyStore = 'companyStore'
 
 export default {
   name: 'Main1',
   data() {
     return {
-      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+      newChart: null,
+      selected: null,
+      company_id: null,
+      company_nickname: cookies.get('nick'),
+      items: [],
+      myChartData: {
+        label: this.company_nickname,
+        data: [5, 7, 9, 12],
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        pointBackgroundColor: 'rgba(255, 99, 132, 1)'
+      },
       allExposureData: {
         type: 'line',
         data: {
           labels: ['4', '3', '2', '1'],
-          datasets: [
-            {
-              label: 'samsung',
-              data: [5, 7, 9, 12],
-              borderColor: 'rgba(255, 99, 132, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(255, 99, 132, 1)'
-            },
-            {
-              label: 'LG',
-              data: [6, 5, 3, 4],
-              borderColor: 'rgba(54, 162, 235, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(54, 162, 235, 1)'
-            },
-            {
-              label: 'apple',
-              data: [1, 3, 2, 1],
-              borderColor: 'rgba(255, 206, 86, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(255, 206, 86, 1)'
-            },
-            {
-              label: 'sony',
-              data: [4, 2, 3, 4],
-              borderColor: 'rgba(75, 192, 192, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(75, 192, 192, 1)'
-            },
-            {
-              label: 'philips',
-              data: [2, 3, 3, 2],
-              borderColor: 'rgba(153, 102, 255, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(153, 102, 255, 1)'
-            }
-          ]
-          // backgroundColor: [
-          //   'rgba(255, 99, 132, 0.2)',
-          //   'rgba(54, 162, 235, 0.2)',
-          //   'rgba(255, 206, 86, 0.2)',
-          //   'rgba(75, 192, 192, 0.2)',
-          //   'rgba(153, 102, 255, 0.2)'
-          // ],
-          // borderColor: [
-          //   'rgba(255, 99, 132, 1)',
-          //   'rgba(54, 162, 235, 1)',
-          //   'rgba(255, 206, 86, 1)',
-          //   'rgba(75, 192, 192, 1)',
-          //   'rgba(153, 102, 255, 1)'
-          // ],
+          datasets: []
         },
         options: {
           legend: {
@@ -122,15 +86,55 @@ export default {
     }
   },
   computed: {
-    ...mapState('chartDataStore', [])
+    ...mapState(companyStore, ['companyList'])
   },
   methods: {
-    ...mapActions('chartDataStore', ['createChart'])
+    ...mapActions(companyStore, ['getCompanyList']),
+    changedLabel(event) {
+      this.selected = event
+      const tmp = {
+        label: this.selected,
+        data: [2, 3, 3, 2],
+        borderColor: 'rgba(153, 102, 255, 1)',
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        pointBackgroundColor: 'rgba(153, 102, 255, 1)'
+      }
+      this.allExposureData.data.datasets = []
+      this.allExposureData.data.datasets.push(this.myChartData)
+      this.allExposureData.data.datasets.push(tmp)
+      this.updateChart({ chartId: 'all-exposure-chart', chartData: this.allExposureData })
+    },
+    init() {
+      for (let index = 0; index < this.companyList.length; index++) {
+        const element = this.companyList[index].company_nickname
+        if (this.company_nickname === element || element === '관리자' || element === '탈퇴할 아이디') {
+          continue
+        }
+        this.items.push(element)
+      }
+    },
+    updateChart({ chartId, chartData }) {
+      this.newChart.data = chartData.data
+      this.newChart.update()
+    },
+    createChart({ chartId, chartData }) {
+      this.ctx = document.getElementById(chartId)
+      this.newChart = new Chart(this.ctx, {
+        type: chartData.type,
+        data: chartData.data,
+        options: chartData.options
+      })
+    }
   },
-  async created() {},
-  mounted() {
+
+  async created() {
+    this.myChartData.label = this.company_nickname
+    this.allExposureData.data.datasets.push(this.myChartData)
+    await this.getCompanyList()
+    await this.init()
     this.createChart({ chartId: 'all-exposure-chart', chartData: this.allExposureData })
-  }
+  },
+  mounted() {}
 }
 </script>
 

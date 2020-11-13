@@ -13,25 +13,30 @@
           </div>
         </v-col>
       </v-row>
+      <div v-if="showContact">
+        <ContactChannel class="component"></ContactChannel>
+      </div>
+      <div v-else-if="showScrap">
+        <ScrapChannel class="component"></ScrapChannel>
+      </div>
     </div>
-    <div v-if="showContact">
-      <ContactChannel class="component"></ContactChannel>
-    </div>
-    <div v-else-if="showScrap">
-      <ScrapChannel class="component"></ScrapChannel>
-    </div>
+
     <div>
       <ScrapVideo class="component"></ScrapVideo>
-      <Recommend class="component"></Recommend>
+      <div class="card component">
+        <div class="chart-title">유투버 추천</div>
+        <v-divider></v-divider>
+        <Recommend class="component" style="padding:50px;"></Recommend>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import ContactChannel from '@/components/ContactChannel.vue'
-import ScrapChannel from '@/components/ScrapChannel.vue'
-import ScrapVideo from '@/components/ScrapVideo.vue'
-import Recommend from '@/components/Recommend.vue'
+import ContactChannel from '@/components/MyPageComponents/ContactChannel.vue'
+import ScrapChannel from '@/components/MyPageComponents/ScrapChannel.vue'
+import ScrapVideo from '@/components/MyPageComponents/ScrapVideo.vue'
+import Recommend from '@/components/MyPageComponents/Recommend.vue'
 import cookies from 'vue-cookies'
 export default {
   name: 'Search',
@@ -79,4 +84,9 @@ export default {
 .component {
   margin-top: 8px;
 }
+</style>
+
+<style lang="scss" scoped>
+@import '@/scss/myAnalysis.scss';
+@import '@/scss/charts.scss';
 </style>

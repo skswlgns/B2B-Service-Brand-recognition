@@ -51,7 +51,7 @@ export default {
   props: {
     size: {
       type: Number,
-      default: 50
+      default: 40
     },
     right: {
       type: [String, Number],
@@ -59,7 +59,7 @@ export default {
     },
     bottom: {
       type: [String, Number],
-      default: 40
+      default: 60
     },
     bottomGap: {
       type: [String, Number],
