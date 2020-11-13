@@ -8,7 +8,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'Main1',
+  name: 'IndExposureChartCopy',
   data() {
     return {
       indExposureData: {

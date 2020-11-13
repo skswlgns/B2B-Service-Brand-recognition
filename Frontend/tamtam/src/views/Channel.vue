@@ -61,7 +61,7 @@
 import Chart from 'chart.js'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import cookies from 'vue-cookies'
-import Video from '../components/Video.vue'
+import Video from '@/components/Video.vue'
 
 // const api = 'http://hn.algolia.com/api/v1/search_by_date?tags=story'
 
@@ -248,5 +248,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../scss/channel.scss';
+@import '@/scss/channel.scss';
 </style>
