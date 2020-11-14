@@ -3,7 +3,7 @@ import cookies from 'vue-cookies'
 
 const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 
-const wholeStore = {
+const homeStore = {
   namespaced: true,
   state: {
     subscribeData: {},
@@ -33,4 +33,4 @@ const wholeStore = {
   }
 }
 
-export default wholeStore
+export default homeStore
