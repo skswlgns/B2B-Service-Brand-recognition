@@ -113,7 +113,7 @@ exposureRoutes.get('/topchannel', async (req, res) => {
     topchannels.sort(function (a, b) {
       return b.time - a.time
     })
-    res.status(200).send(topchannels.slice(0, 6))
+    res.status(200).send(topchannels.slice(0, 8))
   } else {
     res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
   }

@@ -23,6 +23,18 @@ channelRoutes.post('/', async (req, res) => {
       const channelImg = req.body.channel_img
       const channelVideoCnt = req.body.channel_video_cnt
       const channelYoutubeId = req.body.channel_youtube_id
+      const ChannelFourWeekSubs = [
+        Math.floor(Math.random() * (500 - 1) + 1),
+        Math.floor(Math.random() * (500 - 1) + 1),
+        Math.floor(Math.random() * (500 - 1) + 1),
+        Math.floor(Math.random() * (500 - 1) + 1)
+      ]
+      const ChannelFourWeekViews = [
+        Math.floor(Math.random() * (100000 - 100) + 100),
+        Math.floor(Math.random() * (100000 - 100) + 100),
+        Math.floor(Math.random() * (100000 - 100) + 100),
+        Math.floor(Math.random() * (100000 - 100) + 100)
+      ]
 
       const item = new ChannelModel({
         channel_name: channelName,
@@ -30,7 +42,9 @@ channelRoutes.post('/', async (req, res) => {
         channel_email: channelEmail,
         channel_img: channelImg,
         channel_video_cnt: channelVideoCnt,
-        channel_youtube_id: channelYoutubeId
+        channel_youtube_id: channelYoutubeId,
+        four_week_subs: ChannelFourWeekSubs,
+        four_week_views: ChannelFourWeekViews
       })
       await item.save()
       res.status(200).send({ message: '채널 데이터가 성공적으로 저장되었습니다.' })

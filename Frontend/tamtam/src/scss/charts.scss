@@ -7,12 +7,14 @@
 }
 .chart-body {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
   padding: #{$base-padding * 4} #{$base-padding * 3} #{$base-padding * 3};
 
+  .line-chart {
+  }
+
   div {
-    width: 100%;
   }
 }
 

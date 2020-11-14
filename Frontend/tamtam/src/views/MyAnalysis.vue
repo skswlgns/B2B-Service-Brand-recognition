@@ -1,55 +1,51 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="4">
-        <div class="card" style="margin: 30px;">
+    <v-layout row>
+      <v-flex sm4 pl-10 pr-10>
+        <div class="card mb-2 pa-2">
           <div style="text-align:center; padding: 10%;" class="headline">
             <div><i class="fas fa-award fa-3x"></i></div>
             맻등
           </div>
         </div>
-      </v-col>
-      <v-col cols="4">
-        <div class="card" style="margin:30px;">
+      </v-flex>
+      <v-flex sm4 pl-10 pr-10>
+        <div class="card mb-2 pa-2">
           <div style="text-align:center; padding: 10%;" class="headline">
             <div><i class="fab fa-youtube fa-3x"></i></div>
             {{ this.companyCount }}
           </div>
         </div>
-      </v-col>
-      <v-col cols="4">
-        <div class="card" style="margin:30px;">
+      </v-flex>
+      <v-flex sm4 pl-10 pr-10>
+        <div class="card mb-2 pa-2">
           <div style="text-align:center; padding: 10%;" class="headline">
             <div><i class="far fa-clock fa-3x"></i></div>
             {{ this.companyTime }}
           </div>
         </div>
-      </v-col>
-    </v-row>
+      </v-flex>
+    </v-layout>
     <v-row>
       <v-col cols="6">
-        <div class="card">
-          <div class="chart-title">스크랩 채널 비교</div>
-          <v-divider></v-divider>
+        <div class="chart-title">스크랩 채널 비교</div>
+        <div class="card ">
           <ScrapChannelChart />
         </div>
       </v-col>
       <v-col cols="6">
-        <div>
-          <div class="card">
-            <CompareExposureChart />
-          </div>
+        <div class="chart-title">기업 비교</div>
+        <div class="card">
+          <CompareExposureChart />
         </div>
       </v-col>
     </v-row>
-    <div class="card">
-      <div class="chart-title">영상 추천</div>
-      <v-divider></v-divider>
+    <div class="chart-title">영상 추천</div>
+    <div class="card ">
       <RecommendVideo />
     </div>
-    <div class="card component">
-      <div class="chart-title">유투버 추천</div>
-      <v-divider></v-divider>
+    <div class="chart-title">유투버 추천</div>
+    <div class="card ">
       <RecommendChannel />
     </div>
   </div>
