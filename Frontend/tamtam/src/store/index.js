@@ -7,6 +7,7 @@ import searchStore from '@/store/modules/searchStore.js'
 import channelStore from '@/store/modules/channelStore.js'
 import homeStore from '@/store/modules/homeStore.js'
 import chartDataStore from '@/store/modules/chartDataStore.js'
+import companyStore from '@/store/modules/companyStore.js'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     homeStore: homeStore,
     searchStore: searchStore,
     channelStore: channelStore,
-    chartDataStore: chartDataStore
+    chartDataStore: chartDataStore,
+    companyStore: companyStore
   }
 })

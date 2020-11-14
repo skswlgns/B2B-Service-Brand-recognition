@@ -1,12 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Ranking from '@/components/Ranking.vue'
-import Recommend from '@/components/Recommend.vue'
-import SearchVideo from '@/components/SearchVideo.vue'
-import SearchChannel from '@/components/SearchChannel.vue'
-import ScrapVideo from '@/components/ScrapVideo.vue'
-import ScrapChannel from '@/components/ScrapChannel.vue'
-import ContactChannel from '@/components/ContactChannel.vue'
 
 import MyPage from '@/views/MyPage.vue'
 import MyAnalysis from '@/views/MyAnalysis.vue'
@@ -23,69 +16,9 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/contactChannel',
-    name: 'ContactChannel',
-    component: ContactChannel,
-    beforeEnter(to, from, next) {
-      if (!Vue.$cookies.isKey('token')) {
-        next('/login')
-      } else {
-        next()
-      }
-    }
-  },
-  {
     path: '/myPage',
     name: 'MyPage',
     component: MyPage,
-    beforeEnter(to, from, next) {
-      if (!Vue.$cookies.isKey('token')) {
-        next('/login')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/scrapVideo',
-    name: 'ScrapVideo',
-    component: ScrapVideo,
-    beforeEnter(to, from, next) {
-      if (!Vue.$cookies.isKey('token')) {
-        next('/login')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/scrapChannel',
-    name: 'ScrapChannel',
-    component: ScrapChannel,
-    beforeEnter(to, from, next) {
-      if (!Vue.$cookies.isKey('token')) {
-        next('/login')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/searchVideo',
-    name: 'SearchVideo',
-    component: SearchVideo,
-    beforeEnter(to, from, next) {
-      if (!Vue.$cookies.isKey('token')) {
-        next('/login')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/searchChannel',
-    name: 'SearchChannel',
-    component: SearchChannel,
     beforeEnter(to, from, next) {
       if (!Vue.$cookies.isKey('token')) {
         next('/login')
@@ -110,30 +43,6 @@ const routes = [
     path: '/myAnalysis',
     name: 'MyAnalysis',
     component: MyAnalysis,
-    beforeEnter(to, from, next) {
-      if (!Vue.$cookies.isKey('token')) {
-        next('/login')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/ranking',
-    name: 'Ranking',
-    component: Ranking,
-    beforeEnter(to, from, next) {
-      if (!Vue.$cookies.isKey('token')) {
-        next('/login')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/recommend',
-    name: 'Recommend',
-    component: Recommend,
     beforeEnter(to, from, next) {
       if (!Vue.$cookies.isKey('token')) {
         next('/login')
