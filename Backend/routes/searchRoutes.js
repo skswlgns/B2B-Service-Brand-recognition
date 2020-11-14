@@ -189,7 +189,7 @@ searchRoutes.get('/catevideo', async (req, res) => {
 searchRoutes.get('/catevideotop', async (req, res) => {
   if (req.headers.token) {
     try {
-      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industy } }).sort({
+      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industry } }).sort({
         video_views: -1
       })
 
@@ -211,7 +211,7 @@ searchRoutes.get('/likevideotop', async (req, res) => {
   if (req.headers.token) {
     try {
       const videos = await VideoModel.find({
-        video_category: { $regex: req.body.company_industy, $options: 'i' }
+        video_category: { $regex: req.body.company_industry, $options: 'i' }
       }).sort({
         video_like: -1
       })
