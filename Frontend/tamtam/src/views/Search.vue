@@ -2,8 +2,14 @@
   <div>
     <div>
       <div class="card-title">'{{ this.text }}'(으)로 검색한 결과입니다.</div>
-      <SearchChannel class="component"></SearchChannel>
-      <SearchVideo class="component"></SearchVideo>
+      <div class="chart-title">채널</div>
+      <div class="card ">
+        <SearchChannel />
+      </div>
+      <div class="chart-title">영상</div>
+      <div class="card ">
+        <SearchVideo />
+      </div>
     </div>
   </div>
 </template>
@@ -38,4 +44,8 @@ export default {
 .component {
   margin-top: 8px;
 }
+</style>
+<style lang="scss" scoped>
+@import '@/scss/myAnalysis.scss';
+@import '@/scss/charts.scss';
 </style>
