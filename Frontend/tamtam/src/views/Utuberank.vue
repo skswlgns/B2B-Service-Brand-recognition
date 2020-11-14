@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Ranking from '../components/Ranking.vue'
+import Ranking from '@/components/CompanyAnalysisComponents/Ranking'
 
 export default {
   name: 'Utuberank',
