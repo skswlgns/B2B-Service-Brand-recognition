@@ -1,6 +1,5 @@
 @import '@/scss/_variable.scss';
 @import '@/scss/_mixin.scss';
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 html,
 body,
@@ -110,7 +109,6 @@ section {
 body {
   line-height: 1;
   box-sizing: border-box;
-  font-family: 'Jua', sans-serif;
 }
 
 ol,

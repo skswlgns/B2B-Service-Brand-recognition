@@ -6,7 +6,7 @@
       <div class="timeline-section">
         <div class="timeline-background-bar">
           <!-- Timeline Records -->
-          <div v-for="(company, company_index) in videoData.video_record" :key="company._id">
+          <div v-for="(company, company_index) in videoData.video_record.slice(0, 4)" :key="company._id">
             <ul v-for="(record, record_index) in company.timelines" :key="record_index">
               <div
                 :class="{ 'display-none': focusedCompany && focusedCompany !== company.company_id.company_nickname }"
@@ -19,13 +19,27 @@
               </div>
             </ul>
           </div>
+          <div v-if="videoData.video_record.length > 4">
+            <div v-for="(company, company_index) in videoData.video_record.slice(4)" :key="company._id">
+              <ul v-for="(record, record_index) in company.timelines" :key="record_index">
+                <div :class="{ 'display-none': focusedCompany && focusedCompany !== 'etc' }">
+                  <li
+                    :id="'record-' + (Number(company_index) + 4) + '-' + record_index"
+                    class="timeline-record background-4"
+                    @click="playerSeekTo(record[1])"
+                  />
+                </div>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Timestamp -->
       <div class="timestamp-section">
-        <span>00:00</span>
-        <span>{{ this.makeVideoTime(videoData.video_time) }}</span>
+        <span class="timestamp-default">00:00</span>
+        <span id="timestamp-info"></span>
+        <span class="timestamp-default">{{ this.makeVideoTime(videoData.video_time) }}</span>
       </div>
 
       <!-- Company Toggle -->
@@ -46,7 +60,7 @@
             class="company-button toggle-unselected selected-4"
             @click="choiceCompany(4, 'etc')"
           >
-            기타
+            기타 등장 브랜드
           </div>
         </div>
       </div>
@@ -109,7 +123,7 @@ export default {
   computed: {
     ...mapState('videoDetailStore', ['videoData', 'recommendVideos'])
   },
-  async mounted() {
+  async created() {
     // videoData 불러오기
     await this.getVideoData(this.$route.params.video_youtube_id)
 
@@ -147,11 +161,35 @@ export default {
     this.videoData.video_record.forEach((company, companyIndex) => {
       company.timelines.forEach((record, recordIndex) => {
         const recordElement = document.getElementById(`record-${companyIndex}-${recordIndex}`)
-        if (recordElement) {
-          recordElement.style.width = `${((record[2] - record[1]) / videoDuration) * 100}%`
-          recordElement.style.left = `${(record[1] / videoDuration) * 100}%`
-          // recordElement.style.left = `30px`
-        }
+        recordElement.style.width = `${((record[2] - record[1]) / videoDuration) * 100}%`
+        recordElement.style.left = `${(record[1] / videoDuration) * 100}%`
+        const timestampInfo = document.getElementById('timestamp-info')
+        const timestampDefault = document.getElementsByClassName('timestamp-default')
+        recordElement.addEventListener('mouseover', () => {
+          // text 바꿔주기
+          console.log(record)
+          let exposureText = ''
+          if (record[0].length === 1) {
+            if (record[0][0] === 'logo') {
+              exposureText = '로고'
+            } else {
+              exposureText = '물건'
+            }
+          } else {
+            exposureText = '물건 여러개'
+          }
+          timestampInfo.innerText = `${company.company_id.company_name} ${exposureText}`
+          // timestampInfo.style.color = 'black'
+          timestampDefault.forEach(element => {
+            element.style.opacity = 0.2
+          })
+        })
+        recordElement.addEventListener('mouseout', () => {
+          timestampInfo.innerText = ''
+          timestampDefault.forEach(element => {
+            element.style.opacity = 1
+          })
+        })
       })
     })
     this.changeShow()
@@ -192,7 +230,7 @@ export default {
     makePlayerObject: function(videoYoutubeId) {
       this.player = new window.YT.Player('yt-player', {
         videoId: this.videoData.video_youtube_id,
-        playerVars: { controls: 1, modestbranding: 1 },
+        playerVars: { controls: 1, modestbranding: 1, showinfo: 0 },
         events: {
           onReady: window.onPlayerReady
         }
@@ -226,7 +264,6 @@ export default {
       } else {
         // 선택한 company 이외에 toggle이 되어있는 경우 모두 style 해제
         for (let i = 0; i < Math.min(this.videoData.video_record.length, 5); i++) {
-          console.log(document.getElementById(`company-button-${i}`))
           document.getElementById(`company-button-${i}`).className = `company-button toggle-unselected selected-${i}`
         }
         // 선택한 company 스타일 적용

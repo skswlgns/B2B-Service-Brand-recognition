@@ -14,7 +14,7 @@ const ExposureModel = require('../models/ExposureModel')
 const companyRoutes = express.Router()
 
 // 변수
-const admin_id = '5fa21b49bf786c138c6062ee'
+// const admin_id = '5fa21b49bf786c138c6062ee'
 
 // 함수
 const hashpassword = (password) => {
@@ -165,11 +165,15 @@ companyRoutes.delete('/', async (req, res) => {
 
 // 모든 회원조회
 companyRoutes.get('/', async (req, res) => {
-  try {
-    const companyAll = await CompanyModel.find()
-    res.status(200).send(companyAll)
-  } catch (err) {
-    res.status(500).send(err)
+  if (req.headers.token) {
+    try {
+      const companyAll = await CompanyModel.find()
+      res.status(200).send(companyAll)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '접근이 제한되었습니다.' })
   }
 })
 
