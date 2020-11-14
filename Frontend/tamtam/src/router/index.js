@@ -90,9 +90,10 @@ const routes = [
     }
   },
   {
-    path: '/rank',
+    path: '/rank/:subject',
     name: 'Utuberank',
     component: Utuberank,
+    props: true,
     beforeEnter(to, from, next) {
       if (!Vue.$cookies.isKey('token')) {
         next('/login')

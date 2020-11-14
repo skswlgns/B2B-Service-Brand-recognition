@@ -1,6 +1,14 @@
 <template>
   <div>
-    <div class="card-title">관련 유튜버 랭킹</div>
+    <header class="card">
+      <v-row>
+        <v-col><router-link to="/rank/subscribes">채널</router-link></v-col>
+        <v-col><router-link to="/#">동영상</router-link></v-col>
+      </v-row>
+    </header>
+    <div class="card-title" v-if="$route.path === '/mypage'">관련 유튜버 랭킹</div>
+    <div class="card-title" v-else-if="$route.path === '/rank/subscribes'">구독자수</div>
+    <div class="card-title" v-else-if="$route.path === '/rank/avgviews'">구독자 수 대비 조회수</div>
     <div v-for="(Item, index) in channel" :key="index">
       <div class="card mx-auto mb-2 data">
         <v-list-item two-line>
@@ -29,11 +37,27 @@
 
           <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
             <v-list-item-subtitle>구독자수</v-list-item-subtitle>
-            <v-list-item-title class="v-list-item-title">{{ Item.channel_subscribe }} </v-list-item-title>
+            <v-list-item-title class="v-list-item-title" v-if="Item.channel_subscribe < 1000"
+              >{{ Item.channel_subscribe }}
+            </v-list-item-title>
+            <v-list-item-title class="v-list-item-title" v-else-if="Item.channel_subscribe < 10000"
+              >{{ parseInt(Item.channel_subscribe / 1000) }}천
+            </v-list-item-title>
+            <v-list-item-title class="v-list-item-title" v-else
+              >{{ parseInt(Item.channel_subscribe / 10000) }}만
+            </v-list-item-title>
           </v-list-item-content>
           <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
             <v-list-item-subtitle>영상수</v-list-item-subtitle>
-            <v-list-item-title class="v-list-item-title">{{ Item.channel_video_cnt }} </v-list-item-title>
+            <v-list-item-title class="v-list-item-title" v-if="Item.channel_video_cnt < 1000"
+              >{{ Item.channel_video_cnt }}
+            </v-list-item-title>
+            <v-list-item-title class="v-list-item-title" v-else-if="Item.channel_video_cnt < 10000"
+              >{{ (Item.channel_video_cnt / 1000).toFixed(1) }}천
+            </v-list-item-title>
+            <v-list-item-title class="v-list-item-title" v-else
+              >{{ (Item.channel_video_cnt / 10000).toFixed(1) }}만
+            </v-list-item-title>
           </v-list-item-content>
           <v-list-item-content style="text-align: center">
             <v-list-item-subtitle>영상별 평균 조회수</v-list-item-subtitle>
@@ -42,21 +66,52 @@
         </v-list-item>
       </div>
     </div>
+    <infinite-loading v-if="$route.name === 'Utuberank'" @infinite="infiniteHandler" spinner="circles" />
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 import router from '@/router'
+import InfiniteLoading from 'vue-infinite-loading'
+import axios from 'axios'
+import cookies from 'vue-cookies'
+
 const channelStore = 'channelStore'
+const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 
 export default {
-  data: () => ({}),
+  name: 'Ranking',
+  data() {
+    return {
+      config: {
+        headers: {
+          token: cookies.get('token'),
+          limit: 0
+        }
+      },
+      channel: []
+    }
+  },
+  components: {
+    InfiniteLoading
+  },
+  props: {
+    subject: {
+      type: String
+    }
+  },
   created() {
-    this.searchChannel()
+    if (this.$route.name === 'MyPage') {
+      this.channel = this.searchChannel()
+      console.log('마페')
+    } else {
+      console.log('rank')
+    }
   },
   computed: {
-    ...mapState(channelStore, ['channel'])
+    // ...mapState(channelStore, ['channel']),
+    // ...mapState(rankStore, ['channel'])
   },
   methods: {
     ...mapActions(channelStore, ['searchChannel']),
@@ -66,11 +121,28 @@ export default {
     },
     moveYoutube(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)
+    },
+    infiniteHandler($state) {
+      axios.get(`${API_SERVER_URL}/search/${this.$route.params.subject}`, this.config).then(response => {
+        setTimeout(() => {
+          if (response.data.length) {
+            this.channel = this.channel.concat(response.data)
+            $state.loaded()
+            this.config.headers.limit += 10
+            if (this.channel.length / 10 === 0) {
+              $state.complete()
+            }
+          } else {
+            $state.complete()
+          }
+        }, 1000)
+      })
     }
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import '@/scss/Rank/rank.scss';
 .data {
   /* the other rules */
   transition: all 0.6s;

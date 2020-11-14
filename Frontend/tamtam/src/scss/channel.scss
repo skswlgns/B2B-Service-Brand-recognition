@@ -55,6 +55,10 @@
     .v-card__title {
       background: #f1f1f1;
       font-size: #{$base-fontsize};
+      a {
+        text-decoration: none;
+        color: black;
+      }
     }
     .views {
       background: #f1f1f1;

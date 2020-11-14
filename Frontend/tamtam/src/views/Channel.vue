@@ -28,7 +28,9 @@
                 </v-icon>
               </v-btn>
             </div>
-            <v-btn color="#916bf6">광고 문의</v-btn>
+            <v-btn color="#916bf6" @click="sendTest(channelData.channel_name, channelData.channel_email)"
+              >광고 문의</v-btn
+            >
           </div>
         </div>
       </div>
@@ -47,13 +49,7 @@
       </div>
     </div>
     <div class="fr-youtube">
-      <Video :channelId="channelData.channel_youtube_id" />
-      <!-- <Video /> -->
-      <!-- <div v-for="(item, $index) in list" :key="$index">
-        {{ $index }}: {{ item.title }}
-        <hr />
-      </div> -->
-      <!-- <infinite-loading class="" @infinite="infiniteHandler"></infinite-loading> -->
+      <Video />
     </div>
   </div>
 </template>
@@ -63,8 +59,7 @@ import Chart from 'chart.js'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import cookies from 'vue-cookies'
 import Video from '@/components/Video.vue'
-
-// const api = 'http://hn.algolia.com/api/v1/search_by_date?tags=story'
+import emailjs from 'emailjs-com'
 
 const channelStore = 'channelStore'
 
@@ -171,6 +166,12 @@ export default {
           ]
         },
         options: {}
+      },
+      templateParams: {
+        reply_to: cookies.get('nick') + '@test.com',
+        from_name: cookies.get('nick'),
+        to_name: '',
+        to_email: ''
       }
     }
   },
@@ -221,6 +222,12 @@ export default {
       } else {
         this.show = false
       }
+    },
+    sendTest(channelName, channelEmail) {
+      this.templateParams.to_name = channelName
+      this.templateParams.to_email = channelEmail
+      emailjs.send('service_TamTam', 'template_g5xblzj', this.templateParams, 'user_BP95v5BDBqPIPT05EQ1nY')
+      alert('광고문의를 전달하였습니다.')
     }
   },
   computed: {
