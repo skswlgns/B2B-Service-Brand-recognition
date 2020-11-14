@@ -5,21 +5,25 @@
         <!-- {{ video.video_record }} -->
         <v-card class="mx-auto">
           <v-img :src="video.video_thumbnails" />
-          <v-card-title v-if="video.video_title.length > 25">{{ video.video_title.slice(0, 25) }}</v-card-title>
-          <v-card-title v-else>{{ video.video_title }}</v-card-title>
-          <div class="views" v-if="video.video_views < 1000">조회수 : {{ video.video_views }}회</div>
-          <div class="views" v-else-if="video.video_views < 10000">
+          <v-card-title v-if="video.video_title.length > 25">
+            {{ video.video_title.slice(0, 25) }}
+          </v-card-title>
+          <v-card-title v-else>
+            {{ video.video_title }}
+          </v-card-title>
+          <div v-if="video.video_views < 1000" class="views">조회수 : {{ video.video_views }}회</div>
+          <div v-else-if="video.video_views < 10000" class="views">
             조회수 : {{ parseInt(video.video_views / 1000) }}천회
           </div>
-          <div class="views" v-else>조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
+          <div v-else class="views">조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
           <v-card-text>
-            <canvas :id="video._id"></canvas>
+            <canvas :id="video._id" />
           </v-card-text>
-          <v-spacer></v-spacer>
+          <v-spacer />
         </v-card>
       </v-col>
     </v-row>
-    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+    <infinite-loading @infinite="infiniteHandler" />
   </div>
 </template>
 
@@ -35,6 +39,9 @@ const _ = require('lodash')
 
 export default {
   name: 'Video',
+  components: {
+    InfiniteLoading
+  },
   data() {
     return {
       config: {
@@ -66,8 +73,13 @@ export default {
       }
     }
   },
-  components: {
-    InfiniteLoading
+  updated() {
+    if (this.videoData.length) {
+      for (let i = 0; i < this.videoData.length; i++) {
+        console.log(this.videoData[i])
+        this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
+      }
+    }
   },
   methods: {
     infiniteHandler($state) {
@@ -124,7 +136,7 @@ export default {
       return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
   },
-  updated() {
+  update() {
     if (this.videoData.length) {
       for (let i = 0; i < this.videoData.length; i++) {
         this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
@@ -135,5 +147,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../scss/channel.scss';
+@import '@/scss/channel.scss';
 </style>

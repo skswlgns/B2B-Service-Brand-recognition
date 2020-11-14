@@ -1,8 +1,8 @@
 import axios from 'axios'
 import cookies from 'vue-cookies'
-import router from '../../router'
+import router from '@/router'
 
-const SERVER_URL = 'http://localhost:3000/api/company/signin'
+const SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 const userStore = {
   namespaced: true,
   state: {
@@ -27,7 +27,7 @@ const userStore = {
   actions: {
     async login({ commit }, loginData) {
       await axios
-        .post(`${SERVER_URL}`, loginData)
+        .post(`${SERVER_URL}/company/signin`, loginData)
         .then(response => {
           commit('setToken', response.data.token)
           commit('setNickname', response.data.company_nickname)

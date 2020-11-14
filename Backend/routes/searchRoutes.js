@@ -63,8 +63,12 @@ searchRoutes.get('/recommend', async (req, res) => {
     try {
       const company = await CompanyModel.findOne({ _id: req.headers.company_id })
       const mynickname = company.company_nickname
-      const videos_title = await VideoModel.find({ video_title: { $regex: mynickname, $options: 'i' } })
-      const videos_content = await VideoModel.find({ videos_content: { $regex: mynickname, $options: 'i' } })
+      const videos_title = await VideoModel.find({ video_title: { $regex: mynickname, $options: 'i' } }).populate(
+        'company_id'
+      )
+      const videos_content = await VideoModel.find({ videos_content: { $regex: mynickname, $options: 'i' } }).populate(
+        'company_id'
+      )
       const temp = videos_title.concat(videos_content)
       let recommendvideos = Array.from(new Set(temp))
 

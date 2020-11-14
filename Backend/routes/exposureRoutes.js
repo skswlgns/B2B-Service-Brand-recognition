@@ -14,6 +14,14 @@ const exposureRoutes = express.Router()
 exposureRoutes.get('/', async (req, res) => {
   if (req.headers.token) {
     const exposureAll = await ExposureModel.find()
+    // const exposureAll = await ExposureModel.aggregate([
+    //   {
+    //     $group: {
+    //       _id: '$company_id'
+    //     }
+    //   }
+    // ])
+
     res.status(200).send(exposureAll)
   } else {
     res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
