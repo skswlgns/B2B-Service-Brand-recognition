@@ -39,7 +39,7 @@
       <div class="timestamp-section">
         <span class="timestamp-default">00:00</span>
         <span id="timestamp-info"></span>
-        <span class="timestamp-default">{{ this.makeVideoTime(videoData.video_time) }}</span>
+        <span class="timestamp-default">{{ makeVideoTime(videoData.video_time) }}</span>
       </div>
 
       <!-- Company Toggle -->
@@ -274,6 +274,7 @@ export default {
       }
     },
 
+    // 초 => 00:00 형식으로 변경
     makeVideoTime: function(time) {
       const secNum = parseInt(time, 10)
       let hours = Math.floor(secNum / 3600)

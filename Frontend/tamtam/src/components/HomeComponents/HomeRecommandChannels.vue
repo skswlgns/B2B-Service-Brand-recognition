@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-carousel cycle hide-delimiters light height="100%">
+    <v-carousel cycle hide-delimiters show-arrows-on-hover height="100%">
       <v-carousel-item v-for="pageIndex in pageNumber" :key="pageIndex">
         <v-layout row>
-          <v-flex sm3 v-for="cardIndex in cardNumber" :key="cardIndex" pl- pr-10>
+          <v-flex sm4 v-for="cardIndex in cardNumber" :key="cardIndex" pl-5 pr-5>
             <div v-if="homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)]">
               <div class="data mb-2 pa-2" style="text-align:center;">
                 <a
@@ -32,10 +32,6 @@
                       {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_subscribe }}
                     </div>
                     <div class="data-subtitle">
-                      영상수
-                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_video_cnt }}
-                    </div>
-                    <div class="data-subtitle">
                       평균영상시청수
                       {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_avg_views }}
                     </div>
@@ -57,7 +53,7 @@ import router from '@/router'
 export default {
   data: () => ({
     pageNumber: 0,
-    cardNumber: 4
+    cardNumber: 3
   }),
   async created() {
     // this.init()
