@@ -9,24 +9,29 @@
     <div class="card-title" v-if="$route.path === '/mypage'">관련 유튜버 랭킹</div>
     <div class="card-title" v-else-if="$route.path === '/rank/subscribes'">구독자수</div>
     <div class="card-title" v-else-if="$route.path === '/rank/avgviews'">구독자 수 대비 조회수</div>
+    <div class="card-title" v-else-if="$route.path === '/rank/likevideotop'">동영상 좋아요 수</div>
     <div v-for="(Item, index) in channel" :key="index">
       <div class="card mx-auto mb-2 data">
         <v-list-item two-line>
-          <a @click="moveChannelDetail(Item._id)">
+          <a @click="moveChannelDetail(Item.channel_youtube_id)">
             <v-list-item-avatar size="100">
-              <img alt="user" :src="Item.channel_img" />
+              <img alt="user" :src="Item.channel_img" v-if="Item.channel_img" />
+              <img v-else :src="Item.video_thumbnails" />
             </v-list-item-avatar>
           </a>
           <v-list-item-content>
             <div class="overline mb-1" outlined>
               {{ Item.channel_category }}
             </div>
-            <a style="color: black" @click="moveChannelDetail(Item._id)">
-              <v-list-item-title class="headline mb-1">
+            <a style="color: black" @click="moveChannelDetail(Item.channel_youtube_id)">
+              <v-list-item-title class="headline mb-1" v-if="Item.channel_name">
                 {{ Item.channel_name }}
               </v-list-item-title>
+              <v-list-item-title class="headline mb-1" v-else>
+                {{ Item.video_title.slice(0, 13) + '...' }}
+              </v-list-item-title>
             </a>
-            <div class="overline mb-1" outlined>
+            <div class="overline mb-1" outlined v-if="Item.channel_name">
               <v-btn icon @click="moveYoutube(Item.channel_youtube_id)" color="white">
                 <v-avatar size="30">
                   <img alt="user" src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png" />
@@ -36,17 +41,30 @@
           </v-list-item-content>
 
           <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
-            <v-list-item-subtitle>구독자수</v-list-item-subtitle>
-            <v-list-item-title class="v-list-item-title" v-if="Item.channel_subscribe < 1000"
-              >{{ Item.channel_subscribe }}
-            </v-list-item-title>
-            <v-list-item-title class="v-list-item-title" v-else-if="Item.channel_subscribe < 10000"
-              >{{ parseInt(Item.channel_subscribe / 1000) }}천
-            </v-list-item-title>
-            <v-list-item-title class="v-list-item-title" v-else
-              >{{ parseInt(Item.channel_subscribe / 10000) }}만
-            </v-list-item-title>
+            <div>
+              <v-list-item-subtitle>구독자수</v-list-item-subtitle>
+              <v-list-item-title
+                class="v-list-item-title"
+                v-if="Item.channel_subscribe < 1000 && Item.channel_subscribe"
+                >{{ Item.channel_subscribe }}
+              </v-list-item-title>
+              <v-list-item-title
+                class="v-list-item-title"
+                v-else-if="Item.channel_subscribe < 10000 && Item.channel_subscribe"
+                >{{ parseInt(Item.channel_subscribe / 1000) }}천
+              </v-list-item-title>
+              <v-list-item-title class="v-list-item-title" v-else
+                >{{ parseInt(Item.channel_subscribe / 10000) }}만
+              </v-list-item-title>
+            </div>
           </v-list-item-content>
+
+          <!-- <v-list-item-content
+            style="text-align: center; border-right: 1px solid #ebebeb;"
+            v-else-if="$route.params.subject === 'likevideotop'"
+          >
+            <Like :like="Item.video_like" />
+          </v-list-item-content> -->
           <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
             <v-list-item-subtitle>영상수</v-list-item-subtitle>
             <v-list-item-title class="v-list-item-title" v-if="Item.channel_video_cnt < 1000"
@@ -71,11 +89,12 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import router from '@/router'
 import InfiniteLoading from 'vue-infinite-loading'
 import axios from 'axios'
 import cookies from 'vue-cookies'
+// import Like from '@/components/RankComponents/Like'
 
 const channelStore = 'channelStore'
 const companyStore = 'companyStore'
@@ -89,15 +108,15 @@ export default {
         headers: {
           token: cookies.get('token'),
           limit: 0,
-          industry: ''
+          company_industry: cookies.get('industry')
         }
       },
-      channel: [],
-      industry: ''
+      channel: []
     }
   },
   components: {
     InfiniteLoading
+    // Like
   },
   props: {
     subject: {
@@ -105,17 +124,16 @@ export default {
     }
   },
   created() {
-    console.log(this.getCategory().PromiseResult)
+    console.log(this.$route)
+    this.getCategory()
     if (this.$route.name === 'MyPage') {
       this.channel = this.searchChannel()
-      console.log('마페')
-    } else {
-      console.log('rank')
     }
   },
   computed: {
     // ...mapState(channelStore, ['channel']),
     // ...mapState(rankStore, ['channel'])
+    ...mapState(companyStore, ['industry'])
   },
   methods: {
     ...mapActions(channelStore, ['searchChannel']),
@@ -128,10 +146,11 @@ export default {
       window.open('https://www.youtube.com/channel/' + channerId)
     },
     infiniteHandler($state) {
-      // console.log(this.industry)
+      console.log(this.$route.params.subject)
       axios.get(`${API_SERVER_URL}/search/${this.$route.params.subject}`, this.config).then(response => {
         setTimeout(() => {
           if (response.data.length) {
+            console.log(response.data)
             this.channel = this.channel.concat(response.data)
             $state.loaded()
             this.config.headers.limit += 10

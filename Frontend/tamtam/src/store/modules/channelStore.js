@@ -31,6 +31,7 @@ const channelStore = {
       state.channel = channel
     },
     saveData(state, data) {
+      console.log(data)
       state.channelData = data[0]
       state.views = data[0].channel_subscribe
       cookies.set('channelId', data[0].channel_youtube_id)
