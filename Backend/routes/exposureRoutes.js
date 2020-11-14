@@ -72,7 +72,7 @@ exposureRoutes.get('/topvideo', async (req, res) => {
       for (let j = 0; j < videos[i].video_record.length; j++) {
         if (videos[i].video_record[j].company_id === req.body.company_id) {
           topvideos.push({
-            company: videos[i],
+            video: videos[i],
             time: videos[i].video_record[j].total_exposure_time
           })
         }
