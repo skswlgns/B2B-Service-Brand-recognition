@@ -3,7 +3,7 @@
     <header class="card">
       <v-row>
         <v-col><router-link to="/rank/subscribes">채널</router-link></v-col>
-        <v-col><router-link to="/rank/catevideotop">동영상</router-link></v-col>
+        <v-col><router-link to="/rank/likevideotop">동영상</router-link></v-col>
       </v-row>
     </header>
     <div class="card-title" v-if="$route.path === '/mypage'">관련 유튜버 랭킹</div>
@@ -88,7 +88,8 @@ export default {
       config: {
         headers: {
           token: cookies.get('token'),
-          limit: 0
+          limit: 0,
+          industry: ''
         }
       },
       channel: [],
@@ -104,7 +105,7 @@ export default {
     }
   },
   created() {
-    this.industry = this.getCategory()
+    console.log(this.getCategory().PromiseResult)
     if (this.$route.name === 'MyPage') {
       this.channel = this.searchChannel()
       console.log('마페')
@@ -127,26 +128,21 @@ export default {
       window.open('https://www.youtube.com/channel/' + channerId)
     },
     infiniteHandler($state) {
-      // const data = {
-      //   company_industy: this.industry.PromiseResult
-      // }
-
-      axios
-        .get(`${API_SERVER_URL}/search/${this.$route.params.subject}`, this.config, this.industry.PromiseResult)
-        .then(response => {
-          setTimeout(() => {
-            if (response.data.length) {
-              this.channel = this.channel.concat(response.data)
-              $state.loaded()
-              this.config.headers.limit += 10
-              if (this.channel.length / 10 === 0) {
-                $state.complete()
-              }
-            } else {
+      // console.log(this.industry)
+      axios.get(`${API_SERVER_URL}/search/${this.$route.params.subject}`, this.config).then(response => {
+        setTimeout(() => {
+          if (response.data.length) {
+            this.channel = this.channel.concat(response.data)
+            $state.loaded()
+            this.config.headers.limit += 10
+            if (this.channel.length / 10 === 0) {
               $state.complete()
             }
-          }, 1000)
-        })
+          } else {
+            $state.complete()
+          }
+        }, 1000)
+      })
     }
   }
 }
