@@ -12,9 +12,6 @@
       <div style="float:left;" class="pa-3">
         스크랩한 영상
       </div>
-      <div align="right" @click="moredata()" v-if="this.video.length > 3" class="pa-3">
-        더 보기
-      </div>
     </div>
     <v-row no-gutters>
       <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="4">
@@ -36,6 +33,14 @@
         </v-card>
       </v-col>
     </v-row>
+    <div v-if="this.video.length > 3" style="height:48px;">
+      <div style="float:left;" class="pa-3"></div>
+      <div align="right" class="pa-3">
+        <div @click="moredata()" class="cursor">
+          더 보기
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

@@ -12,7 +12,8 @@ const searchStore = {
   state: {
     searchText: '',
     channel: [],
-    video: []
+    video: [],
+    contactChannel: []
   },
   mutations: {
     setsearchText(state, text) {
@@ -23,6 +24,9 @@ const searchStore = {
     },
     setVideo(state, data) {
       state.video = data
+    },
+    setContactChannel(state, data) {
+      state.contactChannel = data
     }
   },
   getters: {
@@ -41,6 +45,12 @@ const searchStore = {
     search({ commit }, text) {
       commit('setsearchText', text)
       router.push({ name: 'Search', params: { text: text } })
+    },
+    // 컨택한 채널 가져오기
+    async getContactChannel({ commit }) {
+      config.headers.company_id = cookies.get('companyId')
+      const response = await axios.get(`${API_SERVER_URL}/company/contact`, config)
+      commit('setContactChannel', response.data)
     },
     // 스크랩한 채널 가져오기
     async getScrapChannel({ commit }) {

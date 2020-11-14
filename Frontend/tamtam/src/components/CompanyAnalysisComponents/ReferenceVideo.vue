@@ -3,17 +3,19 @@
     <div class="out">
       <div class="in">
         <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
-        <div class="out">영상이 없습니다.</div>
+        <div class="out">관련 영상이 없습니다.</div>
       </div>
     </div>
   </div>
   <div v-else class="card">
-    <div style="height:48px;">
-      <div style="float:left;" class="pa-3">
-        영상
-      </div>
-      <div @click="moredata()" v-if="this.video.length > 3" align="right" class="pa-3">
-        더 보기
+    <div class="rank_fr">
+      <div style="height:48px;" class="rank-title">
+        <div>
+          기업 관련 영상(해당 브랜드가 많이 나온거? or 한번이라도 나온거?) 제작중
+        </div>
+        <a align="right" @click="moredata()" v-if="this.video.length > 3">
+          더 보기
+        </a>
       </div>
     </div>
     <v-row no-gutters>
@@ -40,19 +42,21 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import router from '@/router'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
     len: 3
   }),
-  created() {},
+  created() {
+    this.getScrapVideo()
+  },
   computed: {
     ...mapState(searchStore, ['video'])
   },
   methods: {
-    ...mapGetters(searchStore, ['getVideo']),
+    ...mapActions(searchStore, ['getScrapVideo']),
     moredata() {
       this.len = this.video.length
     },
@@ -65,10 +69,16 @@ export default {
 
 <style scoped>
 .data {
+  /* opacity: 0.7; */
   transition: all 0.6s;
   top: 0;
 }
 .data:hover {
   top: -10px;
+  /* opacity: 1; */
 }
+</style>
+<style lang="scss" scoped>
+@import '@/scss/myAnalysis.scss';
+@import '@/scss/charts.scss';
 </style>
