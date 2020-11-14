@@ -9,28 +9,33 @@
                 class="card "
                 slot-scope="{ hover }"
                 :class="`elevation-${hover ? 5 : 30}`"
-                v-if="channel[(i - 1) * 3 + (j - 1)]"
+                v-if="companyRecommendChannel[(i - 1) * 3 + (j - 1)]"
                 outlined
               >
-                <a style="color: black" @click="moveChannelDetail(channel[(i - 1) * 3 + (j - 1)]._id)">
+                <a
+                  style="color: black"
+                  @click="moveChannelDetail(companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel._id)"
+                >
                   <div class="data mb-8 pa-8" style="text-align:center;">
                     <v-flex style="margin-top:8px;">
                       <v-avatar size="100">
-                        <img alt="user" :src="channel[(i - 1) * 3 + (j - 1)].channel_img" />
+                        <img alt="user" :src="companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_img" />
                       </v-avatar>
                     </v-flex>
                     <v-flex style="overflow-y: auto; height:100px">
                       <h2 style="margin-top:40px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                        {{ channel[(i - 1) * 3 + (j - 1)].channel_name }}
+                        {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_name }}
                       </h2>
                       <div class="overline mb-1" outlined>
-                        {{ channel[(i - 1) * 3 + (j - 1)].channel_category }}
+                        {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_category }}
                       </div>
                     </v-flex>
                     <v-flex style="margin-top:40px;">
-                      <div>구독자수 {{ channel[(i - 1) * 3 + (j - 1)].channel_subscribe }}</div>
-                      <div>영상수 {{ channel[(i - 1) * 3 + (j - 1)].channel_video_cnt }}</div>
-                      <div>평균영상시청수 {{ channel[(i - 1) * 3 + (j - 1)].channel_avg_views }}</div>
+                      <div>구독자수 {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_subscribe }}</div>
+                      <div>영상수 {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_video_cnt }}</div>
+                      <div>
+                        평균영상시청수 {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_avg_views }}
+                      </div>
                     </v-flex>
                   </div>
                 </a>
@@ -46,21 +51,24 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import router from '@/router'
-const channelStore = 'channelStore'
+const searchStore = 'searchStore'
 
 export default {
   data: () => ({
-    len: 3
+    len: null
   }),
-  created() {
-    // this.init()
-    this.searchChannel()
+  async created() {
+    await this.getCompanyRecommendChannel()
+    this.len = parseInt(this.companyRecommendChannel.length / 3)
+    if (this.companyRecommendChannel.length % 3 !== 0) {
+      this.len += 1
+    }
   },
   computed: {
-    ...mapState(channelStore, ['channel'])
+    ...mapState(searchStore, ['companyRecommendChannel'])
   },
   methods: {
-    ...mapActions(channelStore, ['searchChannel']),
+    ...mapActions(searchStore, ['getCompanyRecommendChannel']),
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
     }

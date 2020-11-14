@@ -13,7 +13,9 @@ const searchStore = {
     searchText: '',
     channel: [],
     video: [],
-    contactChannel: []
+    contactChannel: [],
+    companyRecommendChannel: [],
+    companyRecommendVideo: []
   },
   mutations: {
     setsearchText(state, text) {
@@ -27,6 +29,12 @@ const searchStore = {
     },
     setContactChannel(state, data) {
       state.contactChannel = data
+    },
+    setCompanyRecommendChannel(state, channel) {
+      state.companyRecommendChannel = channel
+    },
+    setCompanyRecommendVideo(state, video) {
+      state.CompanyRecommendVideo = video
     }
   },
   getters: {
@@ -70,6 +78,19 @@ const searchStore = {
       const response = await axios.get(`${API_SERVER_URL}/search/${text}`, config)
       commit('setVideo', response.data.videos)
       commit('setChannel', response.data.channels)
+    },
+    // 로그인한 기업별 유투버 추천
+    async getCompanyRecommendChannel({ commit }) {
+      config.headers.company_id = cookies.get('companyId')
+      const response = await axios.get(`${API_SERVER_URL}/exposure/topchannel`, config)
+
+      commit('setCompanyRecommendChannel', response.data)
+    },
+    // 로그인한 기업별 영상 추천
+    async getCompanyRecommendVideo({ commit }) {
+      config.headers.company_id = cookies.get('companyId')
+      const response = await axios.get(`${API_SERVER_URL}/exposure/topvideo`, config)
+      commit('setCompanyRecommendVideo', response.data)
     }
   }
 }

@@ -52,8 +52,8 @@ const searchStore = {
     },
     // 전체 기업리스트 가져오기
     async getCompanyList({ commit }) {
-      // config.headers.company_id = cookies.get('companyId')
-      const response = await axios.get(`${API_SERVER_URL}/company`)
+      config.headers.company_id = cookies.get('companyId')
+      const response = await axios.get(`${API_SERVER_URL}/company`, config)
       commit('setCompanyList', response.data)
     },
     async getCategory() {

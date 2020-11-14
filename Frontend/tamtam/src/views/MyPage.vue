@@ -23,11 +23,6 @@
 
     <div>
       <ScrapVideo class="component"></ScrapVideo>
-      <div class="card component">
-        <div class="chart-title">유투버 추천</div>
-        <v-divider></v-divider>
-        <Recommend class="component" style="padding:50px;"></Recommend>
-      </div>
     </div>
   </div>
 </template>
@@ -36,14 +31,12 @@
 import ContactChannel from '@/components/MyPageComponents/ContactChannel.vue'
 import ScrapChannel from '@/components/MyPageComponents/ScrapChannel.vue'
 import ScrapVideo from '@/components/MyPageComponents/ScrapVideo.vue'
-import Recommend from '@/components/MyPageComponents/Recommend.vue'
 import cookies from 'vue-cookies'
 export default {
   name: 'Search',
   components: {
     ScrapVideo,
     ScrapChannel,
-    Recommend,
     ContactChannel
   },
   data() {
