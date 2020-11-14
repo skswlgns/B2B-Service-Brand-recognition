@@ -98,7 +98,6 @@ exposureRoutes.get('/topchannel', async (req, res) => {
       let summation = 0
       const videos = await VideoModel.find({ channel_id: channels[i]._id })
       for (let j = 0; j < videos.length; j++) {
-        console.log(videos[j])
         for (let k = 0; k < videos[j].video_record.length; k++) {
           if (videos[j].video_record[k].company_id === req.headers.company_id) {
             summation += videos[j].video_record[k].total_exposure_time
