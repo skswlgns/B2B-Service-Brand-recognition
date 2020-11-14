@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-if="video.length === 0">
+  <div class="card" v-if="len === 0">
     <div class="out">
       <div class="in">
         <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
@@ -8,26 +8,16 @@
     </div>
   </div>
   <div v-else class="card">
-    <div class="rank_fr">
-      <div style="height:48px;" class="rank-title">
-        <div>
-          기업 관련 영상(해당 브랜드가 많이 나온거? or 한번이라도 나온거?) 제작중
-        </div>
-        <a align="right" @click="moredata()" v-if="this.video.length > 3">
-          더 보기
-        </a>
-      </div>
-    </div>
     <v-row no-gutters>
-      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="4">
-        <v-card class="data" outlined tile v-if="video[i - 1]">
-          <a @click="moveVideoDetail(video[i - 1].video_youtube_id)">
-            <v-img alt="user" :src="video[i - 1].video_thumbnails" />
+      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="3">
+        <v-card class="data" outlined tile v-if="CompanyRecommendVideo[i - 1]">
+          <a @click="moveVideoDetail(CompanyRecommendVideo[i - 1].video.video_youtube_id)">
+            <v-img alt="user" :src="CompanyRecommendVideo[i - 1].video.video_thumbnails" />
           </a>
           <v-card-actions>
             <h2
               style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
-              v-html="video[i - 1].video_title"
+              v-html="CompanyRecommendVideo[i - 1].video.video_title"
             ></h2>
           </v-card-actions>
           <v-expand-transition>
@@ -47,19 +37,17 @@ import router from '@/router'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
-    len: 3
+    len: null
   }),
-  created() {
-    this.getScrapVideo()
+  async created() {
+    await this.getCompanyRecommendVideo()
+    this.len = this.CompanyRecommendVideo.length
   },
   computed: {
-    ...mapState(searchStore, ['video'])
+    ...mapState(searchStore, ['CompanyRecommendVideo'])
   },
   methods: {
-    ...mapActions(searchStore, ['getScrapVideo']),
-    moredata() {
-      this.len = this.video.length
-    },
+    ...mapActions(searchStore, ['getCompanyRecommendVideo']),
     moveVideoDetail(id) {
       router.push({ name: 'VideoDetail', params: { video_youtube_id: id } })
     }

@@ -10,8 +10,7 @@ const channelStore = {
     isActive: 'subscribe',
     channelData: {},
     views: 0,
-    videoData: {},
-    companyRecommendChannel: []
+    videoData: {}
   },
   getters: {
     sliceViews: state => {
@@ -30,9 +29,6 @@ const channelStore = {
     },
     setchannel(state, channel) {
       state.channel = channel
-    },
-    setCompanyRecommendChannel(state, channel) {
-      state.companyRecommendChannel = channel
     },
     saveData(state, data) {
       state.channelData = data[0]
@@ -78,13 +74,6 @@ const channelStore = {
       //   page: data.page
       // }
       // dispatch('getVideo', youtube)
-    },
-    // 로그인한 기업별 유투버 추천
-    async getCompanyRecommendChannel({ commit }) {
-      config.headers.company_id = cookies.get('companyId')
-      const response = await axios.get(`${API_SERVER_URL}/exposure/topchannel`, config)
-
-      commit('setCompanyRecommendChannel', response.data)
     }
   }
 }

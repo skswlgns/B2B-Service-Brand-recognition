@@ -51,7 +51,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import router from '@/router'
-const channelStore = 'channelStore'
+const searchStore = 'searchStore'
 
 export default {
   data: () => ({
@@ -65,10 +65,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(channelStore, ['companyRecommendChannel'])
+    ...mapState(searchStore, ['companyRecommendChannel'])
   },
   methods: {
-    ...mapActions(channelStore, ['getCompanyRecommendChannel']),
+    ...mapActions(searchStore, ['getCompanyRecommendChannel']),
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
     }

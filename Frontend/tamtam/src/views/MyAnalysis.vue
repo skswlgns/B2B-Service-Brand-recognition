@@ -43,12 +43,12 @@
       </v-col>
     </v-row>
     <div class="card">
-      <div class="chart-title">추천 영상</div>
+      <div class="chart-title">영상 추천</div>
       <v-divider></v-divider>
       <RecommendVideo />
     </div>
     <div class="card component">
-      <div class="chart-title">추천 유투버</div>
+      <div class="chart-title">유투버 추천</div>
       <v-divider></v-divider>
       <RecommendChannel />
     </div>
