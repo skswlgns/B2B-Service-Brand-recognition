@@ -1,8 +1,10 @@
 @import '@/scss/_variable.scss';
 @import '@/scss/_mixin.scss';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 
 .v-application--wrap {
   background-color: #f5f6fa;
+  font-family: 'Noto Sans KR', sans-serif;
 
   .app-main-grid {
     display: grid;

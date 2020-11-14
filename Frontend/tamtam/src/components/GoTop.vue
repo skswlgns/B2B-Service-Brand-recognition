@@ -51,7 +51,7 @@ export default {
   props: {
     size: {
       type: Number,
-      default: 50
+      default: 40
     },
     right: {
       type: [String, Number],
@@ -59,7 +59,7 @@ export default {
     },
     bottom: {
       type: [String, Number],
-      default: 40
+      default: 60
     },
     bottomGap: {
       type: [String, Number],
@@ -210,64 +210,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.vue-go-top {
-  overflow: hidden;
-  position: fixed;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: 70% auto;
-  white-space: nowrap;
-  text-indent: 100%;
-  &__content {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
-  &__ripple {
-    position: absolute;
-    border-radius: 50%;
-    transform: scale(0);
-    opacity: 0;
-    pointer-events: none;
-    &[is-active] {
-      animation: vue-go-top-ripple-animation 0.75s ease-out;
-    }
-  }
-  &__icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  &__image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-.vue-go-top-enter-active,
-.vue-go-top-leave-active {
-  transition: opacity 0.3s, transform 0.3s;
-}
-.vue-go-top-enter,
-.vue-go-top-leave-to {
-  opacity: 0;
-  transform: translateY(50px);
-}
-@keyframes vue-go-top-ripple-animation {
-  from {
-    opacity: 1;
-  }
-  to {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
+@import '../scss/gotop.scss';
 </style>

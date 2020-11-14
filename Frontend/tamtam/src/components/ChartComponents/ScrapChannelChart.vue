@@ -1,0 +1,106 @@
+<template>
+  <div>
+    <canvas id="chart"></canvas>
+  </div>
+</template>
+<script>
+// Importing Bubble class from the vue-chartjs wrapper
+import Chart from 'chart.js'
+import { mapActions, mapState } from 'vuex'
+const searchStore = 'searchStore'
+export default {
+  // extends: Bubble,
+  data() {
+    return {
+      datacollection: {
+        // Data to be represented on x-axis
+        labels: ['Data'],
+        datasets: []
+      }
+    }
+  },
+  async created() {
+    await this.getScrapChannel()
+    await this.getData()
+    // await this.renderChart(this.datacollection, this.options)
+    await this.createChart()
+  },
+  computed: {
+    ...mapState(searchStore, ['channel'])
+  },
+  methods: {
+    ...mapActions(searchStore, ['getScrapChannel']),
+    createChart() {
+      this.ctx = document.getElementById('chart')
+      this.newChart = new Chart(this.ctx, {
+        type: 'scatter',
+        data: this.datacollection,
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  min: 0,
+                  max: 200,
+                  stepSize: 20
+                },
+                gridLines: {
+                  display: true
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: '구독자'
+                }
+              }
+            ],
+            xAxes: [
+              {
+                ticks: {
+                  min: 0,
+                  max: 1000,
+                  stepSize: 100
+                },
+                gridLines: {
+                  display: false
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: '위치',
+                  position: 'right'
+                }
+              }
+            ]
+          },
+          legend: {
+            display: false
+          }
+        }
+      })
+    },
+    getData() {
+      for (let index = 0; index < this.channel.length; index++) {
+        const data = this.channel[index]
+        const subscribe = parseInt(data.channel_subscribe / 10000)
+        const videoCnt = data.channel_video_cnt
+        const tmp = {
+          label: data.channel_name,
+          backgroundColor: '#f87979',
+          pointBackgroundColor: 'white',
+          borderWidth: 1,
+          pointBorderColor: '#249EBF',
+          // Data to be represented on y-axis
+          data: [
+            {
+              x: videoCnt,
+              y: subscribe,
+              r: 5
+            }
+          ]
+        }
+        this.datacollection.datasets.push(tmp)
+      }
+    }
+  }
+}
+</script>

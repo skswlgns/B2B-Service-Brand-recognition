@@ -54,7 +54,6 @@ export default {
   data: () => ({}),
   created() {
     this.searchChannel()
-    // alert(this.channelId)
   },
   computed: {
     ...mapState(channelStore, ['channel'])

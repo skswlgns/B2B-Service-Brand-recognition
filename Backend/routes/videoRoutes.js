@@ -58,14 +58,15 @@ videoRoutes.post('/', async (req, res) => {
         for (let i = 0; i < record.length; i++) {
           // console.log(record[i])
           const videoExposure = await ExposureModel.findOne({
-            company_id: record[i].company_id
+            company_id: record[i].company_id,
+            exposure_date: req.body.video_date
           })
 
           // video 날짜에 기업 노출 기록이 있으면 더하고
-          if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
+          if (videoExposure) {
             videoExposure.exposure_time += record[i].total_exposure_time
             await ExposureModel.findOneAndUpdate(
-              { company_id: record[i].company_id },
+              { company_id: record[i].company_id, exposure_date: req.body.video_date },
               { exposure_time: videoExposure.exposure_time }
             )
           } else {

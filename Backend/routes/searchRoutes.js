@@ -76,8 +76,8 @@ searchRoutes.get('/recommend', async (req, res) => {
         return Math.random() - Math.random()
       })
 
-      if (recommendvideos.length > 5) {
-        recommendvideos = recommendvideos.slice(0, 5)
+      if (recommendvideos.length > 10) {
+        recommendvideos = recommendvideos.slice(0, 10)
       }
       res.status(200).send(recommendvideos)
     } catch (err) {

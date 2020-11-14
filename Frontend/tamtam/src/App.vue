@@ -3,12 +3,12 @@
     <div class="app-main-grid" v-if="$route.name !== 'Main' && $route.name !== 'Login'">
       <nav class="navbar" v-if="$route.name !== 'Login' && $route.name !== 'Main' && $route.name !== 'PageNotFound'">
         <div>
-          <router-link to="/whole" class="logo">TamTam</router-link>
+          <router-link to="/home" class="logo">TamTam</router-link>
           <div class="searchbar">
             <span class="icon"><i class="fa fa-search"></i></span>
             <input type="text" placeholder="검색내용을 입력해주세요." v-model="text" @keyup.enter="searching()" />
           </div>
-          <router-link class="menu" to="/whole">전체 기업 분석</router-link>
+          <router-link class="menu" to="/home">전체 기업 분석</router-link>
           <router-link class="menu" to="/myAnalysis">내 기업 분석</router-link>
 
           <router-link class="menu" to="/myPage">My Page</router-link>
@@ -67,5 +67,5 @@ export default {
 
 <style lang="scss" scpoed>
 @import './scss/common.scss';
-@import './scss/nav.scss';
+@import './scss/app.scss';
 </style>
