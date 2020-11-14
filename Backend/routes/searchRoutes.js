@@ -187,7 +187,7 @@ searchRoutes.get('/catevideotop', async (req, res) => {
   if (req.headers.token) {
     const limit = parseInt(req.headers.limit)
     try {
-      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industy } }).sort({
+      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industry } }).sort({
         video_views: -1
       })
 
@@ -197,6 +197,33 @@ searchRoutes.get('/catevideotop', async (req, res) => {
       // }
       videos.slice(limit, limit + 10)
       res.status(200).send(videos)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
+  }
+})
+
+// 카테고리별 좋아요 많은 영상 순서로
+searchRoutes.get('/likevideotop', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const videos = await VideoModel.find({
+        video_category: { $regex: req.body.company_industry, $options: 'i' }
+      }).sort({
+        video_like: -1
+      })
+
+      const limit = req.headers.limit
+
+      let result = {}
+      if (videos.length < 10) {
+        result = videos
+      } else {
+        result = videos.slice(limit, limit + 10)
+      }
+      res.status(200).send(result)
     } catch (err) {
       res.status(500).send(err)
     }
