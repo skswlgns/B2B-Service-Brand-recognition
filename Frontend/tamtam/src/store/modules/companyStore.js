@@ -55,6 +55,11 @@ const searchStore = {
       // config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/company`)
       commit('setCompanyList', response.data)
+    },
+    async getCategory() {
+      const response = await axios.get(`${API_SERVER_URL}/company/${config.headers.company_id}`, config)
+      console.log(response.data.company_industry)
+      return response.data.company_industry
     }
   }
 }

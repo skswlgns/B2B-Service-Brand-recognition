@@ -3,7 +3,7 @@
     <header class="card">
       <v-row>
         <v-col><router-link to="/rank/subscribes">채널</router-link></v-col>
-        <v-col><router-link to="/#">동영상</router-link></v-col>
+        <v-col><router-link to="/rank/catevideotop">동영상</router-link></v-col>
       </v-row>
     </header>
     <div class="card-title" v-if="$route.path === '/mypage'">관련 유튜버 랭킹</div>
@@ -78,6 +78,7 @@ import axios from 'axios'
 import cookies from 'vue-cookies'
 
 const channelStore = 'channelStore'
+const companyStore = 'companyStore'
 const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 
 export default {
@@ -90,7 +91,8 @@ export default {
           limit: 0
         }
       },
-      channel: []
+      channel: [],
+      industry: ''
     }
   },
   components: {
@@ -102,6 +104,7 @@ export default {
     }
   },
   created() {
+    this.industry = this.getCategory()
     if (this.$route.name === 'MyPage') {
       this.channel = this.searchChannel()
       console.log('마페')
@@ -115,6 +118,7 @@ export default {
   },
   methods: {
     ...mapActions(channelStore, ['searchChannel']),
+    ...mapActions(companyStore, ['getCategory']),
     // 채널 디테일로 이동할꺼임
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
@@ -123,26 +127,32 @@ export default {
       window.open('https://www.youtube.com/channel/' + channerId)
     },
     infiniteHandler($state) {
-      axios.get(`${API_SERVER_URL}/search/${this.$route.params.subject}`, this.config).then(response => {
-        setTimeout(() => {
-          if (response.data.length) {
-            this.channel = this.channel.concat(response.data)
-            $state.loaded()
-            this.config.headers.limit += 10
-            if (this.channel.length / 10 === 0) {
+      // const data = {
+      //   company_industy: this.industry.PromiseResult
+      // }
+
+      axios
+        .get(`${API_SERVER_URL}/search/${this.$route.params.subject}`, this.config, this.industry.PromiseResult)
+        .then(response => {
+          setTimeout(() => {
+            if (response.data.length) {
+              this.channel = this.channel.concat(response.data)
+              $state.loaded()
+              this.config.headers.limit += 10
+              if (this.channel.length / 10 === 0) {
+                $state.complete()
+              }
+            } else {
               $state.complete()
             }
-          } else {
-            $state.complete()
-          }
-        }, 1000)
-      })
+          }, 1000)
+        })
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-@import '../scss/Rank/rank.scss';
+@import '../../scss/Rank/rank.scss';
 .data {
   /* the other rules */
   transition: all 0.6s;

@@ -107,9 +107,6 @@ searchRoutes.get('/avgviews', async (req, res) => {
   }
 })
 
-// 비디오 조회수
-searchRoutes.get('/')
-
 // 추천영상
 searchRoutes.get('/recommend', async (req, res) => {
   if (req.headers.token) {
@@ -188,16 +185,18 @@ searchRoutes.get('/catevideo', async (req, res) => {
 // 카테고리별 영상 조회수 순서로
 searchRoutes.get('/catevideotop', async (req, res) => {
   if (req.headers.token) {
+    const limit = parseInt(req.headers.limit)
     try {
       const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industy } }).sort({
         video_views: -1
       })
 
-      let recovideo = {}
-      if (videos.length > 10) {
-        recovideo = videos.slice(0, 10)
-      }
-      res.status(200).send(recovideo)
+      // let recovideo = {}
+      // if (videos.length > 10) {
+      //   recovideo = videos.slice(0, 10)
+      // }
+      videos.slice(limit, limit + 10)
+      res.status(200).send(videos)
     } catch (err) {
       res.status(500).send(err)
     }
