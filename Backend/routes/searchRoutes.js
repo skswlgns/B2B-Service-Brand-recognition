@@ -63,8 +63,12 @@ searchRoutes.get('/recommend', async (req, res) => {
     try {
       const company = await CompanyModel.findOne({ _id: req.headers.company_id })
       const mynickname = company.company_nickname
-      const videos_title = await VideoModel.find({ video_title: { $regex: mynickname, $options: 'i' } })
-      const videos_content = await VideoModel.find({ videos_content: { $regex: mynickname, $options: 'i' } })
+      const videos_title = await VideoModel.find({ video_title: { $regex: mynickname, $options: 'i' } }).populate(
+        'company_id'
+      )
+      const videos_content = await VideoModel.find({ videos_content: { $regex: mynickname, $options: 'i' } }).populate(
+        'company_id'
+      )
       const temp = videos_title.concat(videos_content)
       let recommendvideos = Array.from(new Set(temp))
 
@@ -81,6 +85,71 @@ searchRoutes.get('/recommend', async (req, res) => {
     }
   } else {
     res.status(403).send({ message: '로그인이 필요한 서비스입니다' })
+  }
+})
+
+// 카테고리 별 유튜버 추천
+searchRoutes.get('/catechannel', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const channels = await ChannelModel.find({ channel_category: { $regex: req.body.company_industry } })
+      channels.sort(function () {
+        return Math.random() - Math.random()
+      })
+
+      let recochannel = {}
+      if (channels.length > 10) {
+        recochannel = channels.slice(0, 10)
+      }
+      res.status(200).send(recochannel)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
+  }
+})
+
+// 카테고리 별 영상 추천
+searchRoutes.get('/catevideo', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industry } })
+      videos.sort(function () {
+        return Math.random() - Math.random()
+      })
+
+      let recovideo = {}
+      if (videos.length > 10) {
+        recovideo = videos.slice(0, 10)
+      }
+      res.status(200).send(recovideo)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
+  }
+})
+
+// 카테고리별 영상 조회수 순서로
+searchRoutes.get('/catevideotop', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industy } }).sort({
+        video_views: -1
+      })
+
+      let recovideo = {}
+      if (videos.length > 10) {
+        recovideo = videos.slice(0, 10)
+      }
+      res.status(200).send(recovideo)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
   }
 })
 
