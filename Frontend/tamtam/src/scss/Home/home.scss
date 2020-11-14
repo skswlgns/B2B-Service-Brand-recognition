@@ -19,20 +19,20 @@
 }
 
 .ranking-section {
-  // grid-row: 1/3;
-  grid-column: 1/13;
+  grid-row: 1/3;
+  grid-column: 10/13;
   margin: #{$base-margin};
 
   .ranking-group {
     display: grid;
     width: 100%;
-    height: 100%;
+    height: max;
     grid-template-rows: repeat(2, 1fr);
 
     .ranking-list {
       .ranking-body {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
 
         .ranking-title {
           display: flex;
@@ -46,8 +46,8 @@
           margin-bottom: #{$base-margin};
 
           img {
-            width: 25%;
-            height: 25%;
+            width: 10%;
+            height: 10%;
             border-radius: 50%;
           }
 
@@ -79,7 +79,20 @@
   }
 }
 
-.recommand-section {
-  grid-column: 1/13;
+.recommand-channel-section {
+  grid-column: 1/7;
   margin: #{$base-margin};
+
+  .card {
+    padding: #{$base-padding * 3};
+  }
+}
+
+.recommand-video-section {
+  grid-column: 7/13;
+  margin: #{$base-margin};
+
+  .card {
+    padding: #{$base-padding * 3};
+  }
 }

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-carousel cycle hide-delimiters light height="100%">
+    <v-carousel cycle hide-delimiters show-arrows-on-hover height="100%">
       <v-carousel-item v-for="pageIndex in pageNumber" :key="pageIndex">
         <v-layout row>
-          <v-flex sm3 v-for="cardIndex in cardNumber" :key="cardIndex" pl- pr-10>
+          <v-flex sm4 v-for="cardIndex in cardNumber" :key="cardIndex" pl-5 pr-5>
             <div v-if="homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)]">
               <div class="data mb-2 pa-2" style="text-align:center;">
                 <a
@@ -32,7 +32,7 @@
                   </v-flex>
                   <v-flex style="margin-top:8px;">
                     <div class="data-subtitle">
-                      구독자수
+                      구독자
                       {{
                         subScribeCnt(
                           homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_subscribe
@@ -40,15 +40,7 @@
                       }}
                     </div>
                     <div class="data-subtitle">
-                      영상수
-                      {{
-                        videoCnt(
-                          homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_video_cnt
-                        )
-                      }}
-                    </div>
-                    <div class="data-subtitle">
-                      평균영상시청수
+                      평균시청
                       {{
                         videoAvgCnt(
                           homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_avg_views
@@ -73,7 +65,7 @@ import router from '@/router'
 export default {
   data: () => ({
     pageNumber: 0,
-    cardNumber: 4
+    cardNumber: 3
   }),
   async created() {
     // this.init()
@@ -99,16 +91,6 @@ export default {
       } else {
         count = parseInt(count / 10000)
         return count + '만명'
-      }
-    },
-    videoCnt(count) {
-      if (count < 1000) return count + '개'
-      else if (count < 10000) {
-        count = parseInt(count / 1000)
-        return count + '천개'
-      } else {
-        count = parseInt(count / 10000)
-        return count + '만개'
       }
     },
     videoAvgCnt(count) {
