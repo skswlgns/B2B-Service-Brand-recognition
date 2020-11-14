@@ -13,7 +13,7 @@ const userStore = {
   mutations: {
     setToken(state, data) {
       cookies.set('token', data)
-      router.push('/whole')
+      router.push('/home')
     },
     setNickname(state, nickname) {
       state.user_nickname = nickname

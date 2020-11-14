@@ -429,28 +429,24 @@ export default {
           datasets: [
             {
               label: 'WinTiger Tv',
-              // backgroundColor: this.dynamicColors(),
               borderColor: this.dynamicColors(),
               fill: false,
               data: [80, 80, 30, 20, 50, 70]
             },
             {
               label: '승범튜브',
-              // backgroundColor: this.dynamicColors(),
               borderColor: this.dynamicColors(),
               fill: false,
               data: [50, 40, 60, 80, 80, 65]
             },
             {
               label: 'CH)Many People',
-              // backgroundColor: this.dynamicColors(),
               borderColor: this.dynamicColors(),
               fill: false,
               data: [20, 20, 40, 50, 30, 40]
             },
             {
               label: 'Knife Happly TV',
-              // backgroundColor: this.dynamicColors(),
               borderColor: this.dynamicColors(),
               fill: false,
               data: [0, 0, 30, 30, 70, 95]
@@ -493,6 +489,7 @@ export default {
       const chart = 'chart' + i
       this.createChart(chart, this.youtube[i].Circle)
     }
+    this.createChart('chLine', this.Line)
   }
 }
 </script>

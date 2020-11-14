@@ -33,6 +33,12 @@ videoRoutes.post('/', async (req, res) => {
       const videoTime = req.body.video_time
       const videoCategory = req.body.video_category
 
+      let real_total = 0
+      for (let i = 0; i < videoRecord.length; i++) {
+        real_total = real_total + videoRecord[i].total_exposure_time
+      }
+      const videoTotal = real_total
+
       const item = new VideoModel({
         video_id: videoId,
         video_url: videoUrl,
@@ -47,7 +53,8 @@ videoRoutes.post('/', async (req, res) => {
         video_record: videoRecord,
         video_thumbnails: videoThumbnail,
         video_time: videoTime,
-        video_category: videoCategory
+        video_category: videoCategory,
+        video_total: videoTotal
       })
       await item.save()
 
@@ -56,16 +63,16 @@ videoRoutes.post('/', async (req, res) => {
         const record = req.body.video_record
 
         for (let i = 0; i < record.length; i++) {
-          // console.log(record[i])
           const videoExposure = await ExposureModel.findOne({
-            company_id: record[i].company_id
+            company_id: record[i].company_id,
+            exposure_date: req.body.video_date
           })
 
           // video 날짜에 기업 노출 기록이 있으면 더하고
-          if (videoExposure && videoExposure.exposure_date === req.body.video_date) {
+          if (videoExposure) {
             videoExposure.exposure_time += record[i].total_exposure_time
             await ExposureModel.findOneAndUpdate(
-              { company_id: record[i].company_id },
+              { company_id: record[i].company_id, exposure_date: req.body.video_date },
               { exposure_time: videoExposure.exposure_time }
             )
           } else {
@@ -339,14 +346,11 @@ videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
 
       for (let videoIndex = 0; videoIndex < videos.length; videoIndex++) {
         const video = videos[videoIndex]
-        let real_total = 0
         for (let recordIndex = 0; recordIndex < video.video_record.length; recordIndex++) {
-          real_total = real_total + video.video_record[recordIndex].total_exposure_time
           const companyId = video.video_record[recordIndex].company_id
           const company = await CompanyModel.findOne({ _id: companyId })
           video.video_record[recordIndex].company_id = company
         }
-        video.video_total = real_total
       }
       res.status(200).send(videos)
     } catch (err) {
