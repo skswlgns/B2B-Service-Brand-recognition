@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="chart-body">
-      <canvas id="all-exposure-chart"></canvas>
+      <canvas id="all-exposure-chart-copy"></canvas>
     </div>
   </div>
 </template>
@@ -10,7 +10,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'Main1',
+  name: 'AllExposureChartCopy',
   data() {
     return {
       allExposureData: {
@@ -122,9 +122,8 @@ export default {
   methods: {
     ...mapActions('chartDataStore', ['createChart'])
   },
-  async created() {},
   mounted() {
-    this.createChart({ chartId: 'all-exposure-chart', chartData: this.allExposureData })
+    this.createChart({ chartId: 'all-exposure-chart-copy', chartData: this.allExposureData })
   }
 }
 </script>

@@ -4,39 +4,50 @@
     <article class="card timeline-card">
       <!-- Timeline background bar -->
       <div class="timeline-section">
-        <div class="timeline-background-bar"></div>
-
-        <!-- Timeline Records -->
-        <div v-for="(company, company_index) in videoData.video_record" :key="company._id">
-          <ul v-for="(record, record_index) in company.timelines" :key="record_index">
-            <div :class="{ 'display-none': focusedCompany && focusedCompany !== company.company_id.company_nickname }">
-              <li
-                :id="'record-' + company_index + '-' + record_index"
-                :class="`timeline-record background-` + company_index"
-                @click="playerSeekTo(record[1])"
-              ></li>
-            </div>
-          </ul>
+        <div class="timeline-background-bar">
+          <!-- Timeline Records -->
+          <div v-for="(company, company_index) in videoData.video_record" :key="company._id">
+            <ul v-for="(record, record_index) in company.timelines" :key="record_index">
+              <div
+                :class="{ 'display-none': focusedCompany && focusedCompany !== company.company_id.company_nickname }"
+              >
+                <li
+                  :id="'record-' + company_index + '-' + record_index"
+                  :class="`timeline-record background-` + company_index"
+                  @click="playerSeekTo(record[1])"
+                />
+              </div>
+            </ul>
+          </div>
         </div>
       </div>
 
       <!-- Timestamp -->
       <div class="timestamp-section">
         <span>00:00</span>
-        <span>00:00 변경 필요</span>
+        <span>{{ this.makeVideoTime(videoData.video_time) }}</span>
       </div>
 
       <!-- Company Toggle -->
       <div class="company-toggle-section">
         <div
+          v-for="(company, company_index) in videoData.video_record.slice(0, 4)"
           :id="'company-button-' + company_index"
-          :class="`company-button toggle-unselected selected-` + company_index"
-          v-for="(company, company_index) in videoData.video_record"
           :key="company._id"
+          :class="`company-button toggle-unselected selected-` + company_index"
           @click="choiceCompany(company_index, company.company_id.company_nickname)"
         >
           <span>{{ company_index + 1 }}. {{ company.company_id.company_name }}</span>
-          <span>수정필요 30%</span>
+          <span>{{ parseInt((company.total_exposure_time / allExposureTime) * 100) }}%</span>
+        </div>
+        <div v-if="videoData.video_record.length > 4" class="etc-button">
+          <div
+            id="company-button-4"
+            class="company-button toggle-unselected selected-4"
+            @click="choiceCompany(4, 'etc')"
+          >
+            기타
+          </div>
         </div>
       </div>
     </article>
@@ -44,18 +55,24 @@
     <!-- Video Card -->
     <article class="card video-card">
       <div id="yt-player-serction" class="video-player-section">
-        <div id="yt-player"></div>
+        <div id="yt-player" />
       </div>
       <div class="video-info-section">
         <p>{{ videoData.video_category }}</p>
-        <p class="video-title">{{ videoData.video_title }}</p>
+        <p class="video-title">
+          {{ videoData.video_title }}
+        </p>
         <span class="video-small">조회수 {{ videoData.video_views }}회</span>
         <span class="video-small">{{ videoData.video_date }}</span>
         <span class="video-small">좋아요: {{ videoData.video_like }}</span>
         <span class="video-small">싫어요: {{ videoData.video_dislike }}</span>
         <a :href="videoData.video_url">유튜브로 보러가기</a>
-        <v-btn v-show="!show" @click="scrapVideo()">동영상 스크랩하기</v-btn>
-        <v-btn v-show="show" @click="scrapVideo()">동영상 스크랩 취소하기</v-btn>
+        <v-btn v-show="!show" @click="scrapVideo()">
+          동영상 스크랩하기
+        </v-btn>
+        <v-btn v-show="show" @click="scrapVideo()">
+          동영상 스크랩 취소하기
+        </v-btn>
         <v-btn>해당 동영상 통계에서 제외하기</v-btn>
         <p>{{ videoData.video_content }}</p>
       </div>
@@ -63,54 +80,36 @@
 
     <!-- Recommandation Card -->
     <article class="card recommend-video-card">
-      <header>추천 동영상 파트</header>
-      <hr />
-      <div
-        class="recommend-list"
-        v-for="(recommendVideo, index) in recommendVideos"
-        :key="index"
-        @click="moveVideoDetailPage(recommendVideo.video_youtube_id)"
-      >
-        <img class="recommend-thumbnail" :src="recommendVideo.video_thumbnails" alt="video_thumbnail" />
-        <div class="recommend-info">
-          <p>{{ recommendVideo.video_title }}</p>
-          <p>{{ recommendVideo.channel_id }}</p>
-          <p>조회수 {{ recommendVideo.video_views }}회</p>
-          <p>{{ recommendVideo.video_date }}</p>
-        </div>
-      </div>
+      <RecommendVideoList />
     </article>
   </section>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import router from '../router'
+import router from '@/router'
 import cookies from 'vue-cookies'
-const videoDetailStore = 'videoDetailStore'
+import RecommendVideoList from '@/components/VideoDetailComponents/RecommendVideoList.vue'
 
 export default {
   name: 'VideoDetail',
+  components: {
+    RecommendVideoList
+  },
   data() {
     return {
       player: {},
       focusedCompany: false,
       show: false,
-      company_id: cookies.get('companyId')
+      company_id: cookies.get('companyId'),
+      videoTime: '',
+      allExposureTime: 0
     }
   },
-  beforeCreate() {
-    console.log('beforeCreate')
-  },
-  created() {
-    console.log('created')
-  },
-  beforeMount() {
-    console.log('beforeMount')
+  computed: {
+    ...mapState('videoDetailStore', ['videoData', 'recommendVideos'])
   },
   async mounted() {
-    console.log('mounted')
-
     // videoData 불러오기
     await this.getVideoData(this.$route.params.video_youtube_id)
 
@@ -156,24 +155,11 @@ export default {
       })
     })
     this.changeShow()
+    this.makeAllExposureTime()
   },
-  beforeUpdate() {
-    console.log('beforeUpdate')
-  },
-  updated() {
-    console.log('updated')
-  },
-  beforeDestroy() {
-    console.log('beforeDestroy')
-  },
-  destroyed() {
-    console.log('destroyed')
-  },
-  computed: {
-    ...mapState('videoDetailStore', ['videoData', 'recommendVideos'])
-  },
+
   methods: {
-    ...mapActions(videoDetailStore, ['getVideoData', 'getRecommendVideoData', 'scrap']),
+    ...mapActions('videoDetailStore', ['getVideoData', 'getRecommendVideoData', 'scrap']),
 
     scrapVideo: async function() {
       let answer
@@ -230,7 +216,6 @@ export default {
     },
 
     // 해당 브랜드 선택하여 타임라인 자세히보기 & 취소하기
-    // 추천동영상 리스트도 변경하는 로직 필요
     choiceCompany: function(companyIndex, company) {
       if (this.focusedCompany === company) {
         // 선택된 company 선택 해제
@@ -240,7 +225,8 @@ export default {
         ).className = `company-button toggle-unselected selected-${companyIndex}`
       } else {
         // 선택한 company 이외에 toggle이 되어있는 경우 모두 style 해제
-        for (let i = 0; i < this.videoData.video_record.length; i++) {
+        for (let i = 0; i < Math.min(this.videoData.video_record.length, 5); i++) {
+          console.log(document.getElementById(`company-button-${i}`))
           document.getElementById(`company-button-${i}`).className = `company-button toggle-unselected selected-${i}`
         }
         // 선택한 company 스타일 적용
@@ -249,12 +235,44 @@ export default {
           `company-button-${companyIndex}`
         ).className = `company-button toggle-selected background-${companyIndex}`
       }
+    },
+
+    makeVideoTime: function(time) {
+      const secNum = parseInt(time, 10)
+      let hours = Math.floor(secNum / 3600)
+      let minutes = Math.floor((secNum - hours * 3600) / 60)
+      let seconds = secNum - hours * 3600 - minutes * 60
+
+      if (hours < 10) {
+        hours = '0' + hours
+      }
+      if (minutes < 10) {
+        minutes = '0' + minutes
+      }
+      if (seconds < 10) {
+        seconds = '0' + seconds
+      }
+
+      if (hours === '00') {
+        return minutes + ':' + seconds
+      } else {
+        return hours + ':' + minutes + ':' + seconds
+      }
+    },
+
+    // 브랜드들의 총 노출시간 계산
+    makeAllExposureTime: function() {
+      let exposureTime = 0
+      this.videoData.video_record.forEach(record => {
+        exposureTime += record.total_exposure_time
+      })
+      this.allExposureTime = exposureTime
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../scss/videodetail.scss';
-@import '../scss/common.scss';
+@import '@/scss/VideoDetail/video_detail.scss';
+@import '@/scss/common.scss';
 </style>

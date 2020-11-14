@@ -60,6 +60,7 @@ const channelStore = {
       config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/channel`, config)
       commit('setchannel', response.data)
+      return response.data
     },
     async getChannelData({ commit }, channelId) {
       const config = {
@@ -67,8 +68,8 @@ const channelStore = {
           token: cookies.get('token')
         }
       }
-      config.headers.company_id = cookies.get('companyId')
-      const response = await axios.get(`${API_SERVER_URL}/channel/${channelId}`, config)
+      // config.headers.company_id = cookies.get('companyId')
+      const response = await axios.get(`${API_SERVER_URL}/channel/youtube/${channelId}`, config)
       commit('saveData', response.data)
       // const youtube = {
       //   Id: response.data[0].channel_youtube_id,

@@ -1,4 +1,4 @@
-@import './variable';
+@import '@/scss/_variable.scss';
 
 @mixin transform($value) {
   -webkit-transform: ($value);

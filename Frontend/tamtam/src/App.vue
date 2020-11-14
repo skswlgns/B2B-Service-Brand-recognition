@@ -12,6 +12,7 @@
           <router-link class="menu" to="/myAnalysis">내 기업 분석</router-link>
 
           <router-link class="menu" to="/myPage">My Page</router-link>
+          <router-link class="menu" to="/rank/subscribe">순희</router-link>
         </div>
         <v-divider></v-divider>
         <div>
@@ -43,7 +44,9 @@ export default {
   components: {
     GoTop
   },
-  created() {},
+  computed: {
+    ...mapState(userStore, ['user_nickname'])
+  },
   methods: {
     searching() {
       this.text = this.text.trim()
@@ -58,9 +61,7 @@ export default {
     ...mapActions(userStore, ['logout']),
     ...mapActions(searchStore, ['search'])
   },
-  computed: {
-    ...mapState(userStore, ['user_nickname'])
-  },
+  created() {},
   mounted() {}
 }
 </script>

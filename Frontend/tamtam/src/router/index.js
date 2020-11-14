@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from "../views/Home.vue";
 import Ranking from '@/components/Ranking.vue'
 import Recommend from '@/components/Recommend.vue'
 import SearchVideo from '@/components/SearchVideo.vue'
@@ -12,7 +11,7 @@ import ContactChannel from '@/components/ContactChannel.vue'
 import MyPage from '@/views/MyPage.vue'
 import MyAnalysis from '@/views/MyAnalysis.vue'
 import Search from '@/views/Search.vue'
-import Login from '../views/Login.vue'
+import Login from '@/views/Login.vue'
 import Main from '@/views/Main.vue'
 import VideoDetail from '@/views/VideoDetail.vue'
 import Main1 from '@/views/Main1.vue'
@@ -182,9 +181,10 @@ const routes = [
     }
   },
   {
-    path: '/rank',
+    path: '/rank/:subject',
     name: 'Utuberank',
     component: Utuberank,
+    props: true,
     beforeEnter(to, from, next) {
       if (!Vue.$cookies.isKey('token')) {
         next('/login')

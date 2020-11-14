@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ Id }}
     <v-row>
       <v-col v-for="(video, i) in videoData" :key="i" cols="3">
         <v-card class="mx-auto">
@@ -14,15 +15,15 @@
           <div class="views" v-else-if="video.video_views < 10000">
             조회수 : {{ parseInt(video.video_views / 1000) }}천회
           </div>
-          <div class="views" v-else>조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
+          <div v-else class="views">조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
           <v-card-text>
-            <canvas :id="video._id"></canvas>
+            <canvas :id="video._id" />
           </v-card-text>
-          <v-spacer></v-spacer>
+          <v-spacer />
         </v-card>
       </v-col>
     </v-row>
-    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+    <infinite-loading @infinite="infiniteHandler" spinner="circles" />
   </div>
 </template>
 
@@ -38,6 +39,9 @@ const _ = require('lodash')
 
 export default {
   name: 'Video',
+  components: {
+    InfiniteLoading
+  },
   data() {
     return {
       config: {
@@ -61,16 +65,35 @@ export default {
         },
         options: {
           responsive: true,
-          legend: { position: 'right' },
+          legend: {
+            position: 'bottom',
+            align: 'center',
+            labels: {
+              boxWidth: 3,
+              padding: 25,
+              rtl: true
+            }
+          },
           maintainAspectRatio: false,
           animation: false,
-          pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' }
+          pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' },
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                return data.labels[tooltipItem.index] + ': ' + data.datasets[0].data[tooltipItem.index] + '%'
+              }
+            }
+          }
         }
       }
     }
   },
-  components: {
-    InfiniteLoading
+  updated() {
+    if (this.videoData.length) {
+      for (let i = 0; i < this.videoData.length; i++) {
+        this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
+      }
+    }
   },
   methods: {
     infiniteHandler($state) {
@@ -132,18 +155,10 @@ export default {
       const b = Math.floor(Math.random() * 255)
       return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
-  },
-  updated() {
-    if (this.videoData.length) {
-      for (let i = 0; i < this.videoData.length; i++) {
-        console.log(this.videoData[i])
-        this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
-      }
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../scss/channel.scss';
+@import '@/scss/channel.scss';
 </style>

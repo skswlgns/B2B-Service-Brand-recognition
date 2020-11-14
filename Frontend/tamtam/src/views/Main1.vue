@@ -36,7 +36,7 @@
         <div class="rank_fr">
           <div class="rank-title">
             <div>구독자순</div>
-            <router-link to="/whole">더 보기</router-link>
+            <router-link :to="{ name: 'Utuberank', params: { subject: 'subscribes' } }">더 보기</router-link>
           </div>
           <div class="rank">
             <v-card v-for="(subscribe, i) in subscribeData" :key="i" class="mx-auto mb-2" max-width="344" outlined>
@@ -44,7 +44,7 @@
                 <img :src="subscribe.channel_img" width="80px" />
                 <v-list-item-content>
                   <router-link
-                    :to="{ name: 'Channel', params: { channelId: subscribe._id } }"
+                    :to="{ name: 'Channel', params: { channelId: subscribe.channel_youtube_id } }"
                     class="overline mb-4 headline"
                   >
                     {{ subscribe.channel_name }}
@@ -59,14 +59,18 @@
         <div class="rank_fr">
           <div class="rank-title">
             <div>구독자순</div>
-            <router-link to="/whole">더 보기</router-link>
+            <router-link :to="{ name: 'Utuberank', params: { subject: 'avgviews' } }">더 보기</router-link>
           </div>
+
           <div class="rank">
             <v-card v-for="(view, i) in viewsData" :key="i" class="mx-auto mt-2" max-width="344" outlined>
               <v-list-item three-line>
                 <img :src="view.channel_img" width="80px" />
                 <v-list-item-content>
-                  <router-link :to="{ name: 'Channel', params: { channelId: view._id } }" class="overline mb-4">
+                  <router-link
+                    :to="{ name: 'Channel', params: { channelId: view.channel_youtube_id } }"
+                    class="overline mb-4"
+                  >
                     {{ view.channel_name }}
                   </router-link>
                 </v-list-item-content>
@@ -82,10 +86,10 @@
 <script>
 import Chart from 'chart.js'
 import { mapState, mapActions } from 'vuex'
-import AllExposureChart from '@/components/charts/AllExposureChart.vue'
-import IndExposureChart from '@/components/charts/IndExposureChart.vue'
-import AllExposureChartCopy from '@/components/charts/AllExposureChartCopy.vue'
-import IndExposureChartCopy from '@/components/charts/IndExposureChartCopy.vue'
+import AllExposureChart from '@/components/ChartComponents/AllExposureChart.vue'
+import IndExposureChart from '@/components/ChartComponents/IndExposureChart.vue'
+import AllExposureChartCopy from '@/components/ChartComponents/AllExposureChartCopy.vue'
+import IndExposureChartCopy from '@/components/ChartComponents/IndExposureChartCopy.vue'
 
 const wholeStore = 'wholeStore'
 
@@ -123,6 +127,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/main1.scss';
+@import '@/scss/Main/main1.scss';
 @import '@/scss/charts.scss';
 </style>
