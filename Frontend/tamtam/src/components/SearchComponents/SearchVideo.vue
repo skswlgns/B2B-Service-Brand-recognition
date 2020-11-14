@@ -8,11 +8,6 @@
     </div>
   </div>
   <div v-else class="card">
-    <div style="height:48px;">
-      <div style="float:left;" class="pa-3">
-        영상
-      </div>
-    </div>
     <v-row no-gutters>
       <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="4">
         <v-card class="data" outlined tile v-if="video[i - 1]">

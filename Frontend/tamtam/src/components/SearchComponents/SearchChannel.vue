@@ -8,14 +8,15 @@
     </div>
   </div>
   <div v-else class="card">
-    <div style="height:48px;">
-      <div style="float:left;" class="pa-3">
-        채널
-      </div>
-    </div>
     <v-row no-gutters>
       <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="3">
-        <v-card @click="moveChannelDetail(channel[i - 1]._id)" class="data" outlined tile v-if="channel[i - 1]">
+        <v-card
+          @click="moveChannelDetail(channel[i - 1].channel_youtube_id)"
+          class="data"
+          outlined
+          tile
+          v-if="channel[i - 1]"
+        >
           <div style="padding:5%">
             <v-list-item two-line>
               <a>
