@@ -1,27 +1,43 @@
 <template>
   <div>
-    <div class="card " style="margin-top:8px;">
-      <v-row class="mx-2">
-        <v-col cols="6">
-          <div style="text-align:center; padding-top: 15%;">
-            <div class="headline">맻등?</div>
-            <div class="headline">총 영상수 : {{ this.companyCount }}</div>
-            <div class="headline">총시간 : {{ this.companyTime }}</div>
+    <v-row>
+      <v-col cols="4">
+        <div class="card component">
+          <div style="text-align:center; padding: 15%;" class="headline">맻등?</div>
+        </div>
+      </v-col>
+      <v-col cols="4">
+        <div class="card component">
+          <div style="text-align:center; padding: 15%;" class="headline">총 영상수 : {{ this.companyCount }}</div>
+        </div>
+      </v-col>
+      <v-col cols="4">
+        <div class="card component">
+          <div style="text-align:center; padding: 15%;" class="headline">총 노출시간 : {{ this.companyTime }}</div>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="6">
+        <div class="card component">
+          <div class="chart-title">스크랩 채널 비교</div>
+          <v-divider></v-divider>
+          <ScrapChannelChart />
+        </div>
+      </v-col>
+      <v-col cols="6">
+        <div>
+          <div class="card component">
+            <CompareExposureChart />
           </div>
-        </v-col>
-        <v-col cols="6">
-          <!-- compare -->
-          <CompareExposureChart />
-        </v-col>
-      </v-row>
-    </div>
-    <!-- <ContactChannel></ContactChannel> -->
+        </div>
+      </v-col>
+    </v-row>
     <div class="card component">
-      <div class="chart-title">스크랩한 채널 비교</div>
+      <div class="chart-title">추천 영상</div>
       <v-divider></v-divider>
-      <ScrapChannelChart style="padding:50px;" />
+      <ReferenceVideo style="padding:50px;" />
     </div>
-    <ReferenceVideo class="component"></ReferenceVideo>
   </div>
 </template>
 

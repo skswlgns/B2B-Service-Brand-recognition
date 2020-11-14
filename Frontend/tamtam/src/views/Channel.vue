@@ -19,8 +19,8 @@
                   <img alt="user" src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png" />
                 </v-avatar>
               </v-btn>
-              <v-btn icon @click="scrapChannel()">
-                <v-icon v-show="!show">
+              <v-btn icon @click="scrapChannel()" color="white">
+                <v-icon color="grey darken-3" v-show="!show">
                   mdi-star-outline
                 </v-icon>
                 <v-icon color="yellow darken-3" v-show="show">
