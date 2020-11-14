@@ -142,7 +142,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../scss/Rank/rank.scss';
+@import '@/scss/Rank/rank.scss';
 .data {
   /* the other rules */
   transition: all 0.6s;
