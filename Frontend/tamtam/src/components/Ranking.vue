@@ -1,5 +1,11 @@
 <template>
   <div>
+    <header class="card">
+      <v-row>
+        <v-col><router-link to="/rank/subscribes">채널</router-link></v-col>
+        <v-col><router-link to="/#">동영상</router-link></v-col>
+      </v-row>
+    </header>
     <div class="card-title" v-if="$route.path === '/mypage'">관련 유튜버 랭킹</div>
     <div class="card-title" v-else-if="$route.path === '/rank/subscribes'">구독자수</div>
     <div class="card-title" v-else-if="$route.path === '/rank/avgviews'">구독자 수 대비 조회수</div>
@@ -121,7 +127,6 @@ export default {
         setTimeout(() => {
           if (response.data.length) {
             this.channel = this.channel.concat(response.data)
-
             $state.loaded()
             this.config.headers.limit += 10
             if (this.channel.length / 10 === 0) {
@@ -130,13 +135,14 @@ export default {
           } else {
             $state.complete()
           }
-        })
+        }, 1000)
       })
     }
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import '../scss/Rank/rank.scss';
 .data {
   /* the other rules */
   transition: all 0.6s;

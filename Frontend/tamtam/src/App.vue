@@ -12,7 +12,7 @@
           <router-link class="menu" to="/myAnalysis">내 기업 분석</router-link>
 
           <router-link class="menu" to="/myPage">My Page</router-link>
-          <router-link class="menu" to="/rank/subscribe">순희</router-link>
+          <router-link class="menu" to="/rank/subscribes">순희</router-link>
         </div>
         <v-divider></v-divider>
         <div>

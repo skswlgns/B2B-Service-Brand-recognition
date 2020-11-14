@@ -1,0 +1,14 @@
+@import '@/scss/_variable.scss';
+@import '@/scss/_mixin.scss';
+
+header {
+  text-align: center;
+  .compartment {
+    border-right: 1px solid;
+    padding-right: 0;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
