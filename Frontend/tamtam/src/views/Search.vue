@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import SearchVideo from '@/components/SearchVideo.vue'
-import SearchChannel from '@/components/SearchChannel.vue'
+import SearchVideo from '@/components/SearchComponents/SearchVideo.vue'
+import SearchChannel from '@/components/SearchComponents/SearchChannel.vue'
 import { mapActions, mapGetters } from 'vuex'
 const searchStore = 'searchStore'
 export default {
