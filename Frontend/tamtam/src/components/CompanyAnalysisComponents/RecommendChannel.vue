@@ -1,46 +1,72 @@
 <template>
   <div>
     <v-carousel cycle hide-delimiters light height="100%">
-      <v-carousel-item v-for="i in len" :key="i">
+      <v-carousel-item v-for="pageIndex in pageNumber" :key="pageIndex">
         <v-layout row>
-          <v-flex sm4 v-for="j in 3" :key="j" pl-4 pr-4>
-            <v-hover>
-              <div
-                class="card "
-                slot-scope="{ hover }"
-                :class="`elevation-${hover ? 5 : 30}`"
-                v-if="companyRecommendChannel[(i - 1) * 3 + (j - 1)]"
-                outlined
-              >
+          <v-flex sm3 v-for="cardIndex in cardNumber" :key="cardIndex" pl- pr-10>
+            <div v-if="companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)]">
+              <div class="data mb-2 pa-2" style="text-align:center;">
                 <a
                   style="color: black"
-                  @click="moveChannelDetail(companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel._id)"
+                  @click="
+                    moveChannelDetail(
+                      companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel.channel_youtube_id
+                    )
+                  "
                 >
-                  <div class="data mb-8 pa-8" style="text-align:center;">
-                    <v-flex style="margin-top:8px;">
-                      <v-avatar size="100">
-                        <img alt="user" :src="companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_img" />
-                      </v-avatar>
-                    </v-flex>
-                    <v-flex style="overflow-y: auto; height:100px">
-                      <h2 style="margin-top:40px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                        {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_name }}
-                      </h2>
-                      <div class="overline mb-1" outlined>
-                        {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_category }}
-                      </div>
-                    </v-flex>
-                    <v-flex style="margin-top:40px;">
-                      <div>구독자수 {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_subscribe }}</div>
-                      <div>영상수 {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_video_cnt }}</div>
-                      <div>
-                        평균영상시청수 {{ companyRecommendChannel[(i - 1) * 3 + (j - 1)].channel.channel_avg_views }}
-                      </div>
-                    </v-flex>
-                  </div>
+                  <v-flex style="margin-bottom:8px;">
+                    <v-avatar size="80">
+                      <img
+                        alt="user"
+                        :src="
+                          companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel.channel_img
+                        "
+                      />
+                    </v-avatar>
+                  </v-flex>
+                  <v-flex>
+                    <div class="data-title">
+                      {{ companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel.channel_name }}
+                    </div>
+                    <div class="data-subtitle">
+                      {{
+                        companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel.channel_category
+                      }}
+                    </div>
+                  </v-flex>
+                  <v-flex style="margin-top:8px;">
+                    <div>
+                      구독자 :
+                      {{
+                        subScribeCnt(
+                          companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel
+                            .channel_subscribe
+                        )
+                      }}
+                    </div>
+                    <div></div>
+                    <div>
+                      영상수 :
+                      {{
+                        videoCnt(
+                          companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel
+                            .channel_video_cnt
+                        )
+                      }}
+                    </div>
+                    <div class="data-subtitle">
+                      평균영상시청수
+                      {{
+                        videoAvgCnt(
+                          companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel
+                            .channel_avg_views
+                        )
+                      }}
+                    </div>
+                  </v-flex>
                 </a>
               </div>
-            </v-hover>
+            </div>
           </v-flex>
         </v-layout>
       </v-carousel-item>
@@ -55,13 +81,14 @@ const searchStore = 'searchStore'
 
 export default {
   data: () => ({
-    len: null
+    pageNumber: null,
+    cardNumber: 4
   }),
-  async created() {
+  async mounted() {
     await this.getCompanyRecommendChannel()
-    this.len = parseInt(this.companyRecommendChannel.length / 3)
-    if (this.companyRecommendChannel.length % 3 !== 0) {
-      this.len += 1
+    this.pageNumber = parseInt(this.companyRecommendChannel.length / this.cardNumber)
+    if (this.companyRecommendChannel.length % this.cardNumber !== 0) {
+      this.pageNumber += 1
     }
   },
   computed: {
@@ -71,6 +98,36 @@ export default {
     ...mapActions(searchStore, ['getCompanyRecommendChannel']),
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
+    },
+    subScribeCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
+    },
+    videoCnt(count) {
+      if (count < 1000) return count + '개'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천개'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만개'
+      }
+    },
+    videoAvgCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
     }
   }
 }
@@ -83,5 +140,16 @@ export default {
 }
 .data:hover {
   transform: scale(1.1);
+}
+.data-title {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.data-subtitle {
+  font-size: 12px;
+  color: gray;
 }
 </style>

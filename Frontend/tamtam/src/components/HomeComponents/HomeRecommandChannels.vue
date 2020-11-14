@@ -8,7 +8,11 @@
               <div class="data mb-2 pa-2" style="text-align:center;">
                 <a
                   style="color: black"
-                  @click="moveChannelDetail(homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)]._id)"
+                  @click="
+                    moveChannelDetail(
+                      homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_youtube_id
+                    )
+                  "
                 >
                   <v-flex style="margin-bottom:8px;">
                     <v-avatar size="80">
@@ -29,11 +33,27 @@
                   <v-flex style="margin-top:8px;">
                     <div class="data-subtitle">
                       구독자수
-                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_subscribe }}
+                      {{
+                        subScribeCnt(
+                          homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_subscribe
+                        )
+                      }}
+                    </div>
+                    <div class="data-subtitle">
+                      영상수
+                      {{
+                        videoCnt(
+                          homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_video_cnt
+                        )
+                      }}
                     </div>
                     <div class="data-subtitle">
                       평균영상시청수
-                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_avg_views }}
+                      {{
+                        videoAvgCnt(
+                          homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_avg_views
+                        )
+                      }}
                     </div>
                   </v-flex>
                 </a>
@@ -70,6 +90,36 @@ export default {
     ...mapActions('homeStore', ['getHomeRecommandChannels']),
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
+    },
+    subScribeCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
+    },
+    videoCnt(count) {
+      if (count < 1000) return count + '개'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천개'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만개'
+      }
+    },
+    videoAvgCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
     }
   }
 }

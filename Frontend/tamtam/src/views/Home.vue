@@ -41,8 +41,8 @@
                 <img :src="channel.channel_img" />
                 <div>
                   <p>{{ channel.channel_name }}</p>
-                  <p>구독자 {{ channel.channel_subscribe }}명</p>
-                  <p>{{ channel.channel_video_cnt }}개 영상</p>
+                  <p>구독자 {{ subScribeCnt(channel.channel_subscribe) }}</p>
+                  <p>영상 {{ videoCnt(channel.channel_video_cnt) }}</p>
                 </div>
               </router-link>
             </v-list-item>
@@ -59,8 +59,8 @@
                 <img :src="channel.channel_img" />
                 <div>
                   <p>{{ channel.channel_name }}</p>
-                  <p>구독자 {{ channel.channel_subscribe }}명</p>
-                  <p>{{ channel.channel_video_cnt }}개 영상</p>
+                  <p>구독자 {{ subScribeCnt(channel.channel_subscribe) }}</p>
+                  <p>영상 {{ videoCnt(channel.channel_video_cnt) }}</p>
                 </div>
               </router-link>
             </v-list-item>
@@ -107,8 +107,38 @@ export default {
     ...mapState('chartDataStore', ['companyData'])
   },
   methods: {
-    ...mapActions('homeStore', ['getChannelRankingData', 'getCompanyIndustry']),
-    ...mapActions('chartDataStore', ['createChart', 'getCompanyData'])
+    ...mapActions('homeStore', ['getChannel']),
+    ...mapActions('chartDataStore', ['createChart', 'getCompanyData']),
+    subScribeCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
+    },
+    videoCnt(count) {
+      if (count < 1000) return count + '개'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천개'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만개'
+      }
+    },
+    videoAvgCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
+    }
   },
   async created() {
     console.log('home mounted')

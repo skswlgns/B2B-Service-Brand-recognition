@@ -1,28 +1,24 @@
 <template>
   <div>
-    <div>
-      <div style="float:left;" class="chart-title">브랜드 비교</div>
-      <div align="right" class="chart-title">
-        <v-menu offset-y>
-          <template v-slot:activator="{ on: menu, attrs }">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on: tooltip }">
-                <v-btn depressed color="white" small v-bind="attrs" v-on="{ ...tooltip, ...menu }">
-                  <i class="fas fa-swords"></i>
-                </v-btn>
-              </template>
-              <span>비교하기</span>
-            </v-tooltip>
-          </template>
-          <v-list>
-            <v-list-item-group v-for="(item, index) in items" :key="index">
-              <v-list-item @click="changedLabel(item)">{{ item }}</v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </v-menu>
-      </div>
+    <div align="right" class="chart-title">
+      <v-menu>
+        <template v-slot:activator="{ on: menu, attrs }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on: tooltip }">
+              <v-btn depressed color="white" small v-bind="attrs" v-on="{ ...tooltip, ...menu }">
+                <i class="fas fa-swords"></i>
+              </v-btn>
+            </template>
+            <span>비교하기</span>
+          </v-tooltip>
+        </template>
+        <v-list>
+          <v-list-item-group v-for="(item, index) in items" :key="index">
+            <v-list-item @click="changedLabel(item)">{{ item }}</v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-menu>
     </div>
-    <v-divider></v-divider>
     <canvas id="all-exposure-chart"></canvas>
   </div>
 </template>

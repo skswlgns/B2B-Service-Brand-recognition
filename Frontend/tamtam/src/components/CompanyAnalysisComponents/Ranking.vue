@@ -12,7 +12,7 @@
     <div v-for="(Item, index) in channel" :key="index">
       <div class="card mx-auto mb-2 data">
         <v-list-item two-line>
-          <a @click="moveChannelDetail(Item._id)">
+          <a @click="moveChannelDetail(Item.channel_youtube_id)">
             <v-list-item-avatar size="100">
               <img alt="user" :src="Item.channel_img" />
             </v-list-item-avatar>
@@ -21,7 +21,7 @@
             <div class="overline mb-1" outlined>
               {{ Item.channel_category }}
             </div>
-            <a style="color: black" @click="moveChannelDetail(Item._id)">
+            <a style="color: black" @click="moveChannelDetail(Item.channel_youtube_id)">
               <v-list-item-title class="headline mb-1">
                 {{ Item.channel_name }}
               </v-list-item-title>
