@@ -12,104 +12,23 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'AllExposureChart',
   data() {
-    return {
-      allExposureData: {
-        type: 'line',
-        data: {
-          labels: ['4', '3', '2', '1'],
-          datasets: [
-            {
-              label: 'samsung',
-              data: [5, 7, 9, 12],
-              borderColor: 'rgba(255, 99, 132, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(255, 99, 132, 1)'
-            },
-            {
-              label: 'LG',
-              data: [6, 5, 3, 4],
-              borderColor: 'rgba(54, 162, 235, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(54, 162, 235, 1)'
-            },
-            {
-              label: 'apple',
-              data: [1, 3, 2, 1],
-              borderColor: 'rgba(255, 206, 86, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(255, 206, 86, 1)'
-            },
-            {
-              label: 'sony',
-              data: [4, 2, 3, 4],
-              borderColor: 'rgba(75, 192, 192, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(75, 192, 192, 1)'
-            },
-            {
-              label: 'philips',
-              data: [2, 3, 3, 2],
-              borderColor: 'rgba(153, 102, 255, 1)',
-              backgroundColor: 'rgba(0, 0, 0, 0)',
-              pointBackgroundColor: 'rgba(153, 102, 255, 1)'
-            }
-          ]
-        },
-        options: {
-          legend: {
-            position: 'right',
-            align: 'center',
-            labels: {
-              boxWidth: 3,
-              padding: 25,
-              rtl: true
-            }
-          },
-          scales: {
-            xAxes: [
-              {
-                gridLines: {
-                  display: false
-                },
-                ticks: {
-                  padding: 8,
-                  beginAtZero: true,
-                  callback: function(value, index, values) {
-                    return value + 'W'
-                  }
-                }
-              }
-            ],
-            yAxes: [
-              {
-                ticks: {
-                  padding: 8,
-                  beginAtZero: true,
-                  callback: function(value, index, values) {
-                    return value + 's'
-                  }
-                }
-              }
-            ]
-          },
-          elements: {
-            point: {
-              radius: 5,
-              hoverRadius: 7
-            }
-          }
-        }
-      }
-    }
+    return {}
   },
   computed: {
     ...mapState('chartDataStore', [])
   },
   methods: {
-    ...mapActions('chartDataStore', ['createChart'])
+    ...mapActions('chartDataStore', ['createChart', 'getCompanyData'])
   },
-  async created() {},
-  mounted() {
+  created() {
+    console.log('chart created')
+    console.log(this.companyData)
+  },
+  async mounted() {
+    console.log('chart mounted')
+    // await this.getCompanyData()
+    // console.log(this.companyData)
+
     this.createChart({ chartId: 'all-exposure-chart', chartData: this.allExposureData })
   }
 }

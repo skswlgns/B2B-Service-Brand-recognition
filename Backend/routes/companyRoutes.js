@@ -165,7 +165,7 @@ companyRoutes.delete('/', async (req, res) => {
 
 // 모든 회원조회
 companyRoutes.get('/', async (req, res) => {
-  if (req.headers.company_id === admin_id) {
+  if (req.headers.token) {
     try {
       const companyAll = await CompanyModel.find()
       res.status(200).send(companyAll)
