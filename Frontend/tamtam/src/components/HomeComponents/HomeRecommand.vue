@@ -1,45 +1,47 @@
 <template>
   <div>
     <v-carousel cycle hide-delimiters light height="100%">
-      <v-carousel-item v-for="i in pageNumber" :key="i">
+      <v-carousel-item v-for="pageIndex in pageNumber" :key="pageIndex">
         <v-layout row>
-          <v-flex sm3 v-for="j in cardNumber" :key="j" pl-4 pr-4>
-            <div
-              class="card "
-              slot-scope="{ hover }"
-              :class="`elevation-${hover ? cardNumber : 30}`"
-              v-if="homeRecommandChannels[(i - 1) * cardNumber + (j - 1)]"
-              outlined
-            >
-              <a
-                style="color: black"
-                @click="moveChannelDetail(homeRecommandChannels[(i - 1) * cardNumber + (j - 1)]._id)"
-              >
-                <div class="data mb-8 pa-8" style="text-align:center;">
+          <v-flex sm3 v-for="cardIndex in cardNumber" :key="cardIndex" pl- pr-10>
+            <div v-if="homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)]">
+              <div class="data mb-2 pa-2" style="text-align:center;">
+                <a
+                  style="color: black"
+                  @click="moveChannelDetail(homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)]._id)"
+                >
+                  <v-flex style="margin-bottom:8px;">
+                    <v-avatar size="80">
+                      <img
+                        alt="user"
+                        :src="homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_img"
+                      />
+                    </v-avatar>
+                  </v-flex>
+                  <v-flex>
+                    <div class="data-title">
+                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_name }}
+                    </div>
+                    <div class="data-subtitle">
+                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_category }}
+                    </div>
+                  </v-flex>
                   <v-flex style="margin-top:8px;">
-                    <v-hover>
-                      <v-avatar size="100">
-                        <img alt="user" :src="homeRecommandChannels[(i - 1) * cardNumber + (j - 1)].channel_img" />
-                      </v-avatar>
-                    </v-hover>
-                  </v-flex>
-                  <v-flex style="overflow-y: auto; height:100px">
-                    <h2 style="margin-top:40px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                      {{ homeRecommandChannels[(i - 1) * cardNumber + (j - 1)].channel_name }}
-                    </h2>
-                    <div class="overline mb-1" outlined>
-                      {{ homeRecommandChannels[(i - 1) * cardNumber + (j - 1)].channel_category }}
+                    <div class="data-subtitle">
+                      구독자수
+                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_subscribe }}
+                    </div>
+                    <div class="data-subtitle">
+                      영상수
+                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_video_cnt }}
+                    </div>
+                    <div class="data-subtitle">
+                      평균영상시청수
+                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_avg_views }}
                     </div>
                   </v-flex>
-                  <v-flex style="margin-top:40px;">
-                    <div>구독자수 {{ homeRecommandChannels[(i - 1) * cardNumber + (j - 1)].channel_subscribe }}</div>
-                    <div>영상수 {{ homeRecommandChannels[(i - 1) * cardNumber + (j - 1)].channel_video_cnt }}</div>
-                    <div>
-                      평균영상시청수 {{ homeRecommandChannels[(i - 1) * cardNumber + (j - 1)].channel_avg_views }}
-                    </div>
-                  </v-flex>
-                </div>
-              </a>
+                </a>
+              </div>
             </div>
           </v-flex>
         </v-layout>
@@ -55,13 +57,13 @@ import router from '@/router'
 export default {
   data: () => ({
     pageNumber: 0,
-    cardNumber: 5
+    cardNumber: 4
   }),
   async created() {
     // this.init()
     await this.getHomeRecommandChannels()
-    this.pageNumber = parseInt(this.homeRecommandChannels.length / 5)
-    if (this.homeRecommandChannels.length % 5 !== 0) {
+    this.pageNumber = parseInt(this.homeRecommandChannels.length / this.cardNumber)
+    if (this.homeRecommandChannels.length % this.cardNumber !== 0) {
       this.pageNumber += 1
     }
   },
@@ -82,6 +84,19 @@ export default {
   /* the other rules */
   transition: all 0.6s;
 }
+
+.data-title {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.data-subtitle {
+  font-size: 12px;
+  color: gray;
+}
+
 .data:hover {
   transform: scale(1.1);
 }

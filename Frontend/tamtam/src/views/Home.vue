@@ -1,34 +1,38 @@
 <template>
   <div class="grid-container">
-    <!-- 개별카드 -->
-    <article class="card all-exposure-chart-section">
+    <!-- All Exposure Chart Section -->
+    <article class="all-exposure-chart-section">
       <div class="chart-title">전체 브랜드 노출 순위</div>
-      <v-divider></v-divider>
-      <div class="chart-body">
-        <canvas id="all-exposure-chart"></canvas>
+      <div class="card chart-body">
+        <canvas id="all-exposure-line-chart"></canvas>
+        <div>차트 공간</div>
+        <!-- <canvas id="all-exposure-doughnut-chart"></canvas> -->
       </div>
     </article>
 
-    <article class="card ind-exposure-chart-section">
+    <!-- industry Exposure Chart Section -->
+    <article class="ind-exposure-chart-section">
       <div class="chart-title">업계 브랜드 노출 순위</div>
-      <v-divider></v-divider>
-      <div class="chart-body">
-        <canvas id="ind-exposure-chart"></canvas>
+      <div class="card chart-body">
+        <canvas id="ind-exposure-line-chart"></canvas>
+        <div>차트 공간</div>
+
+        <!-- <canvas id="ind-exposure-doughnut-chart"></canvas> -->
       </div>
     </article>
 
     <!-- Ranking Section -->
-    <article class="card ranking-section">
+    <article class="ranking-section">
       <div class="chart-title">채널 추천</div>
-      <v-divider></v-divider>
 
-      <div class="ranking-group">
+      <div class="card ranking-group">
         <div class="ranking-list">
+          <div class="ranking-title">
+            <span>구독자순</span>
+            <router-link to="/home">더 보기</router-link>
+          </div>
           <div class="ranking-body">
-            <div class="ranking-title">
-              <div>구독자순</div>
-            </div>
-            <v-list-item class="ranking-item" v-for="(channel, index) in subscribeData" :key="index">
+            <v-list-item class="ranking-item" v-for="(channel, index) in homeSubscribeData" :key="index">
               <router-link :to="{ name: 'Channel', params: { channelId: channel._id } }">
                 <img :src="channel.channel_img" />
                 <div>
@@ -38,15 +42,15 @@
                 </div>
               </router-link>
             </v-list-item>
-            <router-link to="/home">더 보기</router-link>
           </div>
         </div>
         <div class="ranking-list">
+          <div class="ranking-title">
+            <span>평균 조회수 순</span>
+            <router-link to="/home">더 보기</router-link>
+          </div>
           <div class="ranking-body">
-            <div class="ranking-title">
-              <div>평균 조회수 순</div>
-            </div>
-            <v-list-item class="ranking-item" v-for="(channel, index) in viewsData" :key="index">
+            <v-list-item class="ranking-item" v-for="(channel, index) in homeViewsData" :key="index">
               <router-link :to="{ name: 'Channel', params: { channelId: channel._id } }">
                 <img :src="channel.channel_img" />
                 <div>
@@ -56,16 +60,14 @@
                 </div>
               </router-link>
             </v-list-item>
-            <router-link to="/home">더 보기</router-link>
           </div>
         </div>
       </div>
     </article>
 
-    <article class="card recommand-section">
+    <article class="recommand-section">
       <div class="chart-title">유투버 추천</div>
-      <v-divider></v-divider>
-      <HomeRecommand class="component" style="padding:50px;"></HomeRecommand>
+      <HomeRecommand class=" card component" style="padding:50px;"></HomeRecommand>
     </article>
   </div>
 </template>
@@ -85,7 +87,8 @@ export default {
   },
   data() {
     return {
-      allExposureData: {
+      allExposureLineChartData: {},
+      indExposureLineChartData: {
         type: 'line',
         data: {
           labels: ['4', '3', '2', '1'],
@@ -136,60 +139,12 @@ export default {
           }
         }
       },
-      indExposureData: {
-        type: 'line',
-        data: {
-          labels: ['4', '3', '2', '1'],
-          datasets: []
-        },
-        options: {
-          legend: {
-            position: 'right',
-            align: 'start',
-            labels: {
-              boxWidth: 3,
-              padding: 25
-            }
-          },
-          scales: {
-            xAxes: [
-              {
-                gridLines: {
-                  display: false
-                },
-                ticks: {
-                  padding: 8,
-                  beginAtZero: true,
-                  callback: function(value, index, values) {
-                    return value + 'W'
-                  }
-                }
-              }
-            ],
-            yAxes: [
-              {
-                ticks: {
-                  padding: 30,
-                  beginAtZero: true,
-                  callback: function(value, index, values) {
-                    return value + 's'
-                  }
-                }
-              }
-            ]
-          },
-          elements: {
-            point: {
-              radius: 5,
-              hoverRadius: 7
-            }
-          }
-        }
-      }
+      allExposureDoughnutChartData: {},
+      indExposureDoughnutChartData: {}
     }
   },
   computed: {
-    ...mapState('homeStore', ['subscribeData', 'viewsData']),
+    ...mapState('homeStore', ['homeSubscribeData', 'homeViewsData']),
     ...mapState('chartDataStore', ['companyData'])
   },
   methods: {
@@ -208,10 +163,54 @@ export default {
       'rgba(75, 192, 192, 1)',
       'rgba(153, 102, 255, 1)'
     ]
+    const lineChartOptions = {
+      legend: {
+        position: 'right',
+        align: 'center',
+        labels: {
+          boxWidth: 3,
+          padding: 25,
+          rtl: true
+        }
+      },
+      scales: {
+        xAxes: [
+          {
+            gridLines: {
+              display: false
+            },
+            ticks: {
+              padding: 8,
+              beginAtZero: true,
+              callback: function(value, index, values) {
+                return value + 'W'
+              }
+            }
+          }
+        ],
+        yAxes: [
+          {
+            ticks: {
+              padding: 8,
+              beginAtZero: true,
+              callback: function(value, index, values) {
+                return value + 's'
+              }
+            }
+          }
+        ]
+      },
+      elements: {
+        point: {
+          radius: 5,
+          hoverRadius: 7
+        }
+      }
+    }
 
-    // allExposureData
+    // allExposureLineChartData
     const allExposureCompany = this.companyData.slice(0, 5)
-    const allExposureDataset = allExposureCompany.map((company, companyIndex) => {
+    const allExposureLineChartDatasets = allExposureCompany.map((company, companyIndex) => {
       return {
         label: company.company_name,
         data: company.company_four_week,
@@ -220,22 +219,32 @@ export default {
         pointBackgroundColor: colorsArray[companyIndex]
       }
     })
-    this.allExposureData.data.datasets = allExposureDataset
-    this.createChart({ chartId: 'all-exposure-chart', chartData: this.allExposureData })
+    this.allExposureLineChartData = {
+      allExposureLineChartData: {
+        type: 'line',
+        data: {
+          labels: ['4', '3', '2', '1'],
+          datasets: allExposureLineChartDatasets
+        },
+        options: lineChartOptions
+      }
+    }
+    console.log(this.allExposureLineChartData)
+    this.createChart({ chartId: 'all-exposure-line-chart', chartData: this.allExposureLineChartData })
 
-    // indExposureData
+    // indExposureLineChartData
     const config = {
       headers: {
         token: cookies.get('token'),
         company_id: cookies.get('companyId')
       }
     }
-    const companyResponse = await axios.get(`${API_SERVER_URL}/company/${cookies.get('companyId')}`, config)
-    const companyIndustry = companyResponse.data.company_industry
+    const companyIndResponse = await axios.get(`${API_SERVER_URL}/company/${cookies.get('companyId')}`, config)
+    const companyIndustry = companyIndResponse.data.company_industry
     const indExposureCompany = this.companyData
       .filter(company => company.company_industry === companyIndustry)
       .slice(0, 5)
-    const indExposureDataset = indExposureCompany.map((company, companyIndex) => {
+    const indExposureLineChartDatasets = indExposureCompany.map((company, companyIndex) => {
       return {
         label: company.company_name,
         data: company.company_four_week,
@@ -244,8 +253,8 @@ export default {
         pointBackgroundColor: colorsArray[companyIndex]
       }
     })
-    this.indExposureData.data.datasets = indExposureDataset
-    this.createChart({ chartId: 'ind-exposure-chart', chartData: this.indExposureData })
+    this.indExposureLineChartData.data.datasets = indExposureLineChartDatasets
+    this.createChart({ chartId: 'ind-exposure-line-chart', chartData: this.indExposureLineChartData })
 
     await this.getChannel()
   }
