@@ -45,7 +45,12 @@
     <div class="card">
       <div class="chart-title">추천 영상</div>
       <v-divider></v-divider>
-      <ReferenceVideo style="padding:50px;" />
+      <RecommendVideo />
+    </div>
+    <div class="card component">
+      <div class="chart-title">추천 유투버</div>
+      <v-divider></v-divider>
+      <RecommendChannel />
     </div>
   </div>
 </template>
@@ -53,7 +58,9 @@
 <script>
 import ScrapChannelChart from '@/components/ChartComponents/ScrapChannelChart.vue'
 import CompareExposureChart from '@/components/ChartComponents/CompareExposureChart.vue'
-import ReferenceVideo from '@/components/CompanyAnalysisComponents/ReferenceVideo.vue'
+import RecommendVideo from '@/components/CompanyAnalysisComponents/RecommendVideo.vue'
+import RecommendChannel from '@/components/CompanyAnalysisComponents/RecommendChannel.vue'
+
 import { mapActions, mapState } from 'vuex'
 const companyStore = 'companyStore'
 
@@ -63,9 +70,10 @@ export default {
     return {}
   },
   components: {
-    ReferenceVideo,
+    RecommendVideo,
     ScrapChannelChart,
-    CompareExposureChart
+    CompareExposureChart,
+    RecommendChannel
   },
   methods: {
     ...mapActions(companyStore, ['getCount'])
