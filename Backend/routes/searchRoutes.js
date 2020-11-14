@@ -88,6 +88,71 @@ searchRoutes.get('/recommend', async (req, res) => {
   }
 })
 
+// 카테고리 별 유튜버 추천
+searchRoutes.get('/catechannel', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const channels = await ChannelModel.find({ channel_category: { $regex: req.body.company_industry } })
+      channels.sort(function () {
+        return Math.random() - Math.random()
+      })
+
+      let recochannel = {}
+      if (channels.length > 10) {
+        recochannel = channels.slice(0, 10)
+      }
+      res.status(200).send(recochannel)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
+  }
+})
+
+// 카테고리 별 영상 추천
+searchRoutes.get('/catevideo', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industry } })
+      videos.sort(function () {
+        return Math.random() - Math.random()
+      })
+
+      let recovideo = {}
+      if (videos.length > 10) {
+        recovideo = videos.slice(0, 10)
+      }
+      res.status(200).send(recovideo)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
+  }
+})
+
+// 카테고리별 영상 조회수 순서로
+searchRoutes.get('/catevideotop', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industy } }).sort({
+        video_views: -1
+      })
+
+      let recovideo = {}
+      if (videos.length > 10) {
+        recovideo = videos.slice(0, 10)
+      }
+      res.status(200).send(recovideo)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
+  }
+})
+
 // 검색
 searchRoutes.get('/:content', async (req, res) => {
   if (req.headers.token) {
