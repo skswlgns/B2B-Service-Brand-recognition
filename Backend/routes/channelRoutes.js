@@ -30,10 +30,10 @@ channelRoutes.post('/', async (req, res) => {
         Math.floor(Math.random() * 100 + 1)
       ]
       const ChannelFourWeekViews = [
-        Math.floor(Math.random() * 100 + 1),
-        Math.floor(Math.random() * 100 + 1),
-        Math.floor(Math.random() * 100 + 1),
-        Math.floor(Math.random() * 100 + 1)
+        Math.floor(Math.random() * 4000 + 1),
+        Math.floor(Math.random() * 10000 + 1),
+        Math.floor(Math.random() * 4000 + 1),
+        Math.floor(Math.random() * 7000 + 1)
       ]
 
       const item = new ChannelModel({
