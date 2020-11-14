@@ -24,16 +24,16 @@ channelRoutes.post('/', async (req, res) => {
       const channelVideoCnt = req.body.channel_video_cnt
       const channelYoutubeId = req.body.channel_youtube_id
       const ChannelFourWeekSubs = [
-        Math.floor(Math.random() * 100 + 1),
-        Math.floor(Math.random() * 100 + 1),
-        Math.floor(Math.random() * 100 + 1),
-        Math.floor(Math.random() * 100 + 1)
+        Math.floor(Math.random() * (500 - 1) + 1),
+        Math.floor(Math.random() * (500 - 1) + 1),
+        Math.floor(Math.random() * (500 - 1) + 1),
+        Math.floor(Math.random() * (500 - 1) + 1)
       ]
       const ChannelFourWeekViews = [
-        Math.floor(Math.random() * 4000 + 1),
-        Math.floor(Math.random() * 10000 + 1),
-        Math.floor(Math.random() * 4000 + 1),
-        Math.floor(Math.random() * 7000 + 1)
+        Math.floor(Math.random() * (100000 - 100) + 100),
+        Math.floor(Math.random() * (100000 - 100) + 100),
+        Math.floor(Math.random() * (100000 - 100) + 100),
+        Math.floor(Math.random() * (100000 - 100) + 100)
       ]
 
       const item = new ChannelModel({
