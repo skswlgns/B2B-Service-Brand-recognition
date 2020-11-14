@@ -167,7 +167,6 @@ export default {
         const timestampDefault = document.getElementsByClassName('timestamp-default')
         recordElement.addEventListener('mouseover', () => {
           // text 바꿔주기
-          console.log(record)
           let exposureText = ''
           if (record[0].length === 1) {
             if (record[0][0] === 'logo') {

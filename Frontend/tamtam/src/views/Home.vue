@@ -107,7 +107,7 @@ export default {
     ...mapState('chartDataStore', ['companyData'])
   },
   methods: {
-    ...mapActions('homeStore', ['getChannel']),
+    ...mapActions('homeStore', ['getChannelRankingData', 'getCompanyIndustry']),
     ...mapActions('chartDataStore', ['createChart', 'getCompanyData']),
     subScribeCnt(count) {
       if (count < 1000) return count + '명'
@@ -141,7 +141,6 @@ export default {
     }
   },
   async created() {
-    console.log('home mounted')
     await this.getCompanyIndustry()
     await this.getCompanyData()
     await this.getChannelRankingData()
@@ -219,7 +218,6 @@ export default {
       },
       options: lineChartOptions
     }
-    console.log(this.allExposureLineChartData)
     this.createChart({ chartId: 'all-exposure-line-chart', chartData: this.allExposureLineChartData })
 
     // indExposureLineChartData
@@ -243,7 +241,6 @@ export default {
       },
       options: lineChartOptions
     }
-    console.log(this.indExposureLineChartData)
     this.createChart({ chartId: 'ind-exposure-line-chart', chartData: this.indExposureLineChartData })
   }
 }
