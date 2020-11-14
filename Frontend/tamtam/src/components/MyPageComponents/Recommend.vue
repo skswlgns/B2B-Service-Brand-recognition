@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-carousel cycle hide-delimiters light height="100%">
+    <!-- <v-carousel cycle hide-delimiters light height="100%">
       <v-carousel-item v-for="i in len" :key="i">
         <v-layout row>
           <v-flex sm4 v-for="j in 3" :key="j" pl-4 pr-4>
@@ -39,7 +39,7 @@
           </v-flex>
         </v-layout>
       </v-carousel-item>
-    </v-carousel>
+    </v-carousel> -->
   </div>
 </template>
 

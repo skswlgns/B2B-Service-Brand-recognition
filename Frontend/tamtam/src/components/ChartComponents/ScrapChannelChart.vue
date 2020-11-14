@@ -43,7 +43,11 @@ export default {
                   beginAtZero: true,
                   min: 0,
                   max: 200,
-                  stepSize: 20
+                  stepSize: 20,
+                  padding: 8,
+                  callback: function(value) {
+                    return value + '만'
+                  }
                 },
                 gridLines: {
                   display: true
@@ -59,14 +63,18 @@ export default {
                 ticks: {
                   min: 0,
                   max: 1000,
-                  stepSize: 100
+                  stepSize: 100,
+                  padding: 8,
+                  callback: function(value) {
+                    return value + '개'
+                  }
                 },
                 gridLines: {
                   display: false
                 },
                 scaleLabel: {
                   display: true,
-                  labelString: '위치',
+                  labelString: '영상수',
                   position: 'right'
                 }
               }

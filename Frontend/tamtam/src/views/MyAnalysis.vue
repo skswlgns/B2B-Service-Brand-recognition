@@ -2,24 +2,33 @@
   <div>
     <v-row>
       <v-col cols="4">
-        <div class="card component">
-          <div style="text-align:center; padding: 15%;" class="headline">맻등?</div>
+        <div class="card" style="margin: 30px;">
+          <div style="text-align:center; padding: 10%;" class="headline">
+            <div><i class="fas fa-award fa-3x"></i></div>
+            맻등
+          </div>
         </div>
       </v-col>
       <v-col cols="4">
-        <div class="card component">
-          <div style="text-align:center; padding: 15%;" class="headline">총 영상수 : {{ this.companyCount }}</div>
+        <div class="card" style="margin:30px;">
+          <div style="text-align:center; padding: 10%;" class="headline">
+            <div><i class="fab fa-youtube fa-3x"></i></div>
+            {{ this.companyCount }}
+          </div>
         </div>
       </v-col>
       <v-col cols="4">
-        <div class="card component">
-          <div style="text-align:center; padding: 15%;" class="headline">총 노출시간 : {{ this.companyTime }}</div>
+        <div class="card" style="margin:30px;">
+          <div style="text-align:center; padding: 10%;" class="headline">
+            <div><i class="far fa-clock fa-3x"></i></div>
+            {{ this.companyTime }}
+          </div>
         </div>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="6">
-        <div class="card component">
+        <div class="card">
           <div class="chart-title">스크랩 채널 비교</div>
           <v-divider></v-divider>
           <ScrapChannelChart />
@@ -27,13 +36,13 @@
       </v-col>
       <v-col cols="6">
         <div>
-          <div class="card component">
+          <div class="card">
             <CompareExposureChart />
           </div>
         </div>
       </v-col>
     </v-row>
-    <div class="card component">
+    <div class="card">
       <div class="chart-title">추천 영상</div>
       <v-divider></v-divider>
       <ReferenceVideo style="padding:50px;" />
