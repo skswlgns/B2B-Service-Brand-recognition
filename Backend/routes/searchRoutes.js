@@ -206,6 +206,33 @@ searchRoutes.get('/catevideotop', async (req, res) => {
   }
 })
 
+// 카테고리별 좋아요 많은 영상 순서로
+searchRoutes.get('/likevideotop', async (req, res) => {
+  if (req.headers.token) {
+    try {
+      const videos = await VideoModel.find({
+        video_category: { $regex: req.body.company_industy, $options: 'i' }
+      }).sort({
+        video_like: -1
+      })
+
+      const limit = req.headers.limit
+
+      let result = {}
+      if (videos.length < 10) {
+        result = videos
+      } else {
+        result = videos.slice(limit, limit + 10)
+      }
+      res.status(200).send(result)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
+  }
+})
+
 // 검색
 searchRoutes.get('/:content', async (req, res) => {
   if (req.headers.token) {
