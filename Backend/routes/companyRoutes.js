@@ -14,7 +14,7 @@ const ExposureModel = require('../models/ExposureModel')
 const companyRoutes = express.Router()
 
 // 변수
-const admin_id = '5fa21b49bf786c138c6062ee'
+// const admin_id = '5fa21b49bf786c138c6062ee'
 
 // 함수
 const hashpassword = (password) => {

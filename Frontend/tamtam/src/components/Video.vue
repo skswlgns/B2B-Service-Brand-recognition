@@ -135,6 +135,13 @@ export default {
       const b = Math.floor(Math.random() * 255)
       return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
+  },
+  update() {
+    if (this.videoData.length) {
+      for (let i = 0; i < this.videoData.length; i++) {
+        this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
+      }
+    }
   }
 }
 </script>
