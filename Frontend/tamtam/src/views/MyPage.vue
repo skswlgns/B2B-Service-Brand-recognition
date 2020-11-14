@@ -21,7 +21,8 @@
       </div>
     </div>
 
-    <div>
+    <div class="chart-title">스크랩 영상</div>
+    <div class="card">
       <ScrapVideo class="component"></ScrapVideo>
     </div>
   </div>

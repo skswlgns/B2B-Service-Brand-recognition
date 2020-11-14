@@ -26,7 +26,7 @@
   .ranking-group {
     display: grid;
     width: 100%;
-    height: 100%;
+    height: max;
     grid-template-rows: repeat(2, 1fr);
 
     .ranking-list {
@@ -38,7 +38,7 @@
           display: flex;
           margin: 1rem;
           justify-content: space-between;
-          align-items: center;
+          // align-items: center;
         }
 
         .ranking-item {
@@ -46,8 +46,8 @@
           margin-bottom: #{$base-margin};
 
           img {
-            width: 25%;
-            height: 25%;
+            width: 10%;
+            height: 10%;
             border-radius: 50%;
           }
 
@@ -79,7 +79,20 @@
   }
 }
 
-.recommand-section {
-  grid-column: 1/13;
+.recommand-channel-section {
+  grid-column: 1/7;
   margin: #{$base-margin};
+
+  .card {
+    padding: #{$base-padding * 3};
+  }
+}
+
+.recommand-video-section {
+  grid-column: 7/13;
+  margin: #{$base-margin};
+
+  .card {
+    padding: #{$base-padding * 3};
+  }
 }

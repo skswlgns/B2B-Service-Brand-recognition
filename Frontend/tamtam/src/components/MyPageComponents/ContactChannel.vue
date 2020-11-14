@@ -11,7 +11,7 @@
     <v-row no-gutters>
       <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="3">
         <v-card
-          @click="moveChannelDetail(contactChannel[i - 1]._id)"
+          @click="moveChannelDetail(contactChannel[i - 1].channel_youtube_id)"
           class="data"
           outlined
           tile

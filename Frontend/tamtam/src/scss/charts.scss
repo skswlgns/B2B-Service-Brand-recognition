@@ -6,8 +6,16 @@
   font-size: #{$base-fontsize * 1.2};
 }
 .chart-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
   padding: #{$base-padding * 4} #{$base-padding * 3} #{$base-padding * 3};
+
+  .line-chart {
+  }
+
+  div {
+  }
 }
 
 .chart-subtitle {

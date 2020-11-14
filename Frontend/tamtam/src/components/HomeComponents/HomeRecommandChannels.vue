@@ -1,16 +1,16 @@
 <template>
   <div>
-    <v-carousel cycle hide-delimiters light height="100%">
+    <v-carousel cycle hide-delimiters show-arrows-on-hover height="100%">
       <v-carousel-item v-for="pageIndex in pageNumber" :key="pageIndex">
         <v-layout row>
-          <v-flex sm3 v-for="cardIndex in cardNumber" :key="cardIndex" pl- pr-10>
-            <div v-if="companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)]">
+          <v-flex sm4 v-for="cardIndex in cardNumber" :key="cardIndex" pl-5 pr-5>
+            <div v-if="homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)]">
               <div class="data mb-2 pa-2" style="text-align:center;">
                 <a
                   style="color: black"
                   @click="
                     moveChannelDetail(
-                      companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel.channel_youtube_id
+                      homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_youtube_id
                     )
                   "
                 >
@@ -18,48 +18,32 @@
                     <v-avatar size="80">
                       <img
                         alt="user"
-                        :src="
-                          companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel.channel_img
-                        "
+                        :src="homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_img"
                       />
                     </v-avatar>
                   </v-flex>
                   <v-flex>
                     <div class="data-title">
-                      {{ companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel.channel_name }}
+                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_name }}
                     </div>
                     <div class="data-subtitle">
-                      {{
-                        companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel.channel_category
-                      }}
+                      {{ homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_category }}
                     </div>
                   </v-flex>
                   <v-flex style="margin-top:8px;">
-                    <div>
-                      구독자 :
+                    <div class="data-subtitle">
+                      구독자
                       {{
                         subScribeCnt(
-                          companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel
-                            .channel_subscribe
-                        )
-                      }}
-                    </div>
-                    <div></div>
-                    <div>
-                      영상수 :
-                      {{
-                        videoCnt(
-                          companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel
-                            .channel_video_cnt
+                          homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_subscribe
                         )
                       }}
                     </div>
                     <div class="data-subtitle">
-                      평균영상시청수
+                      평균시청
                       {{
                         videoAvgCnt(
-                          companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel
-                            .channel_avg_views
+                          homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_avg_views
                         )
                       }}
                     </div>
@@ -77,25 +61,25 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import router from '@/router'
-const searchStore = 'searchStore'
 
 export default {
   data: () => ({
-    pageNumber: null,
-    cardNumber: 4
+    pageNumber: 0,
+    cardNumber: 3
   }),
-  async mounted() {
-    await this.getCompanyRecommendChannel()
-    this.pageNumber = parseInt(this.companyRecommendChannel.length / this.cardNumber)
-    if (this.companyRecommendChannel.length % this.cardNumber !== 0) {
+  async created() {
+    // this.init()
+    await this.getHomeRecommandChannels()
+    this.pageNumber = parseInt(this.homeRecommandChannels.length / this.cardNumber)
+    if (this.homeRecommandChannels.length % this.cardNumber !== 0) {
       this.pageNumber += 1
     }
   },
   computed: {
-    ...mapState(searchStore, ['companyRecommendChannel'])
+    ...mapState('homeStore', ['homeRecommandChannels'])
   },
   methods: {
-    ...mapActions(searchStore, ['getCompanyRecommendChannel']),
+    ...mapActions('homeStore', ['getHomeRecommandChannels']),
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
     },
@@ -107,16 +91,6 @@ export default {
       } else {
         count = parseInt(count / 10000)
         return count + '만명'
-      }
-    },
-    videoCnt(count) {
-      if (count < 1000) return count + '개'
-      else if (count < 10000) {
-        count = parseInt(count / 1000)
-        return count + '천개'
-      } else {
-        count = parseInt(count / 10000)
-        return count + '만개'
       }
     },
     videoAvgCnt(count) {
@@ -138,9 +112,7 @@ export default {
   /* the other rules */
   transition: all 0.6s;
 }
-.data:hover {
-  transform: scale(1.1);
-}
+
 .data-title {
   font-size: 14px;
   white-space: nowrap;
@@ -151,5 +123,9 @@ export default {
 .data-subtitle {
   font-size: 12px;
   color: gray;
+}
+
+.data:hover {
+  transform: scale(1.1);
 }
 </style>

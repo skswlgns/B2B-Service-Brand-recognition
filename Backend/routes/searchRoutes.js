@@ -142,7 +142,9 @@ searchRoutes.get('/recommend', async (req, res) => {
 searchRoutes.get('/catechannel', async (req, res) => {
   if (req.headers.token) {
     try {
-      const channels = await ChannelModel.find({ channel_category: { $regex: req.body.company_industry } })
+      const companyId = req.headers.company_id
+      const company = await CompanyModel.findOne({ _id: companyId })
+      const channels = await ChannelModel.find({ channel_category: { $regex: company.company_industry } })
       channels.sort(function () {
         return Math.random() - Math.random()
       })
@@ -164,7 +166,9 @@ searchRoutes.get('/catechannel', async (req, res) => {
 searchRoutes.get('/catevideo', async (req, res) => {
   if (req.headers.token) {
     try {
-      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industry } })
+      const companyId = req.headers.company_id
+      const company = await CompanyModel.findOne({ _id: companyId })
+      const videos = await VideoModel.find({ video_category: { $regex: company.company_industry } })
       videos.sort(function () {
         return Math.random() - Math.random()
       })

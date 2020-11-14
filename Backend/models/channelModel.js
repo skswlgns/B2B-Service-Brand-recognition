@@ -38,6 +38,14 @@ const channelSchema = new mongoose.Schema({
     allowNull: false,
     default: 'IT'
   },
+  four_week_subs: {
+    type: Array,
+    default: [0, 0, 0, 0]
+  },
+  four_week_views: {
+    type: Array,
+    default: [0, 0, 0, 0]
+  },
   scrap_company_id: [
     {
       type: Schema.Types.ObjectId,
