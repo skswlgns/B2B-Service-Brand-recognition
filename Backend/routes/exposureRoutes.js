@@ -70,7 +70,7 @@ exposureRoutes.get('/topvideo', async (req, res) => {
 
     for (let i = 0; i < videos.length; i++) {
       for (let j = 0; j < videos[i].video_record.length; j++) {
-        if (videos[i].video_record[j].company_id === req.body.company_id) {
+        if (videos[i].video_record[j].company_id === req.headers.company_id) {
           topvideos.push({
             video: videos[i],
             time: videos[i].video_record[j].total_exposure_time
@@ -81,7 +81,7 @@ exposureRoutes.get('/topvideo', async (req, res) => {
     topvideos.sort(function (a, b) {
       return b.time - a.time
     })
-    res.status(200).send(topvideos.slice(0, 10))
+    res.status(200).send(topvideos.slice(0, 4))
   } else {
     res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
   }
@@ -100,7 +100,7 @@ exposureRoutes.get('/topchannel', async (req, res) => {
       for (let j = 0; j < videos.length; j++) {
         console.log(videos[j])
         for (let k = 0; k < videos[j].video_record.length; k++) {
-          if (videos[j].video_record[k].company_id === req.body.company_id) {
+          if (videos[j].video_record[k].company_id === req.headers.company_id) {
             summation += videos[j].video_record[k].total_exposure_time
           }
         }
@@ -114,7 +114,7 @@ exposureRoutes.get('/topchannel', async (req, res) => {
     topchannels.sort(function (a, b) {
       return b.time - a.time
     })
-    res.status(200).send(topchannels.slice(0, 5))
+    res.status(200).send(topchannels.slice(0, 6))
   } else {
     res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
   }
