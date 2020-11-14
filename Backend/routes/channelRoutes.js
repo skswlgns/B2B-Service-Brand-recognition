@@ -232,7 +232,7 @@ channelRoutes.put('/contact', async (req, res) => {
 
 // Youtube Id로 채널 한 개 조회
 channelRoutes.get('/youtube/:channel_youtube_id', async (req, res) => {
-  if (req.headers.company_id === admin_id) {
+  if (req.headers.token) {
     const channelYoutubeId = req.params.channel_youtube_id
     try {
       const channelOne = await ChannelModel.find({ channel_youtube_id: channelYoutubeId })

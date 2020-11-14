@@ -31,7 +31,7 @@ const homeStore = {
       axios.get(`${API_SERVER_URL}/search/subscribe`, config).then(response => {
         commit('saveSubscribeData', response.data)
       })
-      const response = await axios.get(`${API_SERVER_URL}/search/avgviews`, config)
+      const response = await axios.get(`${API_SERVER_URL}/search/avgview`, config)
       commit('saveViewsData', response.data)
     },
 
