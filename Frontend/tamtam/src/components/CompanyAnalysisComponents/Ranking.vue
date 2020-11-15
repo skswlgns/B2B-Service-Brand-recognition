@@ -24,7 +24,7 @@
     <div class="card-title" v-else-if="$route.path === '/rank/likevideotop'">동영상 좋아요 수</div>
     <div class="card-title" v-else>동영상 조회수</div>
     <div v-for="(Item, index) in channel" :key="index">
-      <div class="card mx-auto mb-2 data ">
+      <div class="card mx-auto mb-2 data" @click="moveChannelDetail(Item.channel_youtube_id)">
         <v-list-item two-line>
           <a
             @click="moveChannelDetail(Item.channel_youtube_id)"
@@ -190,6 +190,7 @@ export default {
     },
     moveYoutube(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)
+      // router.push(-1)
     },
     infiniteHandler($state) {
       axios.get(`${API_SERVER_URL}/search/${this.$route.params.subject}`, this.config).then(response => {
@@ -214,10 +215,10 @@ export default {
 @import '@/scss/Rank/rank.scss';
 .data {
   /* the other rules */
-  transition: all 0.6s;
+  transition: all 0.4s;
 }
 .data:hover {
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 .v-list-item-title {
   font-weight: 900;

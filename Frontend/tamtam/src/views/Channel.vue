@@ -44,7 +44,7 @@
           <span @click="changeActive('donut')">채널의 브랜드 노출 비율</span>
         </div>
         <canvas id="brand-count"></canvas>
-        <canvas id="brand-ratio"></canvas>
+        <canvas id="brand-ratio" class="none"></canvas>
       </div>
       <div class="card ml-2">
         <div class="toggle">
@@ -52,7 +52,7 @@
           <span @click="change('views')">일일 조회수</span>
         </div>
         <canvas id="subscribe-line" class=""></canvas>
-        <canvas id="views-line" class=""></canvas>
+        <canvas id="views-line" class="none"></canvas>
       </div>
     </div>
     <div class="card">
@@ -63,9 +63,9 @@
               <v-img alt="user" :src="video.video_thumbnails" />
             </a>
             <v-flex>
-              <div class="data-title">
+              <a @click="moveVideoDetail(video.video_youtube_id)" class="data-title">
                 {{ video.video_title }}
-              </div>
+              </a>
             </v-flex>
             <div class="data-subtitle pb-2">조회수 {{ wathchCnt(video.video_views) }}</div>
             <v-expand-transition>
@@ -100,6 +100,8 @@ export default {
   },
   data() {
     return {
+      isActive: 'subscribe',
+      active: 'bar',
       show: false,
       company_id: cookies.get('companyId'),
       limit: 0,
@@ -109,7 +111,7 @@ export default {
           labels: [],
           datasets: [
             {
-              label: '# of Votes',
+              // label: '# of Votes',
               data: [],
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -127,7 +129,15 @@ export default {
             }
           ]
         },
-        options: {}
+        options: {
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                return data.labels[tooltipItem.index] + ': ' + data.datasets[0].data[tooltipItem.index] + '회'
+              }
+            }
+          }
+        }
       },
       brandRatio: {
         type: 'doughnut',
@@ -153,7 +163,24 @@ export default {
             }
           ]
         },
-        options: {}
+        options: {
+          legend: {
+            position: 'right',
+            align: 'center',
+            labels: {
+              boxWidth: 3,
+              padding: 10,
+              rtl: true
+            }
+          },
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                return data.labels[tooltipItem.index] + ': ' + data.datasets[0].data[tooltipItem.index] + '%'
+              }
+            }
+          }
+        }
       },
       subData: {
         type: 'line',
@@ -262,12 +289,12 @@ export default {
   },
   methods: {
     ...mapActions(channelStore, [
-      'change',
+      // 'change',
       'getChannelData',
       'getVideo',
       'getBrandRatio',
       'scrap',
-      'changeActive',
+      // 'changeActive',
       'contactYoutuber'
     ]),
     moveYoutube(channerId) {
@@ -290,7 +317,6 @@ export default {
           }
         }
       } else if (charId === 'brand-ratio') {
-        console.log(chartData)
         for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
           if (value) {
             chartData.data.labels.push(key)
@@ -331,6 +357,34 @@ export default {
         this.show = true
       } else {
         this.show = false
+      }
+    },
+    change(active) {
+      this.isActive = active
+      const canvasSubscribe = document.getElementById('subscribe-line')
+      const canvasViews = document.getElementById('views-line')
+      if (active === 'subscribe') {
+        canvasViews.classList.add('none')
+        canvasSubscribe.classList.remove('none')
+        canvasSubscribe.classList.add('visual')
+      } else {
+        canvasViews.classList.remove('none')
+        canvasSubscribe.classList.add('visual')
+        canvasSubscribe.classList.add('none')
+      }
+    },
+    changeActive(active) {
+      this.active = active
+      const canvasCount = document.getElementById('brand-count')
+      const canvasRatio = document.getElementById('brand-ratio')
+      if (active === 'bar') {
+        canvasRatio.classList.add('none')
+        canvasCount.classList.remove('none')
+        canvasCount.classList.add('visual')
+      } else {
+        canvasRatio.classList.remove('none')
+        canvasRatio.classList.add('visual')
+        canvasCount.classList.add('none')
       }
     },
     sendTest(channelName, channelEmail, channelId) {
@@ -403,19 +457,19 @@ export default {
   },
   computed: {
     ...mapState(channelStore, [
-      'isActive',
+      // 'isActive',
       'channelData',
       'youtubeChannelId',
       'four_week_subs',
       'four_week_views',
-      'channelBrand',
-      'active'
+      'channelBrand'
+      // 'active'
     ]),
     ...mapGetters(channelStore, ['sliceViews'])
   },
+  watch: {},
   async created() {},
   async mounted() {
-    console.log(this.brandRatio)
     await this.getBrandRatio(this.channelId)
     await this.getChannelData(this.channelId)
     await this.createChart('subscribe-line', this.subData)
@@ -428,12 +482,16 @@ export default {
     // const canvasSubscribe = document.getElementById('subscribe-line')
     // const canvasViews = document.getElementById('views-line')
     // console.log(canvasRatio, canvasViews, canvasSubscribe, canvasCount)
-    // console.log(this.active, this.isActive)
+    // console.log(this.active, this.iactive
+    console.log(this.isActvie)
     if (this.active === 'bar') {
+      console.log('들어옴1')
       canvasRatio.classList.add('none')
       canvasCount.classList.remove('none')
       canvasCount.classList.add('visual')
-    } else {
+    }
+    if (this.active === 'donut') {
+      console.log('들어옴2')
       canvasRatio.classList.remove('none')
       canvasRatio.classList.add('visual')
       canvasCount.classList.add('none')

@@ -67,12 +67,17 @@
       font-size: #{$base-fontsize * 0.5};
     }
   }
+  .card {
+    .data-title {
+      color: black;
+    }
+  }
 }
 
-// .none {
-//   visibility: hidden;
-//   position: absolute;
-// }
-// .visual {
-//   z-index: 1;
-// }
+.none {
+  visibility: hidden;
+  position: absolute;
+}
+.visual {
+  z-index: 1;
+}

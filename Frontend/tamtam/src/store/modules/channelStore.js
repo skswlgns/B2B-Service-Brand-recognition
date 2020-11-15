@@ -7,8 +7,8 @@ const config = {
 const channelStore = {
   namespaced: true,
   state: {
-    isActive: 'subscribe',
-    active: 'bar',
+    // isActive: 'subscribe',
+    // active: 'bar',
     channelData: {},
     views: 0,
     videoData: {},
@@ -25,16 +25,22 @@ const channelStore = {
       } else {
         return parseInt(state.views / 10000)
       }
+    },
+    changeData: state => {
+      if (state.isActive) {
+        return state.isActive
+      }
+      if (state.active) {
+        return state.active
+      }
     }
   },
   mutations: {
     change(state, active) {
       if (active === 'subscribe' || active === 'views') {
         state.isActive = active
-        console.log(state.isActive)
       } else {
         state.active = active
-        console.log(state.active)
       }
     },
     setchannel(state, channel) {
