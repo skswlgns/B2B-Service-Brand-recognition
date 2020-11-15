@@ -25,11 +25,11 @@
                 </v-avatar>
               </a>
               <v-list-item-content style="text-align:center;">
-                <p>
+                <div class="data-title">
                   {{ channel[i - 1].channel_name }}
-                </p>
-                <p>구독자 {{ subScribeCnt(channel[i - 1].channel_subscribe) }}</p>
-                <p>영상 {{ videoCnt(channel[i - 1].channel_video_cnt) }}</p>
+                </div>
+                <div class="data-subtitle">구독자 {{ subScribeCnt(channel[i - 1].channel_subscribe) }}</div>
+                <div class="data-subtitle">영상 {{ videoCnt(channel[i - 1].channel_video_cnt) }}</div>
               </v-list-item-content>
             </v-list-item>
           </div>
@@ -109,6 +109,13 @@ export default {
 }
 .data:hover {
   top: -10px;
+}
+.data-title {
+  font-size: 12px;
+}
+.data-subtitle {
+  font-size: 12px;
+  color: gray;
 }
 </style>
 <style lang="scss" scoped>
