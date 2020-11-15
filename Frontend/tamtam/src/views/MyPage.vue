@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="card" style="margin-top:8px;">
-      <v-row>
-        <v-col cols="6">
-          <div class="text-center" style="border-right: 2px solid #ebebeb;">
-            <span @click="toggleContact()" class="cursor"><h5>컨택한 채널</h5></span>
+      <v-row no-gutters>
+        <v-col class="pa-2" v-bind:class="{ available: showContact }" style="border-right: 2px solid #ebebeb;">
+          <div class="text-center">
+            <span @click="toggleContact()" style="cursor: pointer;">컨택한 채널</span>
           </div>
         </v-col>
-        <v-col cols="6">
-          <div class="text-center">
-            <span @click="toggleScrap()" class="cursor"><h5>스크랩한 채널</h5></span>
+        <v-col class="pa-2" v-bind:class="{ available: showScrap }">
+          <div class="text-center ">
+            <span @click="toggleScrap()" style="cursor: pointer;">스크랩한 채널</span>
           </div>
         </v-col>
       </v-row>
@@ -77,6 +77,9 @@ export default {
 }
 .component {
   margin-top: 8px;
+}
+.available {
+  border-bottom: 3px solid rgb(184, 94, 202);
 }
 </style>
 
