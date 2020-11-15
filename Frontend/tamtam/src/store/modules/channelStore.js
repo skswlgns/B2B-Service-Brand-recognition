@@ -49,7 +49,6 @@ const channelStore = {
       state.videoData = data
     },
     saveBrand(state, data) {
-      console.log(data)
       state.channelBrand = data
     }
   },
