@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header>추천 동영상 파트</header>
+    <header>추천 동영상</header>
     <v-divider />
     <div
       v-for="(recommendVideo, index) in recommendVideos"

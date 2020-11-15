@@ -131,6 +131,7 @@ videoRoutes.get('/count', async (req, res) => {
       const companyId = req.headers.company_id
       const videoCount = await VideoModel.find().count()
       const videoAll = await VideoModel.find()
+      const company = await CompanyModel.findOne({ _id: companyId })
       let companyCount = 0
       let companyTime = 0
       for (let i = 0; i < videoCount; i++) {
@@ -150,7 +151,8 @@ videoRoutes.get('/count', async (req, res) => {
       }
       const companyData = {
         companyCount: companyCount,
-        companyTime: companyTime
+        companyTime: companyTime,
+        companyScrap: company.company_channel.length
       }
       res.status(200).send(companyData)
     } catch (err) {
