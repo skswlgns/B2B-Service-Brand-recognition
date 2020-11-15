@@ -107,9 +107,6 @@ searchRoutes.get('/avgviews', async (req, res) => {
   }
 })
 
-// 비디오 조회수
-searchRoutes.get('/')
-
 // 추천영상
 searchRoutes.get('/recommend', async (req, res) => {
   if (req.headers.token) {
@@ -193,15 +190,17 @@ searchRoutes.get('/catevideo', async (req, res) => {
 searchRoutes.get('/catevideotop', async (req, res) => {
   if (req.headers.token) {
     try {
-      const videos = await VideoModel.find({ video_category: { $regex: req.body.company_industry } }).sort({
+      const videos = await VideoModel.find({ video_category: { $regex: req.headers.company_industry } }).sort({
         video_views: -1
       })
-
-      let recovideo = {}
-      if (videos.length > 10) {
-        recovideo = videos.slice(0, 10)
+      const limit = req.headers.limit
+      let result = {}
+      if (videos.length < 10) {
+        result = videos
+      } else {
+        result = videos.slice(limit, limit + 10)
       }
-      res.status(200).send(recovideo)
+      res.status(200).send(result)
     } catch (err) {
       res.status(500).send(err)
     }
@@ -215,7 +214,7 @@ searchRoutes.get('/likevideotop', async (req, res) => {
   if (req.headers.token) {
     try {
       const videos = await VideoModel.find({
-        video_category: { $regex: req.body.company_industry, $options: 'i' }
+        video_category: { $regex: req.headers.company_industry, $options: 'i' }
       }).sort({
         video_like: -1
       })

@@ -3,12 +3,20 @@
 
 header {
   text-align: center;
-  .compartment {
+  .district {
     border-right: 1px solid;
     padding-right: 0;
+    border-right: 2px solid rgb(235, 235, 235);
   }
-  a {
+  .division {
     text-decoration: none;
-    color: black;
+    color: #8b00ff;
   }
+}
+a:not(.division) {
+  color: black;
+  text-decoration: none;
+}
+.video-img {
+  width: 80%;
 }

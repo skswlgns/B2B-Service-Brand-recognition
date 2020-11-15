@@ -33,6 +33,7 @@ const channelStore = {
       state.channel = channel
     },
     saveData(state, data) {
+      console.log(data)
       state.channelData = data[0]
       state.views = data[0].channel_subscribe
       state.four_week_subs = data[0].four_week_subs
