@@ -29,7 +29,6 @@ const userStore = {
       await axios
         .post(`${SERVER_URL}/company/signin`, loginData)
         .then(response => {
-          console.log(response.data)
           commit('setToken', response.data.token)
           commit('setNickname', response.data.company_nickname)
           commit('setCompanyId', response.data.company_id)

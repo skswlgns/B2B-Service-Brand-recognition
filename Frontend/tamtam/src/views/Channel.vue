@@ -210,16 +210,11 @@ export default {
   },
   created() {
     this.getChannelData(this.channelId)
-    console.log(this.channelId)
   },
   async mounted() {
     // await this.getChannelData(this.channelId)
     await this.createChart('wChart', this.wholeData)
     await this.createChart('subscribe-line', this.subData)
-<<<<<<< HEAD
-    // await this.getChannelData(this.channelId)
-=======
->>>>>>> f529b102c310e22189a5e0f730db5e15156967b5
     this.changeShow()
   },
 

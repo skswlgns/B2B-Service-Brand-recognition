@@ -91,7 +91,6 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
   if (req.headers.company_id === admin_id) {
     try {
       const channel = await ChannelModel.findOne({ _id: channelId })
-      // console.log(channel)
       if (channel === null) {
         res.status(403).send({ message: '존재하지 않는 채널입니다.' })
       } else {
@@ -121,8 +120,6 @@ channelRoutes.delete('/:channel_id', async (req, res) => {
         const video = await VideoModel.find({ channel_id: channelId })
           .populate('scrap_company_id')
           .populate('exception_company_id')
-
-        // console.log(video)
 
         for (let j = 0; j < video.length; j++) {
           // companyModel의 company_video삭제
