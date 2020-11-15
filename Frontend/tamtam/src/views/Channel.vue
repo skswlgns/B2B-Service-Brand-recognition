@@ -30,6 +30,7 @@
             </div>
             <v-btn
               color="#916bf6"
+              class="white--text"
               @click="sendTest(channelData.channel_name, channelData.channel_email, channelData._id)"
               >광고 문의</v-btn
             >
