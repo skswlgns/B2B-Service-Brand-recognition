@@ -223,4 +223,33 @@
     color: white;
     overflow-y: hidden;
   }
+
+  hr {
+    margin-bottom: #{$base-margin * 2.5};
+  }
+  .exposure-trend-title {
+    font-size: #{$base-fontsize * 1.2};
+    font-weight: 500;
+    margin-top: #{$base-margin * 2};
+    margin-bottom: #{$base-margin * 2};
+  }
+
+  .exposure-trend-body {
+    display: flex;
+    font-size: #{$base-fontsize * 1.2};
+    margin-bottom: #{$base-margin * 4};
+    justify-content: space-between;
+
+    span {
+      margin-right: #{$base-margin * 2};
+    }
+
+    .exposure-trend-percent {
+      font-size: #{$base-fontsize * 1.1};
+
+      .fas {
+        margin-right: 8px;
+      }
+    }
+  }
 }
