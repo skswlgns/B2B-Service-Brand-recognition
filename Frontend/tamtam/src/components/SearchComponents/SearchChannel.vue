@@ -36,11 +36,16 @@
         </v-card>
       </v-col>
     </v-row>
-    <div v-if="this.channel.length > 4" style="height:48px;">
+    <div v-if="open" style="height:48px;">
       <div style="float:left;" class="pa-3"></div>
-      <div align="right" class="pa-3">
+      <div v-if="show" align="right" class="pa-3">
         <div @click="moredata()" class="cursor">
           더 보기
+        </div>
+      </div>
+      <div v-else-if="!show" align="right" class="pa-3">
+        <div @click="moredata()" class="cursor">
+          접기
         </div>
       </div>
     </div>
@@ -54,16 +59,29 @@ const searchStore = 'searchStore'
 
 export default {
   data: () => ({
-    len: 4
+    len: 4,
+    show: false,
+    open: false
   }),
-  created() {},
+  created() {
+    if (this.channel.length > 4) {
+      this.show = true
+      this.open = true
+    }
+  },
   computed: {
     ...mapState(searchStore, ['channel'])
   },
   methods: {
     ...mapGetters(searchStore, ['getChannel']),
     moredata() {
-      this.len = this.channel.length
+      if (this.show) {
+        this.len = this.channel.length
+        this.show = false
+      } else {
+        this.len = 4
+        this.show = true
+      }
     },
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
@@ -116,6 +134,11 @@ export default {
 .data-subtitle {
   font-size: 12px;
   color: gray;
+}
+.cursor {
+  cursor: pointer;
+  color: rgb(92, 107, 192);
+  font-weight: bold;
 }
 </style>
 <style lang="scss" scoped>
