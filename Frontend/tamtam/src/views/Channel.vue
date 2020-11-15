@@ -215,6 +215,7 @@ export default {
     // await this.getChannelData(this.channelId)
     await this.createChart('wChart', this.wholeData)
     await this.createChart('subscribe-line', this.subData)
+    // await this.getChannelData(this.channelId)
     this.changeShow()
   },
 
