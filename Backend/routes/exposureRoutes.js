@@ -82,6 +82,7 @@ exposureRoutes.get('/topvideo', async (req, res) => {
           }
         }
       }
+      // time: video.video_record[j].total_exposure_time
       topvideos.sort(function (a, b) {
         return b.time - a.time
       })
