@@ -113,18 +113,8 @@ export default {
             {
               // label: '# of Votes',
               data: [],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-              ],
+              backgroundColor: [],
+              borderColor: [],
               borderWidth: 1
             }
           ]
@@ -190,18 +180,8 @@ export default {
             {
               label: '4주간 변화 추이',
               data: [],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-              ],
+              backgroundColor: [this.dynamicColors(), this.dynamicColors(), this.dynamicColors(), this.dynamicColors()],
+              borderColor: [],
               borderWidth: 1
             }
           ]
@@ -215,18 +195,8 @@ export default {
             {
               label: '4주간 변화 추이',
               data: [],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-              ],
+              backgroundColor: [this.dynamicColors(), this.dynamicColors(), this.dynamicColors(), this.dynamicColors()],
+              borderColor: [],
               borderWidth: 1
             }
           ]
@@ -314,6 +284,7 @@ export default {
           if (value) {
             chartData.data.labels.push(key)
             chartData.data.datasets[0].data.push(value)
+            chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
           }
         }
       } else if (charId === 'brand-ratio') {
@@ -321,6 +292,7 @@ export default {
           if (value) {
             chartData.data.labels.push(key)
             chartData.data.datasets[0].data.push(((value / this.channelBrand.channel_total) * 100).toFixed(1))
+            chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
           }
         }
       }
@@ -442,7 +414,8 @@ export default {
       const r = Math.floor(Math.random() * 255)
       const g = Math.floor(Math.random() * 255)
       const b = Math.floor(Math.random() * 255)
-      return 'rgb(' + r + ',' + g + ',' + b + ')'
+      const a = 1
+      return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')'
     },
     wathchCnt(count) {
       if (count < 1000) return count + '회'
