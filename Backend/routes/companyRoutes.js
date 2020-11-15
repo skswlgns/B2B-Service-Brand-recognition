@@ -184,6 +184,14 @@ companyRoutes.get('/video', async (req, res) => {
       const company = await CompanyModel.findOne({
         _id: req.headers.company_id
       }).populate('company_video')
+      for (let i = 0; i < company.company_video.length; i++) {
+        const companyVideo = company.company_video[i]
+        for (let j = 0; j < companyVideo.video_record.length; j++) {
+          const companyId = companyVideo.video_record[j].company_id
+          const perCompany = await CompanyModel.findOne({ _id: companyId })
+          companyVideo.video_record[j].company_id = perCompany
+        }
+      }
       res.status(200).send(company)
     } catch (err) {
       res.status(500).send(err)
