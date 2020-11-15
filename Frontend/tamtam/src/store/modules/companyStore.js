@@ -11,7 +11,8 @@ const searchStore = {
   state: {
     companyCount: '',
     companyTime: '',
-    companyList: []
+    companyList: [],
+    industry: ''
   },
   mutations: {
     setCompanyList(state, data) {
@@ -40,6 +41,9 @@ const searchStore = {
       }
       data += s + '초'
       state.companyTime = data
+    },
+    saveIndustry(state, data) {
+      cookies.set('industry', data)
     }
   },
   getters: {},
@@ -56,6 +60,11 @@ const searchStore = {
       config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/company`, config)
       commit('setCompanyList', response.data)
+    },
+    async getCategory({ commit }) {
+      axios.get(`${API_SERVER_URL}/company/industry`, config).then(response => {
+        commit('saveIndustry', response.data)
+      })
     }
   }
 }
