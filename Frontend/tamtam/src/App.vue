@@ -15,8 +15,9 @@
           <router-link class="menu" to="/rank/subscribes">순위</router-link>
         </div>
         <v-divider></v-divider>
-        <div>
-          <div>{{ user_nickname }}</div>
+        <div class="mb-6">
+          <p class="white--text mb-2">WELCOME,</p>
+          <div class="white--text mb-6">{{ user_nickname }} :)</div>
           <v-btn class="logout" elevation="4" rounded outlined @click="logout()">Log Out</v-btn>
         </div>
       </nav>
@@ -34,6 +35,7 @@
 import cookies from 'vue-cookies'
 import { mapState, mapActions } from 'vuex'
 import GoTop from '@/components/GoTop.vue'
+// import { use } from 'vue/types/umd'
 const userStore = 'userStore'
 const searchStore = 'searchStore'
 export default {
