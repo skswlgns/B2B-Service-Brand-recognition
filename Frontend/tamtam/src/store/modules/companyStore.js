@@ -16,6 +16,7 @@ const searchStore = {
   },
   mutations: {
     setCompanyList(state, data) {
+      data.sort((a, b) => parseFloat(b.company_four_week[3]) - parseFloat(a.company_four_week[3]))
       state.companyList = data
     },
     setCompanyCount(state, data) {

@@ -19,7 +19,7 @@
                   <img alt="user" src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png" />
                 </v-avatar>
               </v-btn>
-              <v-btn icon @click="scrapChannel()" color="white">
+              <v-btn icon @click="scrapChannel(channelData._id)" color="white">
                 <v-icon color="grey darken-3" v-show="!show">
                   mdi-star-outline
                 </v-icon>
@@ -181,7 +181,7 @@ export default {
       })
       return myChart
     },
-    async scrapChannel(index) {
+    async scrapChannel(id) {
       let answer
       if (this.show === true) {
         answer = confirm('스크랩 취소 하시겠습니까?')
@@ -189,7 +189,7 @@ export default {
         answer = confirm('스크랩 하시겠습니까?')
       }
       if (answer) {
-        await this.scrap(this.channelId)
+        await this.scrap(id)
         // 데이터 다시 받아오기
         await this.getChannelData(this.channelId)
         this.changeShow()

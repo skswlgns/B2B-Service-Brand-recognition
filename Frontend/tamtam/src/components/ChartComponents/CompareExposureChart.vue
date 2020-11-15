@@ -1,11 +1,11 @@
 <template>
   <div>
     <div align="right" class="chart-title">
-      <v-menu>
-        <template v-slot:activator="{ on: menu, attrs }">
+      <v-menu offset-y max-height="40%">
+        <template v-slot:activator="{ on, attrs }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on: tooltip }">
-              <v-btn depressed color="white" small v-bind="attrs" v-on="{ ...tooltip, ...menu }">
+              <v-btn depressed color="white" small v-bind="attrs" v-on="{ ...tooltip, ...on }">
                 <i class="fas fa-swords"></i>
               </v-btn>
             </template>
@@ -13,8 +13,10 @@
           </v-tooltip>
         </template>
         <v-list>
-          <v-list-item-group v-for="(item, index) in items" :key="index">
-            <v-list-item @click="changedLabel(item)">{{ item }}</v-list-item>
+          <v-list-item-group v-model="selected" color="rgba(153, 102, 255, 1)">
+            <v-list-item v-for="(item, index) in items" :key="index">
+              <v-list-item-content @click="changedLabel(item, index)">{{ item }} </v-list-item-content>
+            </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-menu>
@@ -24,7 +26,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import cookies from 'vue-cookies'
 import Chart from 'chart.js'
 const companyStore = 'companyStore'
@@ -38,9 +40,10 @@ export default {
       company_id: null,
       company_nickname: cookies.get('nick'),
       items: [],
+      fourweekDatas: [],
       myChartData: {
         label: this.company_nickname,
-        data: [5, 7, 9, 12],
+        data: [],
         borderColor: 'rgba(255, 99, 132, 1)',
         backgroundColor: 'rgba(0, 0, 0, 0)',
         pointBackgroundColor: 'rgba(255, 99, 132, 1)'
@@ -102,12 +105,11 @@ export default {
     ...mapState(companyStore, ['companyList'])
   },
   methods: {
-    ...mapActions(companyStore, ['getCompanyList']),
-    changedLabel(event) {
-      this.selected = event
+    changedLabel(nick, index) {
+      this.selected = nick
       const tmp = {
-        label: this.selected,
-        data: [2, 3, 3, 2],
+        label: nick,
+        data: this.fourweekDatas[index],
         borderColor: 'rgba(153, 102, 255, 1)',
         backgroundColor: 'rgba(0, 0, 0, 0)',
         pointBackgroundColor: 'rgba(153, 102, 255, 1)'
@@ -120,10 +122,14 @@ export default {
     init() {
       for (let index = 0; index < this.companyList.length; index++) {
         const element = this.companyList[index].company_nickname
-        if (this.company_nickname === element || element === '관리자' || element === '탈퇴할 아이디') {
+        if (this.company_nickname === element) {
+          this.myChartData.data = this.companyList[index].company_four_week
+          continue
+        } else if (element === '관리자' || element === '탈퇴할 아이디') {
           continue
         }
         this.items.push(element)
+        this.fourweekDatas.push(this.companyList[index].company_four_week)
       }
     },
     updateChart({ chartId, chartData }) {
@@ -143,7 +149,6 @@ export default {
   async created() {
     this.myChartData.label = this.company_nickname
     this.allExposureData.data.datasets.push(this.myChartData)
-    await this.getCompanyList()
     await this.init()
     this.createChart({ chartId: 'all-exposure-chart', chartData: this.allExposureData })
   },
