@@ -11,6 +11,7 @@ const searchStore = {
   state: {
     companyCount: '',
     companyTime: '',
+    companyScrap: '',
     companyList: [],
     industry: ''
   },
@@ -21,6 +22,9 @@ const searchStore = {
     },
     setCompanyCount(state, data) {
       state.companyCount = data + '개'
+    },
+    setCompanyScrap(state, data) {
+      state.companyScrap = data + '개'
     },
     setCompanyTime(state, data) {
       const s = data % 60
@@ -54,6 +58,7 @@ const searchStore = {
       const response = await axios.get(`${API_SERVER_URL}/video/count`, config)
       commit('setCompanyCount', response.data.companyCount)
       commit('setCompanyTime', response.data.companyTime)
+      commit('setCompanyScrap', response.data.companyScrap)
     },
     // 전체 기업리스트 가져오기
     async getCompanyList({ commit }) {

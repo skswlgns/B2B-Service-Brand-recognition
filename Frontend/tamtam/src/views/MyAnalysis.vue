@@ -31,9 +31,9 @@
       <v-flex sm3 pl-10 pr-10>
         <div class="card mb-2 pa-2">
           <div style="text-align:center; padding: 10%;">
-            <div><i class="far fa-clock fa-3x mb-2" style="color:green"></i></div>
-            <div class="data-subtitle">브랜드 총 노출 시간</div>
-            <div class="data-title">{{ this.companyTime }}</div>
+            <div><i class="far fa-clipboard fa-3x mb-2" style="color:darkblue"></i></div>
+            <div class="data-subtitle">스크랩 채널</div>
+            <div class="data-title">{{ this.companyScrap }}</div>
           </div>
         </div>
       </v-flex>
@@ -92,7 +92,7 @@ export default {
     ...mapActions(companyStore, ['getCompanyList'])
   },
   computed: {
-    ...mapState(companyStore, ['companyTime', 'companyCount', 'companyList'])
+    ...mapState(companyStore, ['companyTime', 'companyCount', 'companyList', 'companyScrap'])
   },
   async created() {
     await this.getCompanyList()
