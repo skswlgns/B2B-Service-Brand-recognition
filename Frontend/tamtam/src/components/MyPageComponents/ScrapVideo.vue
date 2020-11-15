@@ -20,11 +20,7 @@
               v-html="video[i - 1].video_title"
             ></h2>
           </v-card-title>
-          <div v-if="video[i - 1].video_views < 1000" class="views">조회수 : {{ video[i - 1].video_views }}회</div>
-          <div v-else-if="video[i - 1].video_views < 10000" class="views">
-            조회수 : {{ parseInt(video[i - 1].video_views / 1000) }}천회
-          </div>
-          <div v-else class="views">조회수 : {{ parseInt(video[i - 1].video_views / 10000) }}만회</div>
+          <div>조회수 {{ wathchCnt(video[i - 1].video_views) }}</div>
           <v-expand-transition>
             <v-card-text>
               <canvas :id="video[i - 1]._id" />
@@ -92,7 +88,6 @@ export default {
   async created() {
     await this.getScrapVideo()
     this.len = this.video.length
-    console.log(this.video)
     for (let i = 0; i < this.len; i++) {
       this.video[i].chartData = _.cloneDeep(this.chartData)
       this.video[i].chart = this.video[i]._id
@@ -137,6 +132,16 @@ export default {
       const g = Math.floor(Math.random() * 255)
       const b = Math.floor(Math.random() * 255)
       return 'rgb(' + r + ',' + g + ',' + b + ')'
+    },
+    wathchCnt(count) {
+      if (count < 1000) return count + '회'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천회'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만회'
+      }
     }
   }
 }

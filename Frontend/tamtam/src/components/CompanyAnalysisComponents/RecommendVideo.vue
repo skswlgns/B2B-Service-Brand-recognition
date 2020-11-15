@@ -14,12 +14,13 @@
           <a @click="moveVideoDetail(companyRecommendVideo[i - 1].video.video_youtube_id)">
             <v-img alt="user" :src="companyRecommendVideo[i - 1].video.video_thumbnails" />
           </a>
-          <v-card-actions>
+          <v-card-title>
             <h2
               style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
               v-html="companyRecommendVideo[i - 1].video.video_title"
             ></h2>
-          </v-card-actions>
+          </v-card-title>
+          <div>조회수 {{ wathchCnt(companyRecommendVideo[i - 1].video.video_views) }}</div>
           <v-expand-transition>
             <v-card-text>
               <canvas :id="companyRecommendVideo[i - 1].video._id" />
@@ -78,7 +79,6 @@ export default {
   async created() {
     await this.getCompanyRecommendVideo()
     this.len = this.companyRecommendVideo.length
-    console.log(this.companyRecommendVideo)
     for (let i = 0; i < this.len; i++) {
       this.companyRecommendVideo[i].chartData = _.cloneDeep(this.chartData)
       this.companyRecommendVideo[i].chart = this.companyRecommendVideo[i].video._id
@@ -126,6 +126,16 @@ export default {
         options: chartData.options
       })
       return myChart
+    },
+    wathchCnt(count) {
+      if (count < 1000) return count + '회'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천회'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만회'
+      }
     }
   }
 }
