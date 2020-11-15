@@ -4,7 +4,7 @@
       <v-flex sm4 pl-10 pr-10>
         <div class="card mb-2 pa-2">
           <div style="text-align:center; padding: 10%;" class="headline">
-            <div><i class="fas fa-crown fa-3x"></i></div>
+            <div><i class="fas fa-crown fa-3x mb-2" style="color:#ffd700"></i></div>
             {{ this.rank }}
           </div>
         </div>
@@ -12,7 +12,7 @@
       <v-flex sm4 pl-10 pr-10>
         <div class="card mb-2 pa-2">
           <div style="text-align:center; padding: 10%;" class="headline">
-            <div><i class="fab fa-youtube fa-3x"></i></div>
+            <div><i class="fab fa-youtube fa-3x mb-2" style="color:red"></i></div>
             {{ this.companyCount }}
           </div>
         </div>
@@ -20,7 +20,7 @@
       <v-flex sm4 pl-10 pr-10>
         <div class="card mb-2 pa-2">
           <div style="text-align:center; padding: 10%;" class="headline">
-            <div><i class="far fa-clock fa-3x"></i></div>
+            <div><i class="far fa-clock fa-3x mb-2" style="color:green"></i></div>
             {{ this.companyTime }}
           </div>
         </div>
