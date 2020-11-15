@@ -106,6 +106,13 @@ export default {
       show: false,
       company_id: cookies.get('companyId'),
       limit: 0,
+      colorsArray: [
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)'
+      ],
       brandCount: {
         type: 'bar',
         data: {
@@ -116,7 +123,8 @@ export default {
               data: [],
               backgroundColor: [],
               borderColor: [],
-              borderWidth: 1
+              borderWidth: 1,
+              barThickness: 40
             }
           ]
         },
@@ -280,19 +288,20 @@ export default {
       } else if (charId === 'views-line') {
         chartData.data.datasets[0].data = this.four_week_views.slice(0, 4)
       } else if (charId === 'brand-count') {
-        for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
+        for (const [index, [key, value]] of Object.entries(Object.entries(this.channelBrand.channel_brand))) {
+          console.log(index, key, value)
           if (value) {
             chartData.data.labels.push(key)
             chartData.data.datasets[0].data.push(value)
-            chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+            chartData.data.datasets[0].backgroundColor.push(this.colorsArray[index % 5])
           }
         }
       } else if (charId === 'brand-ratio') {
-        for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
+        for (const [index, [key, value]] of Object.entries(Object.entries(this.channelBrand.channel_brand))) {
           if (value) {
             chartData.data.labels.push(key)
             chartData.data.datasets[0].data.push(((value / this.channelBrand.channel_total) * 100).toFixed(1))
-            chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+            chartData.data.datasets[0].backgroundColor.push(this.colorsArray[index % 5])
           }
         }
       }
@@ -388,7 +397,7 @@ export default {
                         (response.data[i].video_record[j].total_exposure_time / response.data[i].video_total) * 100
                       )
                     )
-                    response.data[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+                    response.data[i].chartData.data.datasets[0].backgroundColor.push(this.colorsArray[j % 5])
                     response.data[i].chartData.data.labels.push(
                       response.data[i].video_record[j].company_id.company_nickname
                     )
