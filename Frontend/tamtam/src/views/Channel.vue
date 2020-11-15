@@ -38,11 +38,11 @@
     <div class="chart-fr">
       <div class="card ml-2">
         <div class="toggle">
-          <span @click="change('bar')">채널의 브랜드 노출 수량</span>
-          <span @click="change('donut')">채널의 브랜드 노출 비율</span>
+          <span @click="changeActive('bar')">채널의 브랜드 노출 수량</span>
+          <span @click="changeActive('donut')">채널의 브랜드 노출 비율</span>
         </div>
         <canvas id="brand-count" v-if="active === 'bar'"></canvas>
-        <canvas id="brand-ratio" v-if="active === 'donut'"></canvas>
+        <canvas id="brand-ratio" v-else></canvas>
       </div>
       <div class="card ml-2">
         <div class="toggle">
@@ -54,7 +54,29 @@
       </div>
     </div>
     <div class="fr-youtube">
-      <Video />
+      <v-row>
+        <v-col v-for="(video, i) in videoData" :key="i" cols="3">
+          <v-card class="mx-auto">
+            <v-img :src="video.video_thumbnails" />
+            <v-card-title v-if="video.video_title.length > 20">
+              <router-link to="">{{ video.video_title.slice(0, 20) + '...' }}</router-link></v-card-title
+            >
+            <v-card-title v-else
+              ><router-link to="">{{ video.video_title }}</router-link></v-card-title
+            >
+            <div class="views" v-if="video.video_views < 1000">조회수 : {{ video.video_views }}회</div>
+            <div class="views" v-else-if="video.video_views < 10000">
+              조회수 : {{ parseInt(video.video_views / 1000) }}천회
+            </div>
+            <div v-else class="views">조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
+            <v-card-text>
+              <canvas :id="video._id" />
+            </v-card-text>
+            <v-spacer />
+          </v-card>
+        </v-col>
+      </v-row>
+      <infinite-loading @infinite="infiniteHandler" spinner="circles" />
     </div>
   </div>
 </template>
@@ -63,15 +85,19 @@
 import Chart from 'chart.js'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import cookies from 'vue-cookies'
-import Video from '@/components/Video.vue'
 import emailjs from 'emailjs-com'
+import InfiniteLoading from 'vue-infinite-loading'
+import axios from 'axios'
 
 const channelStore = 'channelStore'
+const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
+
+const _ = require('lodash')
 
 export default {
   name: 'Channel',
   components: {
-    Video
+    InfiniteLoading
   },
   data() {
     return {
@@ -79,7 +105,7 @@ export default {
       company_id: cookies.get('companyId'),
       limit: 0,
       brand: {
-        type: 'horizontalBar',
+        type: '',
         data: {
           labels: [],
           datasets: [
@@ -102,17 +128,7 @@ export default {
             }
           ]
         },
-        options: {
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true
-                }
-              }
-            ]
-          }
-        }
+        options: {}
       },
       subData: {
         type: 'line',
@@ -144,6 +160,48 @@ export default {
         from_name: cookies.get('nick'),
         to_name: '',
         to_email: ''
+      },
+      config: {
+        headers: {
+          token: cookies.get('token'),
+          limit: 0
+        }
+      },
+      videoData: [],
+      Id: '',
+      chartData: {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [
+            {
+              data: [],
+              backgroundColor: []
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          legend: {
+            position: 'right',
+            align: 'center',
+            labels: {
+              boxWidth: 3,
+              padding: 25,
+              rtl: true
+            }
+          },
+          maintainAspectRatio: false,
+          animation: false,
+          pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' },
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                return data.labels[tooltipItem.index] + ': ' + data.datasets[0].data[tooltipItem.index] + '%'
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -153,24 +211,34 @@ export default {
     }
   },
   methods: {
-    ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo', 'getBrandRatio', 'scrap']),
+    ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo', 'getBrandRatio', 'scrap', 'changeActive']),
     moveYoutube(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)
     },
     createChart(charId, chartData) {
-      console.log(this.channelBrand)
       const ctx = document.getElementById(charId)
       if (charId === 'subscribe-line') {
         chartData.data.datasets[0].data = this.four_week_subs.slice(0, 4)
       } else if (charId === 'views-line') {
         chartData.data.datasets[0].data = this.four_week_views.slice(0, 4)
-      }
-      if (charId === 'brand-count') {
+      } else if (charId === 'brand-count') {
         chartData.type = 'bar'
+        chartData.data.labels = []
+        chartData.data.datasets[0].data = []
         for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
           if (value) {
-            chartData.data.datasets[0].labels.push(key)
+            chartData.data.labels.push(key)
             chartData.data.datasets[0].data.push(value)
+          }
+        }
+      } else {
+        chartData.data.labels = []
+        chartData.data.datasets[0].data = []
+        for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
+          chartData.type = 'doughnut'
+          if (value) {
+            chartData.data.labels.push(key)
+            chartData.data.datasets[0].data.push(value / this.channelBrand.channel_total)
           }
         }
       }
@@ -214,6 +282,56 @@ export default {
       this.templateParams.to_email = channelEmail
       emailjs.send('service_TamTam', 'template_g5xblzj', this.templateParams, 'user_BP95v5BDBqPIPT05EQ1nY')
       alert('광고문의를 전달하였습니다.')
+    },
+    infiniteHandler($state) {
+      axios
+        .get(`${API_SERVER_URL}/video/videos/${this.channelId}`, this.config)
+        .then(response => {
+          setTimeout(() => {
+            for (let k = 0; k < response.data.length; k++) {
+              response.data[k].chartData = _.cloneDeep(this.chartData)
+              response.data[k].chart = response.data[k]._id
+            }
+            if (response.data.length) {
+              this.videoData = this.videoData.concat(response.data)
+              $state.loaded()
+              this.config.headers.limit += 4
+              for (let i = 0; i < response.data.length; i++) {
+                // this.videoData.chart = null
+                if (response.data[i].video_record) {
+                  for (let j = 0; j < response.data[i].video_record.length; j++) {
+                    response.data[i].chartData.data.datasets[0].data.push(
+                      Math.round(
+                        (response.data[i].video_record[j].total_exposure_time / response.data[i].video_total) * 100
+                      )
+                    )
+                    response.data[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+                    response.data[i].chartData.data.labels.push(
+                      response.data[i].video_record[j].company_id.company_nickname
+                    )
+                  }
+                  // this.createChart(this.videoData[i]._id, this.videoData[i].chartData)
+                } else {
+                  console.log('없음')
+                }
+              }
+              if (this.videoData.length / 4 === 0) {
+                $state.complete()
+              }
+            } else {
+              $state.complete()
+            }
+          }, 1000)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    dynamicColors() {
+      const r = Math.floor(Math.random() * 255)
+      const g = Math.floor(Math.random() * 255)
+      const b = Math.floor(Math.random() * 255)
+      return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
   },
   computed: {
@@ -228,35 +346,31 @@ export default {
     ]),
     ...mapGetters(channelStore, ['sliceViews'])
   },
-  created() {
-    this.getChannelData(this.channelId)
-<<<<<<< HEAD
-    this.getBrandRatio(this.channelId)
-=======
->>>>>>> 6c2c6467292838320b0add1de3cc3cb72ec83efb
-  },
+  created() {},
   async mounted() {
-    // await this.getChannelData(this.channelId)
-    // await this.createChart('wChart', this.wholeData)
+    await this.getBrandRatio(this.channelId)
+    await this.getChannelData(this.channelId)
     await this.createChart('subscribe-line', this.subData)
-<<<<<<< HEAD
     await this.createChart('brand-count', this.brand)
-=======
->>>>>>> 6c2c6467292838320b0add1de3cc3cb72ec83efb
-    // await this.getChannelData(this.channelId)
     this.changeShow()
   },
 
   updated() {
     if (this.isActive === 'views') {
       this.createChart('views-line', this.subData)
-    } else {
+    } else if (this.isActive === 'subscribe') {
       this.createChart('subscribe-line', this.subData)
     }
     if (this.active === 'bar') {
-      this.createChart('brand-count', this.subData)
+      this.createChart('brand-count', this.brand)
+    } else if (this.active === 'donut') {
+      this.createChart('brand-ratio', this.brand)
     }
-    // this.youtubeChannelId = data[0].channel_youtube_id
+    if (this.videoData.length) {
+      for (let i = 0; i < this.videoData.length; i++) {
+        this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
+      }
+    }
   }
 }
 </script>
