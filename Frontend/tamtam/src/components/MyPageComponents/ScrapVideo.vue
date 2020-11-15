@@ -9,7 +9,7 @@
   </div>
   <div v-else class="card">
     <v-row no-gutters>
-      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="4">
+      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="3">
         <v-card class="mx-auto data" outlined tile v-if="video[i - 1]">
           <a @click="moveVideoDetail(video[i - 1].video_youtube_id)">
             <v-img alt="user" :src="video[i - 1].video_thumbnails" />
@@ -29,14 +29,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <div v-if="this.video.length > 3" style="height:48px;">
-      <div style="float:left;" class="pa-3"></div>
-      <div align="right" class="pa-3">
-        <div @click="moredata()" class="cursor">
-          더 보기
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 

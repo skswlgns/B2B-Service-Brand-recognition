@@ -9,7 +9,7 @@
   </div>
   <div v-else class="card">
     <v-row no-gutters>
-      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="4">
+      <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="3">
         <v-card class="data" outlined tile v-if="video[i - 1]">
           <a @click="moveVideoDetail(video[i - 1].video_youtube_id)">
             <v-img alt="user" :src="video[i - 1].video_thumbnails" />
@@ -29,14 +29,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <div v-if="this.video.length > 3" style="height:48px;">
-      <div style="float:left;" class="pa-3"></div>
-      <div align="right" class="pa-3">
-        <div @click="moredata()" class="cursor">
-          더 보기
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -48,7 +40,7 @@ const _ = require('lodash')
 const searchStore = 'searchStore'
 export default {
   data: () => ({
-    len: 3,
+    len: null,
     chartData: {
       type: 'doughnut',
       data: {
@@ -85,7 +77,20 @@ export default {
     }
   }),
   created() {
-    this.insertChartData()
+    this.len = this.video.length
+    for (let i = 0; i < this.len; i++) {
+      this.video[i].chartData = _.cloneDeep(this.chartData)
+      this.video[i].chart = this.video[i]._id
+    }
+    for (let i = 0; i < this.len; i++) {
+      for (let j = 0; j < this.video[i].video_record.length; j++) {
+        this.video[i].chartData.data.datasets[0].data.push(
+          Math.round((this.video[i].video_record[j].total_exposure_time / this.video[i].video_total) * 100)
+        )
+        this.video[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+        this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_nickname)
+      }
+    }
   },
   computed: {
     ...mapState(searchStore, ['video'])
@@ -96,40 +101,6 @@ export default {
     }
   },
   methods: {
-    insertChartData() {
-      for (let i = 0; i < this.len; i++) {
-        this.video[i].chartData = _.cloneDeep(this.chartData)
-        this.video[i].chart = this.video[i]._id
-      }
-      for (let i = 0; i < this.len; i++) {
-        for (let j = 0; j < this.video[i].video_record.length; j++) {
-          this.video[i].chartData.data.datasets[0].data.push(
-            Math.round((this.video[i].video_record[j].total_exposure_time / this.video[i].video_total) * 100)
-          )
-          this.video[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
-          this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_nickname)
-        }
-      }
-    },
-    moredata() {
-      this.len = this.video.length
-      for (let i = 3; i < this.len; i++) {
-        this.video[i].chartData = _.cloneDeep(this.chartData)
-        this.video[i].chart = this.video[i]._id
-      }
-      for (let i = 3; i < this.len; i++) {
-        for (let j = 0; j < this.video[i].video_record.length; j++) {
-          this.video[i].chartData.data.datasets[0].data.push(
-            Math.round((this.video[i].video_record[j].total_exposure_time / this.video[i].video_total) * 100)
-          )
-          this.video[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
-          this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_nickname)
-        }
-      }
-      for (let i = 3; i < this.len; i++) {
-        this.createChart(this.video[i].chart, this.video[i].chartData)
-      }
-    },
     moveVideoDetail(id) {
       router.push({ name: 'VideoDetail', params: { video_youtube_id: id } })
     },
