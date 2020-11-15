@@ -94,7 +94,7 @@ export default {
         )
         this.companyRecommendVideo[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
         this.companyRecommendVideo[i].chartData.data.labels.push(
-          this.companyRecommendVideo[i].video.video_record[j].company_id
+          this.companyRecommendVideo[i].video.video_record[j].company_id.company_nickname
         )
       }
     }
@@ -120,7 +120,6 @@ export default {
     },
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
-      alert(ctx)
       const myChart = new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,

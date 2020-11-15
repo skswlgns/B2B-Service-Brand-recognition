@@ -29,7 +29,7 @@
     <v-row>
       <v-col cols="6">
         <div class="chart-title">스크랩 채널 비교</div>
-        <div class="card ">
+        <div class="card">
           <ScrapChannelChart />
         </div>
       </v-col>
@@ -41,11 +41,11 @@
       </v-col>
     </v-row>
     <div class="chart-title">영상 추천</div>
-    <div class="card ">
+    <div class="card">
       <RecommendVideo />
     </div>
     <div class="chart-title">유투버 추천</div>
-    <div class="card ">
+    <div class="card">
       <RecommendChannel />
     </div>
   </div>
