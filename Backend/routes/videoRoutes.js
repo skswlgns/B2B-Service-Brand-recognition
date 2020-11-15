@@ -360,4 +360,82 @@ videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
     res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
   }
 })
+
+// 채널 브랜드 비율 조회
+videoRoutes.get('/videos/:video_youtube_id/chart', async (req, res) => {
+  if (req.headers.token) {
+    const videoYoutubeId = req.params.video_youtube_id
+    try {
+      const channel = await ChannelModel.findOne({ channel_youtube_id: videoYoutubeId })
+      const videos = await VideoModel.find({ channel_id: channel._id })
+
+      for (let i = 0; i < videos.length; i++) {
+        const video = videos[i]
+        for (let j = 0; j < video.video_record.length; j++) {
+          const companyId = video.video_record[j].company_id
+          const company = await CompanyModel.findOne({ _id: companyId })
+          video.video_record[j].company_id = company
+        }
+      }
+      let channel_total = 0
+      const channel_brand = {
+        cuckoo: 0,
+        adidas: 0,
+        samsung: 0,
+        lg: 0,
+        apple: 0,
+        sony: 0,
+        philips: 0,
+        kangol: 0,
+        nike: 0,
+        fila: 0,
+        comdegarson: 0,
+        guess: 0
+      }
+      for (let k = 0; k < videos.length; k++) {
+        if (videos[k].video_total) {
+          channel_total = channel_total + videos[k].video_total
+        }
+        if (videos[k].video_record.length) {
+          for (let l = 0; l < videos[k].video_record.length; l++) {
+            if (videos[k].video_record[l].company_id.company_nickname === 'cuckoo') {
+              channel_brand.cuckoo = channel_brand.cuckoo + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'adidas') {
+              channel_brand.adidas = channel_brand.adidas + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'samsung') {
+              channel_brand.samsung = channel_brand.samsung + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'lg') {
+              channel_brand.lg = channel_brand.lg + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'apple') {
+              channel_brand.apple = channel_brand.apple + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'sony') {
+              channel_brand.sony = channel_brand.sony + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'philips') {
+              channel_brand.philips = channel_brand.philips + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'kangol') {
+              channel_brand.kangol = channel_brand.kangol + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'fila') {
+              channel_brand.fila = channel_brand.fila + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'comdegarson') {
+              channel_brand.comdegarson = channel_brand.comdegarson + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'guess') {
+              channel_brand.guess = channel_brand.guess + videos[k].video_record[l].total_exposure_time
+            } else if (videos[k].video_record[l].company_id.company_nickname === 'nike') {
+              channel_brand.nike = channel_brand.nike + videos[k].video_record[l].total_exposure_time
+            }
+          }
+        }
+      }
+      const result = {
+        channel_total: channel_total,
+        channel_brand: channel_brand
+      }
+      res.status(200).send(result)
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  } else {
+    res.status(403).send({ message: '로그인이 필요한 서비스입니다.' })
+  }
+})
 module.exports = videoRoutes
