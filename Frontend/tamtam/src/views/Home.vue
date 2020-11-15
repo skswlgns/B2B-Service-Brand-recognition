@@ -30,17 +30,28 @@
     <article class="today-recommand-section">
       <div class="chart-title">오늘의 탐탐 추천 채널</div>
       <div class="card chart-body">
-        오늘의 탐탐 추천 채널
+        <TamTamRecommandChannel />
       </div>
     </article>
 
-    <!-- 변동상황
-    <article class="today-recommand-section">
-      <div class="chart-title">오늘의 탐탐 추천 채널</div>
-      <div class="card">
-        오늘의 탐탐 추천 채널
+    <!-- Today TamTam Recommand Section -->
+    <article class="exposure-trend-section">
+      <div class="chart-title">업계 노출 동향</div>
+      <div class="card chart-body">
+        {{ myCompany[0].company_four_week }}
+
+        <div>
+          <div>일주일 동향</div>
+          <div>
+            {{
+              ((myCompany[0].company_four_week[4] - myCompany[0].company_four_week[3]) /
+                myCompany[0].company_four_week[3]) *
+                100
+            }}
+          </div>
+        </div>
       </div>
-    </article> -->
+    </article>
 
     <!-- Ranking Section -->
     <article class="channel-ranking-section">
@@ -52,7 +63,7 @@
 
     <!-- Recommand Channel Section -->
     <article class="recommand-channel-section">
-      <div class="chart-title">{{ companyIndustry }} 카테고리 채널 추천</div>
+      <div class="chart-title">{{ companyIndustry }} 카테고리 추천 채널</div>
       <div class="card">
         <HomeRecommandChannels />
       </div>
@@ -60,7 +71,7 @@
 
     <!-- Recommand Video Section -->
     <article class="recommand-video-section">
-      <div class="chart-title">{{ companyIndustry }} 카테고리 영상 추천</div>
+      <div class="chart-title">{{ companyIndustry }} 카테고리 추천 영상</div>
       <div class="card">
         <HomeRecommandVideos />
       </div>
@@ -70,19 +81,24 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import cookies from 'vue-cookies'
 import HomeChannelRanking from '@/components/HomeComponents/HomeChannelRanking.vue'
 import HomeRecommandChannels from '@/components/HomeComponents/HomeRecommandChannels.vue'
 import HomeRecommandVideos from '@/components/HomeComponents/HomeRecommandVideos.vue'
+import TamTamRecommandChannel from '@/components/HomeComponents/TamTamRecommandChannel.vue'
 
 export default {
   name: 'Home',
   components: {
     HomeChannelRanking,
     HomeRecommandChannels,
-    HomeRecommandVideos
+    HomeRecommandVideos,
+    TamTamRecommandChannel
   },
   data() {
     return {
+      myCompany: {},
+      tamtamRecommandChannel: {},
       allExposureLineChartData: {},
       indExposureLineChartData: {},
       allExposureDoughnutChartData: {},
@@ -166,6 +182,26 @@ export default {
   computed: {
     ...mapState('homeStore', ['companyIndustry']),
     ...mapState('chartDataStore', ['companyData'])
+  },
+  async created() {
+    await this.getCompanyData()
+    await this.getCompanyIndustry()
+
+    const myCompanyData = this.companyData.filter(company => company._id === cookies.get('companyId'))
+    this.myCompany = myCompanyData
+
+    // companyData 내림차순 정렬
+    this.companyData.sort((a, b) => parseFloat(b.company_four_week[3]) - parseFloat(a.company_four_week[3]))
+
+    const allExposureCompany = this.companyData.slice(0, 5)
+    this.makeAllExposureLineChart(allExposureCompany)
+    this.makeAllExposureDoughnutChart(allExposureCompany)
+
+    const indExposureCompany = this.companyData
+      .filter(company => company.company_industry === this.companyIndustry)
+      .slice(0, 5)
+    this.makeIndExposureLineChart(indExposureCompany)
+    this.makeIndExposureDoughnutChart(indExposureCompany)
   },
   methods: {
     ...mapActions('homeStore', ['getCompanyIndustry']),
@@ -252,23 +288,6 @@ export default {
       }
       this.createChart({ chartId: 'ind-exposure-doughnut-chart', chartData: this.indExposureDoughnutChartData })
     }
-  },
-  async created() {
-    await this.getCompanyIndustry()
-    await this.getCompanyData()
-
-    // companyData 내림차순 정렬
-    this.companyData.sort((a, b) => parseFloat(b.company_four_week[3]) - parseFloat(a.company_four_week[3]))
-
-    const allExposureCompany = this.companyData.slice(0, 5)
-    this.makeAllExposureLineChart(allExposureCompany)
-    this.makeAllExposureDoughnutChart(allExposureCompany)
-
-    const indExposureCompany = this.companyData
-      .filter(company => company.company_industry === this.companyIndustry)
-      .slice(0, 5)
-    this.makeIndExposureLineChart(indExposureCompany)
-    this.makeIndExposureDoughnutChart(indExposureCompany)
   }
 }
 </script>
