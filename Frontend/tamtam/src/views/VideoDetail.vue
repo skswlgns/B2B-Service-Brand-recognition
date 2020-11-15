@@ -87,7 +87,7 @@
         <v-divider></v-divider>
         <div class="video-buttons">
           <div class="video-channel" @click="moveChannelDetail(videoData.channel_id.channel_youtube_id)">
-            <v-avatar class="channel-avartar">
+            <v-avatar class="channel-avatar">
               <img :src="videoData.channel_id.channel_img" :alt="videoData.channel_id.channel_name" />
             </v-avatar>
             <div>

@@ -2,38 +2,44 @@
   <div class="ranking-group">
     <div class="ranking-list">
       <div class="ranking-title">
-        <span>구독자순</span>
-        <router-link to="/home">더 보기</router-link>
+        <span>구독자 Top 5</span>
       </div>
+      <v-divider></v-divider>
       <div class="ranking-body">
         <v-list-item class="ranking-item" v-for="(channel, index) in homeSubscribeChannelRanking" :key="index">
           <router-link :to="{ name: 'Channel', params: { channelId: channel._id } }">
             <img :src="channel.channel_img" />
             <div>
-              <p>{{ channel.channel_name }}</p>
+              <p class="item-title">{{ channel.channel_name }}</p>
               <p>구독자 {{ subScribeCnt(channel.channel_subscribe) }}</p>
               <p>영상 {{ videoCnt(channel.channel_video_cnt) }}</p>
             </div>
           </router-link>
         </v-list-item>
       </div>
+      <div class="ranking-footer">
+        <router-link to="/home">더 보기</router-link>
+      </div>
     </div>
     <div class="ranking-list">
       <div class="ranking-title">
-        <span>평균 조회수 순</span>
-        <router-link to="/home">더 보기</router-link>
+        <span>평균 조회수 Top 5</span>
       </div>
+      <v-divider></v-divider>
       <div class="ranking-body">
         <v-list-item class="ranking-item" v-for="(channel, index) in homeViewsChannelRanking" :key="index">
           <router-link :to="{ name: 'Channel', params: { channelId: channel._id } }">
             <img :src="channel.channel_img" />
             <div>
-              <p>{{ channel.channel_name }}</p>
+              <p class="item-title">{{ channel.channel_name }}</p>
               <p>구독자 {{ subScribeCnt(channel.channel_subscribe) }}</p>
               <p>영상 {{ videoCnt(channel.channel_video_cnt) }}</p>
             </div>
           </router-link>
         </v-list-item>
+      </div>
+      <div class="ranking-footer">
+        <router-link to="/home">더 보기</router-link>
       </div>
     </div>
   </div>
