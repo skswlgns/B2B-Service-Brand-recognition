@@ -14,15 +14,16 @@
           <a @click="moveVideoDetail(video[i - 1].video_youtube_id)">
             <v-img alt="user" :src="video[i - 1].video_thumbnails" />
           </a>
-          <v-card-actions>
+          <v-card-title>
             <h2
               style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
               v-html="video[i - 1].video_title"
             ></h2>
-          </v-card-actions>
+          </v-card-title>
+          <div>조회수 {{ wathchCnt(video[i - 1].video_views) }}</div>
           <v-expand-transition>
             <v-card-text>
-              브랜드 노출 영상 퍼센트
+              <canvas :id="video[i - 1]._id" />
             </v-card-text>
           </v-expand-transition>
         </v-card>
@@ -40,24 +41,122 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import router from '@/router'
+import Chart from 'chart.js'
+const _ = require('lodash')
 const searchStore = 'searchStore'
 export default {
   data: () => ({
-    len: 3
+    len: 3,
+    chartData: {
+      type: 'doughnut',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            data: [],
+            backgroundColor: []
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        legend: {
+          position: 'bottom',
+          align: 'center',
+          labels: {
+            boxWidth: 3,
+            padding: 25,
+            rtl: true
+          }
+        },
+        maintainAspectRatio: false,
+        animation: false,
+        pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              return data.labels[tooltipItem.index] + ': ' + data.datasets[0].data[tooltipItem.index] + '%'
+            }
+          }
+        }
+      }
+    }
   }),
-  created() {},
+  created() {
+    this.insertChartData()
+  },
   computed: {
     ...mapState(searchStore, ['video'])
   },
+  mounted() {
+    for (let i = 0; i < this.len; i++) {
+      this.createChart(this.video[i].chart, this.video[i].chartData)
+    }
+  },
   methods: {
-    ...mapGetters(searchStore, ['getVideo']),
+    insertChartData() {
+      for (let i = 0; i < this.len; i++) {
+        this.video[i].chartData = _.cloneDeep(this.chartData)
+        this.video[i].chart = this.video[i]._id
+      }
+      for (let i = 0; i < this.len; i++) {
+        for (let j = 0; j < this.video[i].video_record.length; j++) {
+          this.video[i].chartData.data.datasets[0].data.push(
+            Math.round((this.video[i].video_record[j].total_exposure_time / this.video[i].video_total) * 100)
+          )
+          this.video[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+          this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_nickname)
+        }
+      }
+    },
     moredata() {
       this.len = this.video.length
+      for (let i = 3; i < this.len; i++) {
+        this.video[i].chartData = _.cloneDeep(this.chartData)
+        this.video[i].chart = this.video[i]._id
+      }
+      for (let i = 3; i < this.len; i++) {
+        for (let j = 0; j < this.video[i].video_record.length; j++) {
+          this.video[i].chartData.data.datasets[0].data.push(
+            Math.round((this.video[i].video_record[j].total_exposure_time / this.video[i].video_total) * 100)
+          )
+          this.video[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+          this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_nickname)
+        }
+      }
+      for (let i = 3; i < this.len; i++) {
+        this.createChart(this.video[i].chart, this.video[i].chartData)
+      }
     },
     moveVideoDetail(id) {
       router.push({ name: 'VideoDetail', params: { video_youtube_id: id } })
+    },
+    createChart(charId, chartData) {
+      const ctx = document.getElementById(charId)
+      const myChart = new Chart(ctx, {
+        type: chartData.type,
+        data: chartData.data,
+        options: chartData.options
+      })
+      return myChart
+    },
+    dynamicColors() {
+      const r = Math.floor(Math.random() * 255)
+      const g = Math.floor(Math.random() * 255)
+      const b = Math.floor(Math.random() * 255)
+      return 'rgb(' + r + ',' + g + ',' + b + ')'
+    },
+    wathchCnt(count) {
+      if (count < 1000) return count + '회'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천회'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만회'
+      }
     }
   }
 }

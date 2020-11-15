@@ -70,6 +70,8 @@ const searchStore = {
     async getScrapVideo({ commit }) {
       config.headers.company_id = cookies.get('companyId')
       const response = await axios.get(`${API_SERVER_URL}/company/video`, config)
+      console.log('response.data')
+      console.log(response.data)
       commit('setVideo', response.data.company_video)
     },
     // 검색 데이터 가져오기
