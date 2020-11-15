@@ -10,24 +10,6 @@
   <div v-else class="card">
     <v-row no-gutters>
       <v-col class="pa-2" v-for="i in len" :key="i" cols="12" sm="4">
-        <!-- <v-card class="mx-auto">
-          <v-img :src="video[i - 1].video_thumbnails" />
-          <v-card-title v-if="video.video_title.length > 25">
-            {{ video.video_title.slice(0, 25) }}
-          </v-card-title>
-          <v-card-title v-else>
-            {{ video.video_title }}
-          </v-card-title>
-          <div v-if="video.video_views < 1000" class="views">조회수 : {{ video.video_views }}회</div>
-          <div v-else-if="video.video_views < 10000" class="views">
-            조회수 : {{ parseInt(video.video_views / 1000) }}천회
-          </div>
-          <div v-else class="views">조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
-          <v-card-text>
-            <canvas :id="video._id" />
-          </v-card-text>
-          <v-spacer />
-        </v-card> -->
         <v-card class="mx-auto data" outlined tile v-if="video[i - 1]">
           <a @click="moveVideoDetail(video[i - 1].video_youtube_id)">
             <v-img alt="user" :src="video[i - 1].video_thumbnails" />
@@ -43,14 +25,11 @@
             조회수 : {{ parseInt(video[i - 1].video_views / 1000) }}천회
           </div>
           <div v-else class="views">조회수 : {{ parseInt(video[i - 1].video_views / 10000) }}만회</div>
-          <!-- <v-expand-transition>
+          <v-expand-transition>
             <v-card-text>
-              브랜드 노출 영상 퍼센트
+              <canvas :id="video[i - 1]._id" />
             </v-card-text>
-          </v-expand-transition> -->
-          <v-card-text>
-            <canvas :id="video[i - 1]._id" />
-          </v-card-text>
+          </v-expand-transition>
         </v-card>
       </v-col>
     </v-row>
@@ -69,11 +48,12 @@
 import { mapState, mapActions } from 'vuex'
 import router from '@/router'
 import Chart from 'chart.js'
+const _ = require('lodash')
 const searchStore = 'searchStore'
 // const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 export default {
   data: () => ({
-    len: 3,
+    len: null,
     chartData: {
       type: 'doughnut',
       data: {
@@ -87,50 +67,53 @@ export default {
       },
       options: {
         responsive: true,
-        legend: { position: 'right' },
+        legend: {
+          position: 'bottom',
+          align: 'center',
+          labels: {
+            boxWidth: 3,
+            padding: 25,
+            rtl: true
+          }
+        },
         maintainAspectRatio: false,
         animation: false,
-        pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' }
+        pieceLabel: { mode: 'value', position: 'inside', fontSize: 11, fontStyle: 'bold' },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              return data.labels[tooltipItem.index] + ': ' + data.datasets[0].data[tooltipItem.index] + '%'
+            }
+          }
+        }
       }
     }
   }),
   async created() {
     await this.getScrapVideo()
-    // for (let k = 0; k < this.video.length; k++) {
-    //   this.video[k].chartData = this.chartData
-    //   this.video[k].chart = this.video[k].channel_id
-    // }
-    // console.log(this.video)
-    // if (response.data.length) {
-    //   this.videoData = this.videoData.concat(response.data)
-    //   $state.loaded()
-    //   this.config.headers.limit += 4
-
-    // for (let i = 0; i < this.video.length; i++) {
-    //   for (let j = 0; j < this.video[i].video_record.length; j++) {
-    //     this.video[i].chartData.data.datasets[0].data.push(
-    //       (this.video[i].video_record[j].total_exposure_time / this.video[i].video_total) * 100
-    //     )
-    //     this.video[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
-    //     this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_nickname)
-    //   }
-    // }
-
-    //   if (this.videoData.length / 4 === 0) {
-    //     $state.complete()
-    //   }
-    // } else {
-    //   $state.complete()
-    // }
-  },
-  updated() {
-    // for (let i = 0; i < this.video.length; i++) {
-    //   console.log(this.video[i])
-    //   this.createChart(this.video[i].chart, this.video[i].chartData)
-    // }
+    this.len = this.video.length
+    console.log(this.video)
+    for (let i = 0; i < this.len; i++) {
+      this.video[i].chartData = _.cloneDeep(this.chartData)
+      this.video[i].chart = this.video[i]._id
+    }
+    for (let i = 0; i < this.len; i++) {
+      for (let j = 0; j < this.video[i].video_record.length; j++) {
+        this.video[i].chartData.data.datasets[0].data.push(
+          Math.round((this.video[i].video_record[j].total_exposure_time / this.video[i].video_total) * 100)
+        )
+        this.video[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
+        this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_nickname)
+      }
+    }
   },
   computed: {
     ...mapState(searchStore, ['video'])
+  },
+  updated() {
+    for (let i = 0; i < this.len; i++) {
+      this.createChart(this.video[i].chart, this.video[i].chartData)
+    }
   },
   methods: {
     ...mapActions(searchStore, ['getScrapVideo']),
