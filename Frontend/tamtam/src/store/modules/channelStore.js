@@ -10,7 +10,9 @@ const channelStore = {
     isActive: 'subscribe',
     channelData: {},
     views: 0,
-    videoData: {}
+    videoData: {},
+    four_week_views: [],
+    four_week_subs: []
   },
   getters: {
     sliceViews: state => {
@@ -33,6 +35,8 @@ const channelStore = {
     saveData(state, data) {
       state.channelData = data[0]
       state.views = data[0].channel_subscribe
+      state.four_week_subs = data[0].four_week_subs
+      state.four_week_views = data[0].four_week_views
       cookies.set('channelId', data[0].channel_youtube_id)
     },
     saveVideo(state, data) {

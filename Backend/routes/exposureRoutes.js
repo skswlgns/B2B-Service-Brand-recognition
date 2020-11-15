@@ -67,21 +67,27 @@ exposureRoutes.get('/topvideo', async (req, res) => {
   if (req.headers.token) {
     const videos = await VideoModel.find({})
     const topvideos = []
-
-    for (let i = 0; i < videos.length; i++) {
-      for (let j = 0; j < videos[i].video_record.length; j++) {
-        if (videos[i].video_record[j].company_id === req.headers.company_id) {
-          topvideos.push({
-            video: videos[i],
-            time: videos[i].video_record[j].total_exposure_time
-          })
+    try {
+      for (let i = 0; i < videos.length; i++) {
+        for (let j = 0; j < videos[i].video_record.length; j++) {
+          if (videos[i].video_record[j].company_id === req.headers.company_id) {
+            const companyId = videos[i].video_record[j].company_id
+            const company = await CompanyModel.findOne({ _id: companyId })
+            videos[i].video_record[j].company_id = company
+            topvideos.push({
+              video: videos[i],
+              time: videos[i].video_record[j].total_exposure_time
+            })
+          }
         }
       }
+      topvideos.sort(function (a, b) {
+        return b.time - a.time
+      })
+      res.status(200).send(topvideos.slice(0, 4))
+    } catch (err) {
+      res.status(500).send(err)
     }
-    topvideos.sort(function (a, b) {
-      return b.time - a.time
-    })
-    res.status(200).send(topvideos.slice(0, 4))
   } else {
     res.status(403).send({ message: '로그인이 필요한 기능입니다.' })
   }
@@ -98,7 +104,6 @@ exposureRoutes.get('/topchannel', async (req, res) => {
       let summation = 0
       const videos = await VideoModel.find({ channel_id: channels[i]._id })
       for (let j = 0; j < videos.length; j++) {
-        console.log(videos[j])
         for (let k = 0; k < videos[j].video_record.length; k++) {
           if (videos[j].video_record[k].company_id === req.headers.company_id) {
             summation += videos[j].video_record[k].total_exposure_time
