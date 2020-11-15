@@ -137,7 +137,6 @@ videoRoutes.get('/count', async (req, res) => {
         if (videoAll[i].video_record.length > 0) {
           let flag = false
           for (let j = 0; j < videoAll[i].video_record.length; j++) {
-            console.log(companyTime)
             if (videoAll[i].video_record[j].company_id === companyId) {
               companyTime = companyTime + videoAll[i].video_record[j].total_exposure_time
               if (flag === false) {
@@ -319,7 +318,6 @@ videoRoutes.get('/youtube/:video_youtube_id', async (req, res) => {
   const videoYoutubeId = req.params.video_youtube_id
   try {
     const video = await VideoModel.findOne({ video_youtube_id: videoYoutubeId })
-    // console.log(video.video_record)
     for (let index = 0; index < video.video_record.length; index++) {
       const companyId = video.video_record[index].company_id
       const company = await CompanyModel.findOne({ _id: companyId })
@@ -342,7 +340,11 @@ videoRoutes.get('/videos/:video_youtube_id', async (req, res) => {
     try {
       const channel = await ChannelModel.findOne({ channel_youtube_id: videoYoutubeId })
       let videos = await VideoModel.find({ channel_id: channel._id })
-      videos = videos.slice(limit, limit + 4)
+      if (limit + 4 > videos.length) {
+        videos = videos.slice(limit, videos.length)
+      } else {
+        videos = videos.slice(limit, limit + 4)
+      }
 
       for (let videoIndex = 0; videoIndex < videos.length; videoIndex++) {
         const video = videos[videoIndex]

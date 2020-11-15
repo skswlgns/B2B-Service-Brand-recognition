@@ -168,7 +168,9 @@ searchRoutes.get('/catevideo', async (req, res) => {
     try {
       const companyId = req.headers.company_id
       const company = await CompanyModel.findOne({ _id: companyId })
-      const videos = await VideoModel.find({ video_category: { $regex: company.company_industry } })
+      const videos = await VideoModel.find({ video_category: { $regex: company.company_industry } }).populate(
+        'video_record.company_id'
+      )
       videos.sort(function () {
         return Math.random() - Math.random()
       })
@@ -242,6 +244,12 @@ searchRoutes.get('/:content', async (req, res) => {
     const content = req.params.content
     try {
       const videos = await VideoModel.find({ video_title: { $regex: content, $options: 'i' } })
+      for (let i = 0; i < videos.length; i++) {
+        for (let j = 0; j < videos[i].video_record.length; j++) {
+          const company = await CompanyModel.findOne({ _id: videos[i].video_record[j].company_id })
+          videos[i].video_record[j].company_id = company
+        }
+      }
       const channels = await ChannelModel.find({ channel_name: { $regex: content, $options: 'i' } })
       const searchData = { videos: videos, channels: channels }
       res.status(200).send(searchData)

@@ -230,13 +230,19 @@ export default {
   },
   created() {
     this.getChannelData(this.channelId)
+<<<<<<< HEAD
     this.getBrandRatio(this.channelId)
+=======
+>>>>>>> 6c2c6467292838320b0add1de3cc3cb72ec83efb
   },
   async mounted() {
     // await this.getChannelData(this.channelId)
     // await this.createChart('wChart', this.wholeData)
     await this.createChart('subscribe-line', this.subData)
+<<<<<<< HEAD
     await this.createChart('brand-count', this.brand)
+=======
+>>>>>>> 6c2c6467292838320b0add1de3cc3cb72ec83efb
     // await this.getChannelData(this.channelId)
     this.changeShow()
   },
