@@ -236,6 +236,7 @@ export default {
 .data {
   /* the other rules */
   transition: all 0.4s;
+  cursor: pointer;
 }
 .data:hover {
   transform: scale(1.02);
