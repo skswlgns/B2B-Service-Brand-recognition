@@ -66,7 +66,7 @@ export default {
         options: {
           responsive: true,
           legend: {
-            position: 'bottom',
+            position: 'right',
             align: 'center',
             labels: {
               boxWidth: 3,
