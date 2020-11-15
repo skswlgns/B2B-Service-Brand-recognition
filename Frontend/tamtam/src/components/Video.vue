@@ -101,6 +101,7 @@ export default {
         .get(`${API_SERVER_URL}/video/videos/${this.Id}`, this.config)
         .then(response => {
           setTimeout(() => {
+            console.log(response.data)
             for (let k = 0; k < response.data.length; k++) {
               response.data[k].chartData = _.cloneDeep(this.chartData)
               response.data[k].chart = response.data[k]._id
