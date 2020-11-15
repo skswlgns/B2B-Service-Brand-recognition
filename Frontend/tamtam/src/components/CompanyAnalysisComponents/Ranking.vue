@@ -24,7 +24,11 @@
     <div class="card-title" v-else-if="$route.path === '/rank/likevideotop'">동영상 좋아요 수</div>
     <div class="card-title" v-else>동영상 조회수</div>
     <div v-for="(Item, index) in channel" :key="index">
-      <div class="card mx-auto mb-2 data ">
+      <div
+        class="card mx-auto mb-2 data"
+        @click="moveChannelDetail(Item.channel_youtube_id)"
+        v-if="$route.params.subject === 'subscribes' || $route.params.subject === 'avgviews'"
+      >
         <v-list-item two-line>
           <a
             @click="moveChannelDetail(Item.channel_youtube_id)"
@@ -34,9 +38,6 @@
               <img alt="user" :src="Item.channel_img" />
             </v-list-item-avatar>
           </a>
-          <router-link :to="{ name: 'VideoDetail', params: { video_youtube_id: Item.video_youtube_id } }" v-else>
-            <img class="video-img" :src="Item.video_thumbnails" />
-          </router-link>
           <v-list-item-content>
             <div class="overline mb-1" outlined>
               {{ Item.channel_category }}
@@ -51,13 +52,10 @@
                   {{ Item.channel_name }}
                 </v-list-item-title>
               </a>
-              <router-link :to="{ name: 'VideoDetail', params: { video_youtube_id: Item.video_youtube_id } }" v-else>{{
-                Item.video_title.slice(0, 13) + '...'
-              }}</router-link>
             </div>
 
             <div class="overline mb-1" outlined v-if="Item.channel_name">
-              <v-btn icon @click="moveYoutube(Item.channel_youtube_id)" color="white">
+              <v-btn icon @click="moveYoutube(Item.channel_youtube_id, $event)" color="white">
                 <v-avatar size="30">
                   <img alt="user" src="https://i.pinimg.com/originals/21/22/ee/2122ee7f9df41666d2ff5c634d6a5c2d.png" />
                 </v-avatar>
@@ -82,12 +80,6 @@
                 >{{ parseInt(Item.channel_subscribe / 10000) }}만
               </v-list-item-title>
             </div>
-            <div v-else-if="$route.params.subject === 'likevideotop'">
-              <Like :like="Item.video_like" />
-            </div>
-            <div v-else>
-              <Viewcount :view="Item.video_views" />
-            </div>
           </v-list-item-content>
 
           <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
@@ -103,7 +95,39 @@
                 >{{ (Item.channel_video_cnt / 10000).toFixed(1) }}만
               </v-list-item-title>
             </div>
-            <div v-else-if="$route.params.subject === 'likevideotop'">
+          </v-list-item-content>
+          <v-list-item-content style="text-align: center">
+            <div v-if="$route.params.subject === 'subscribes' || $route.params.subject === 'avgviews'">
+              <v-list-item-subtitle>영상별 평균 조회수</v-list-item-subtitle>
+              <v-list-item-title class="v-list-item-title">{{ Item.channel_avg_views }} </v-list-item-title>
+            </div>
+          </v-list-item-content>
+        </v-list-item>
+      </div>
+      <router-link
+        :to="{ name: 'VideoDetail', params: { video_youtube_id: Item.video_youtube_id } }"
+        class="card mx-auto mb2 data d-block"
+        v-else
+      >
+        <v-list-item two-line>
+          <router-link :to="{ name: 'VideoDetail', params: { video_youtube_id: Item.video_youtube_id } }">
+            <img class="video-img" :src="Item.video_thumbnails" />
+          </router-link>
+          <v-list-item-content>
+            <router-link :to="{ name: 'VideoDetail', params: { video_youtube_id: Item.video_youtube_id } }">{{
+              Item.video_title.slice(0, 13) + '...'
+            }}</router-link>
+          </v-list-item-content>
+          <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
+            <div v-if="$route.params.subject === 'likevideotop'">
+              <Like :like="Item.video_like" />
+            </div>
+            <div v-else>
+              <Viewcount :view="Item.video_views" />
+            </div>
+          </v-list-item-content>
+          <v-list-item-content style="text-align: center; border-right: 1px solid #ebebeb;">
+            <div v-if="$route.params.subject === 'likevideotop'">
               <Dislike :dislike="Item.video_dislike" />
             </div>
             <div v-else>
@@ -111,11 +135,7 @@
             </div>
           </v-list-item-content>
           <v-list-item-content style="text-align: center">
-            <div v-if="$route.params.subject === 'subscribes' || $route.params.subject === 'avgviews'">
-              <v-list-item-subtitle>영상별 평균 조회수</v-list-item-subtitle>
-              <v-list-item-title class="v-list-item-title">{{ Item.channel_avg_views }} </v-list-item-title>
-            </div>
-            <div v-else-if="$route.params.subject === 'likevideotop'">
+            <div v-if="$route.params.subject === 'likevideotop'">
               <Viewcount :view="Item.video_views" />
             </div>
             <div v-else>
@@ -123,7 +143,7 @@
             </div>
           </v-list-item-content>
         </v-list-item>
-      </div>
+      </router-link>
     </div>
     <infinite-loading v-if="$route.name === 'Utuberank'" @infinite="infiniteHandler" spinner="circles" />
   </div>
@@ -188,8 +208,9 @@ export default {
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
     },
-    moveYoutube(channerId) {
+    moveYoutube(channerId, event) {
       window.open('https://www.youtube.com/channel/' + channerId)
+      event.stopPropagation()
     },
     infiniteHandler($state) {
       axios.get(`${API_SERVER_URL}/search/${this.$route.params.subject}`, this.config).then(response => {
@@ -214,10 +235,10 @@ export default {
 @import '@/scss/Rank/rank.scss';
 .data {
   /* the other rules */
-  transition: all 0.6s;
+  transition: all 0.4s;
 }
 .data:hover {
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 .v-list-item-title {
   font-weight: 900;
