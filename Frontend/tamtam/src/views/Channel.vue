@@ -210,7 +210,6 @@ export default {
   },
   created() {
     this.getChannelData(this.channelId)
-    console.log(this.channelId)
   },
   async mounted() {
     // await this.getChannelData(this.channelId)

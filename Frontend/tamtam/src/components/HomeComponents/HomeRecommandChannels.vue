@@ -70,9 +70,11 @@ export default {
   async created() {
     // this.init()
     await this.getHomeRecommandChannels()
-    this.pageNumber = parseInt(this.homeRecommandChannels.length / this.cardNumber)
-    if (this.homeRecommandChannels.length % this.cardNumber !== 0) {
-      this.pageNumber += 1
+    if (this.homeRecommandChannels.length) {
+      this.pageNumber = parseInt(this.homeRecommandChannels.length / this.cardNumber)
+      if (this.homeRecommandChannels.length % this.cardNumber !== 0) {
+        this.pageNumber += 1
+      }
     }
   },
   computed: {
