@@ -30,6 +30,7 @@
             </div>
             <v-btn
               color="#916bf6"
+              class="white--text"
               @click="sendTest(channelData.channel_name, channelData.channel_email, channelData._id)"
               >광고 문의</v-btn
             >
@@ -498,7 +499,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   margin-top: 8px;

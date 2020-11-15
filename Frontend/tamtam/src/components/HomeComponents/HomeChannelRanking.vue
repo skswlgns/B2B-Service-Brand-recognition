@@ -7,7 +7,7 @@
       <v-divider></v-divider>
       <div class="ranking-body">
         <v-list-item class="ranking-item" v-for="(channel, index) in homeSubscribeChannelRanking" :key="index">
-          <router-link :to="{ name: 'Channel', params: { channelId: channel._id } }">
+          <router-link :to="{ name: 'Channel', params: { channelId: channel.channel_youtube_id } }">
             <img :src="channel.channel_img" />
             <div>
               <p class="item-title">{{ channel.channel_name }}</p>
@@ -18,7 +18,7 @@
         </v-list-item>
       </div>
       <div class="ranking-footer">
-        <router-link to="/home">더 보기</router-link>
+        <router-link to="/rank/subscribes" class="text-decoration-none" style="color: #654a86">더 보기</router-link>
       </div>
     </div>
     <div class="ranking-list">
@@ -28,7 +28,7 @@
       <v-divider></v-divider>
       <div class="ranking-body">
         <v-list-item class="ranking-item" v-for="(channel, index) in homeViewsChannelRanking" :key="index">
-          <router-link :to="{ name: 'Channel', params: { channelId: channel._id } }">
+          <router-link :to="{ name: 'Channel', params: { channelId: channel.channel_youtube_id } }">
             <img :src="channel.channel_img" />
             <div>
               <p class="item-title">{{ channel.channel_name }}</p>
@@ -39,7 +39,7 @@
         </v-list-item>
       </div>
       <div class="ranking-footer">
-        <router-link to="/home">더 보기</router-link>
+        <router-link to="/rank/avgviews" class="text-decoration-none" style="color: #654a86">더 보기</router-link>
       </div>
     </div>
   </div>
