@@ -34,7 +34,7 @@ const searchStore = {
       state.companyRecommendChannel = channel
     },
     setCompanyRecommendVideo(state, video) {
-      state.CompanyRecommendVideo = video
+      state.companyRecommendVideo = video
     }
   },
   getters: {
