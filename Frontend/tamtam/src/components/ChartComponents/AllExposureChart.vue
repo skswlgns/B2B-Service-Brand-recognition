@@ -20,15 +20,7 @@ export default {
   methods: {
     ...mapActions('chartDataStore', ['createChart', 'getCompanyData'])
   },
-  created() {
-    console.log('chart created')
-    console.log(this.companyData)
-  },
   async mounted() {
-    console.log('chart mounted')
-    // await this.getCompanyData()
-    // console.log(this.companyData)
-
     this.createChart({ chartId: 'all-exposure-chart', chartData: this.allExposureData })
   }
 }
