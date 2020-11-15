@@ -1,27 +1,39 @@
 <template>
   <div>
     <v-layout row>
-      <v-flex sm4 pl-10 pr-10>
-        <div class="card mb-2 pa-2">
-          <div style="text-align:center; padding: 10%;" class="headline">
+      <v-flex sm3 pl-10 pr-10>
+        <div class="card mb-2 pa-2 ">
+          <div style="text-align:center; padding: 10%;">
             <div><i class="fas fa-crown fa-3x mb-2" style="color:#ffd700"></i></div>
-            {{ this.rank }}
+            <div class="data-subtitle">브랜드 순위</div>
+            <div class="data-title">{{ this.rank }}</div>
           </div>
         </div>
       </v-flex>
-      <v-flex sm4 pl-10 pr-10>
+      <v-flex sm3 pl-10 pr-10>
         <div class="card mb-2 pa-2">
-          <div style="text-align:center; padding: 10%;" class="headline">
+          <div style="text-align:center; padding: 10%;">
             <div><i class="fab fa-youtube fa-3x mb-2" style="color:red"></i></div>
-            {{ this.companyCount }}
+            <div class="data-subtitle">브랜드 노출 동영상</div>
+            <div class="data-title">{{ this.companyCount }}</div>
           </div>
         </div>
       </v-flex>
-      <v-flex sm4 pl-10 pr-10>
+      <v-flex sm3 pl-10 pr-10>
         <div class="card mb-2 pa-2">
-          <div style="text-align:center; padding: 10%;" class="headline">
+          <div style="text-align:center; padding: 10%;">
             <div><i class="far fa-clock fa-3x mb-2" style="color:green"></i></div>
-            {{ this.companyTime }}
+            <div class="data-subtitle">브랜드 총 노출 시간</div>
+            <div class="data-title">{{ this.companyTime }}</div>
+          </div>
+        </div>
+      </v-flex>
+      <v-flex sm3 pl-10 pr-10>
+        <div class="card mb-2 pa-2">
+          <div style="text-align:center; padding: 10%;">
+            <div><i class="far fa-clock fa-3x mb-2" style="color:green"></i></div>
+            <div class="data-subtitle">브랜드 총 노출 시간</div>
+            <div class="data-title">{{ this.companyTime }}</div>
           </div>
         </div>
       </v-flex>
@@ -95,7 +107,25 @@ export default {
   mounted() {}
 }
 </script>
+<style scoped>
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, auto);
+}
+.data-title {
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 800;
+}
 
+.data-subtitle {
+  font-size: 12px;
+  color: gray;
+}
+</style>
 <style lang="scss" scoped>
 @import '@/scss/myAnalysis.scss';
 @import '@/scss/charts.scss';
