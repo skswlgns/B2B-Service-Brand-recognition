@@ -31,8 +31,10 @@ const channelStore = {
     change(state, active) {
       if (active === 'subscribe' || active === 'views') {
         state.isActive = active
+        console.log(state.isActive)
       } else {
         state.active = active
+        console.log(state.active)
       }
     },
     setchannel(state, channel) {
@@ -54,6 +56,9 @@ const channelStore = {
   },
   actions: {
     change({ commit }, active) {
+      commit('change', active)
+    },
+    changeActive({ commit }, active) {
       commit('change', active)
     },
     // 스크랩 하기/취소

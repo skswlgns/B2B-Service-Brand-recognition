@@ -37,6 +37,7 @@
     .card {
       flex: 1;
       padding: #{$base-padding * 2};
+      position: relative;
       .toggle {
         display: flex;
         span {
@@ -66,4 +67,18 @@
       font-size: #{$base-fontsize * 0.5};
     }
   }
+}
+
+// #brand-ratio,
+// #views-line {
+//   visibility: hidden;
+//   position: absolute;
+//   // top: 0;
+// }
+.none {
+  visibility: hidden;
+  position: absolute;
+}
+.visual {
+  z-index: 1;
 }
