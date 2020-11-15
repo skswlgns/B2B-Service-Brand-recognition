@@ -158,14 +158,12 @@ export default {
       window.open('https://www.youtube.com/channel/' + channerId)
     },
     createChart(charId, chartData) {
-      console.log(this.channelBrand)
       const ctx = document.getElementById(charId)
       if (charId === 'subscribe-line') {
         chartData.data.datasets[0].data = this.four_week_subs.slice(0, 4)
       } else if (charId === 'views-line') {
         chartData.data.datasets[0].data = this.four_week_views.slice(0, 4)
-      }
-      if (charId === 'brand-count') {
+      } else if (charId === 'brand-count') {
         chartData.type = 'bar'
         for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
           if (value) {
@@ -228,29 +226,25 @@ export default {
     ]),
     ...mapGetters(channelStore, ['sliceViews'])
   },
-  created() {
-    this.getChannelData(this.channelId)
-    this.getBrandRatio(this.channelId)
-  },
   async mounted() {
-    // await this.getChannelData(this.channelId)
-    // await this.createChart('wChart', this.wholeData)
+    await this.getBrandRatio(this.channelId)
+    await this.getChannelData(this.channelId)
     await this.createChart('subscribe-line', this.subData)
     await this.createChart('brand-count', this.brand)
-    // await this.getChannelData(this.channelId)
     this.changeShow()
   },
 
   updated() {
     if (this.isActive === 'views') {
       this.createChart('views-line', this.subData)
-    } else {
+    } else if (this.isActive === 'subscribe') {
       this.createChart('subscribe-line', this.subData)
     }
     if (this.active === 'bar') {
-      this.createChart('brand-count', this.subData)
+      this.createChart('brand-count', this.brand)
+    } else if (this.active === 'donut') {
+      this.createChart('brand-ratio', this.brand)
     }
-    // this.youtubeChannelId = data[0].channel_youtube_id
   }
 }
 </script>

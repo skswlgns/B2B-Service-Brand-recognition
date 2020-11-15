@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ Id }}
     <v-row>
       <v-col v-for="(video, i) in videoData" :key="i" cols="3">
         <v-card class="mx-auto">
@@ -124,8 +123,6 @@ export default {
                     )
                   }
                   // this.createChart(this.videoData[i]._id, this.videoData[i].chartData)
-                } else {
-                  console.log('없음')
                 }
               }
               if (this.videoData.length / 4 === 0) {
