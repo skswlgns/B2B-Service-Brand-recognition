@@ -245,7 +245,6 @@ export default {
     } else if (this.active === 'donut') {
       this.createChart('brand-ratio', this.brand)
     }
-    // this.youtubeChannelId = data[0].channel_youtube_id
   }
 }
 </script>

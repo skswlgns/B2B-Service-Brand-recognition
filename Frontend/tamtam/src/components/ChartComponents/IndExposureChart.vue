@@ -122,12 +122,9 @@ export default {
   methods: {
     ...mapActions('chartDataStore', ['createChart'])
   },
-  created() {
-    console.log('chart1 created')
-  },
   mounted() {
-    // chart dataset 만들기 필요
-    console.log('chart1 mounted')
+    // // chart dataset 만들기 필요
+    // console.log('chart1 mounted')
 
     this.createChart({ chartId: 'ind-exposure-chart', chartData: this.indExposureData })
   }

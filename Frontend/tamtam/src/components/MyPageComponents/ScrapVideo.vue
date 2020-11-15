@@ -79,7 +79,6 @@ export default {
   }),
   async created() {
     await this.getScrapVideo()
-    console.log(this.video)
     this.len = this.video.length
     for (let i = 0; i < this.len; i++) {
       this.video[i].chartData = _.cloneDeep(this.chartData)

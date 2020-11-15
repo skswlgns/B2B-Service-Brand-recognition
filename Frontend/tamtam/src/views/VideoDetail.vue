@@ -4,7 +4,7 @@
     <article class="card timeline-card">
       <!-- Timeline background bar -->
       <div class="timeline-section">
-        <div class="timeline-background-bar">
+        <div class="timeline-background-bar" v-if="videoData.video_record">
           <!-- Timeline Records -->
           <div v-for="(company, company_index) in videoData.video_record.slice(0, 4)" :key="company._id">
             <ul v-for="(record, record_index) in company.timelines" :key="record_index">
@@ -43,7 +43,7 @@
       </div>
 
       <!-- Company Toggle -->
-      <div class="company-toggle-section">
+      <div class="company-toggle-section" v-if="videoData.video_record">
         <div
           v-for="(company, company_index) in videoData.video_record.slice(0, 4)"
           :id="'company-button-' + company_index"
