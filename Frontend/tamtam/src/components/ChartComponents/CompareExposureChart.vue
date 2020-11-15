@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import cookies from 'vue-cookies'
 import Chart from 'chart.js'
 const companyStore = 'companyStore'
@@ -105,6 +105,7 @@ export default {
     ...mapState(companyStore, ['companyList'])
   },
   methods: {
+    ...mapActions(companyStore, ['getCompanyList']),
     changedLabel(nick, index) {
       this.selected = nick
       const tmp = {
@@ -147,6 +148,7 @@ export default {
   },
 
   async created() {
+    await this.getCompanyList()
     this.myChartData.label = this.company_nickname
     this.allExposureData.data.datasets.push(this.myChartData)
     await this.init()

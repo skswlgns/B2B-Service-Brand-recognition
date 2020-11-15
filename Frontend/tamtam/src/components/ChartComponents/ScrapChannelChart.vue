@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="padding:28px;"></div>
+    <div style="padding:14px;"></div>
     <canvas id="chart"></canvas>
   </div>
 </template>
@@ -37,14 +37,35 @@ export default {
         type: 'scatter',
         data: this.datacollection,
         options: {
+          tooltips: {
+            callbacks: {
+              title: function(tooltipItem, data) {
+                return data.datasets[tooltipItem[0].datasetIndex].label
+              },
+              afterBody: function(tooltipItem, data) {
+                return (
+                  '영상' +
+                  data.datasets[tooltipItem[0].datasetIndex].data[0].x +
+                  '개 \n' +
+                  '구독자' +
+                  data.datasets[tooltipItem[0].datasetIndex].data[0].y +
+                  '만명'
+                )
+              },
+              label: function(tooltipItem, data) {
+                return ''
+              }
+            },
+            // backgroundColor:'',
+            titleFontSize: 16
+          },
           scales: {
             yAxes: [
               {
                 ticks: {
                   beginAtZero: true,
                   min: 0,
-                  max: 200,
-                  stepSize: 20,
+                  stepSize: 100,
                   padding: 8,
                   callback: function(value) {
                     return value + '만'
@@ -63,8 +84,6 @@ export default {
               {
                 ticks: {
                   min: 0,
-                  max: 1000,
-                  stepSize: 100,
                   padding: 8,
                   callback: function(value) {
                     return value + '개'
@@ -93,11 +112,11 @@ export default {
         const subscribe = parseInt(data.channel_subscribe / 10000)
         const videoCnt = data.channel_video_cnt
         const tmp = {
+          radius: 5,
           label: data.channel_name,
           backgroundColor: '#f87979',
-          pointBackgroundColor: 'white',
           borderWidth: 1,
-          pointBorderColor: '#249EBF',
+          pointBorderColor: '#f87979',
           // Data to be represented on y-axis
           data: [
             {
