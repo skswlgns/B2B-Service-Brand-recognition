@@ -4,6 +4,7 @@
   display: grid;
   width: 100%;
   grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 11.75rem auto;
 }
 
 .display-none {
@@ -56,6 +57,7 @@
 .timeline-card {
   margin: #{$base-margin};
   grid-column: 1/9;
+  grid-row: 1/2;
   display: grid;
   grid-template-rows: #{$base-margin * 6 + $base-fontsize} #{$base-fontsize * 2.5} #{$base-fontsize * 4.25};
   user-select: none;
@@ -192,6 +194,7 @@
 .video-card {
   margin: #{$base-margin};
   grid-column: 1/9;
+  grid-row: 2/3;
 
   .video-player-section {
     position: relative;
@@ -206,12 +209,40 @@
     padding: #{$base-padding * 2};
     font-size: #{$base-fontsize * 0.8};
 
-    p {
-      margin-bottom: #{$base-margin * 2};
-    }
-
     .video-title {
       font-size: #{$base-fontsize};
+    }
+
+    .video-small {
+      margin-bottom: #{$base-margin * 2};
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .video-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .video-channel {
+        display: flex;
+        margin: #{$base-margin * 2} 0 #{$base-margin * 2};
+        align-items: center;
+        cursor: pointer;
+
+        .channel-avartar {
+          margin-right: #{$base-margin * 2};
+        }
+      }
+
+      .video-button {
+        margin-left: #{$base-margin * 1.5};
+      }
+
+      .video-youtube-button {
+        width: 40px;
+        cursor: pointer;
+      }
     }
   }
 }

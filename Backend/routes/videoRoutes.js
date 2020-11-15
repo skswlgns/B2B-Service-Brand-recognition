@@ -314,22 +314,22 @@ videoRoutes.delete('/', async (req, res) => {
 
 // Youtube Id 값으로 하나의 비디오 조회
 videoRoutes.get('/youtube/:video_youtube_id', async (req, res) => {
-  // if (req.headers.token) {
-  const videoYoutubeId = req.params.video_youtube_id
-  try {
-    const video = await VideoModel.findOne({ video_youtube_id: videoYoutubeId })
-    for (let index = 0; index < video.video_record.length; index++) {
-      const companyId = video.video_record[index].company_id
-      const company = await CompanyModel.findOne({ _id: companyId })
-      video.video_record[index].company_id = company
+  if (req.headers.token) {
+    const videoYoutubeId = req.params.video_youtube_id
+    try {
+      const video = await VideoModel.findOne({ video_youtube_id: videoYoutubeId }).populate('channel_id')
+      for (let index = 0; index < video.video_record.length; index++) {
+        const companyId = video.video_record[index].company_id
+        const company = await CompanyModel.findOne({ _id: companyId })
+        video.video_record[index].company_id = company
+      }
+      res.status(200).send(video)
+    } catch (err) {
+      res.status(500).send(err)
     }
-    res.status(200).send(video)
-  } catch (err) {
-    res.status(500).send(err)
+  } else {
+    res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
   }
-  // } else {
-  //   res.status(403).send({ message: '회원만 비디오를 조회할 수 있습니다.' })
-  // }
 })
 
 // 유튜브 채널 아이디로 전체 비디오 조회

@@ -14,13 +14,12 @@
           <a @click="moveVideoDetail(video[i - 1].video_youtube_id)">
             <v-img alt="user" :src="video[i - 1].video_thumbnails" />
           </a>
-          <v-card-title>
-            <h2
-              style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
-              v-html="video[i - 1].video_title"
-            ></h2>
-          </v-card-title>
-          <div>조회수 {{ wathchCnt(video[i - 1].video_views) }}</div>
+          <v-flex>
+            <div class="data-title">{{ video[i - 1].video_title }}</div>
+          </v-flex>
+          <v-flex>
+            <div class="data-subtitle pb-2">조회수 {{ wathchCnt(video[i - 1].video_views) }}</div>
+          </v-flex>
           <v-expand-transition>
             <v-card-text>
               <canvas :id="video[i - 1]._id" />
@@ -55,11 +54,11 @@ export default {
       options: {
         responsive: true,
         legend: {
-          position: 'bottom',
+          position: 'right',
           align: 'center',
           labels: {
             boxWidth: 3,
-            padding: 25,
+            padding: 10,
             rtl: true
           }
         },
@@ -88,7 +87,7 @@ export default {
           Math.round((this.video[i].video_record[j].total_exposure_time / this.video[i].video_total) * 100)
         )
         this.video[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
-        this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_nickname)
+        this.video[i].chartData.data.labels.push(this.video[i].video_record[j].company_id.company_name)
       }
     }
   },
@@ -140,5 +139,22 @@ export default {
 }
 .data:hover {
   top: -10px;
+}
+.data-title {
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  margin-top: 8px;
+  margin-left: 8px;
+}
+
+.data-subtitle {
+  font-size: 12px;
+  margin-left: 8px;
+  color: gray;
 }
 </style>
