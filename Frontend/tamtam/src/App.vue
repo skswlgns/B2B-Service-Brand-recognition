@@ -16,7 +16,7 @@
         </div>
         <v-divider></v-divider>
         <div class="mb-6">
-          <p class="white--text mb-2">WELCOME,</p>
+          <p class="white--text mb-2">WELCOME !</p>
           <div class="white--text mb-6">{{ user_nickname }} :)</div>
           <v-btn class="logout" elevation="4" rounded outlined @click="logout()">Log Out</v-btn>
         </div>
