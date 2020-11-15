@@ -55,26 +55,24 @@
         <canvas id="views-line" class=""></canvas>
       </div>
     </div>
-    <div class="fr-youtube">
-      <v-row>
-        <v-col v-for="(video, i) in videoData" :key="i" cols="3">
-          <v-card class="mx-auto">
-            <v-img :src="video.video_thumbnails" />
-            <v-card-title v-if="video.video_title.length > 20">
-              <router-link to="">{{ video.video_title.slice(0, 20) + '...' }}</router-link></v-card-title
-            >
-            <v-card-title v-else
-              ><router-link to="">{{ video.video_title }}</router-link></v-card-title
-            >
-            <div class="views" v-if="video.video_views < 1000">조회수 : {{ video.video_views }}회</div>
-            <div class="views" v-else-if="video.video_views < 10000">
-              조회수 : {{ parseInt(video.video_views / 1000) }}천회
-            </div>
-            <div v-else class="views">조회수 : {{ parseInt(video.video_views / 10000) }}만회</div>
-            <v-card-text>
-              <canvas :id="video._id" />
-            </v-card-text>
-            <v-spacer />
+    <div class="card">
+      <v-row no-gutters>
+        <v-col class="pa-2" v-for="(video, i) in videoData" :key="i" cols="12" sm="3">
+          <v-card class="mx-auto data" outlined tile>
+            <a @click="moveVideoDetail(video.video_youtube_id)">
+              <v-img alt="user" :src="video.video_thumbnails" />
+            </a>
+            <v-flex>
+              <div class="data-title">
+                {{ video.video_title }}
+              </div>
+            </v-flex>
+            <div class="data-subtitle pb-2">조회수 {{ wathchCnt(video.video_views) }}</div>
+            <v-expand-transition>
+              <v-card-text>
+                <canvas :id="video._id" />
+              </v-card-text>
+            </v-expand-transition>
           </v-card>
         </v-col>
       </v-row>
@@ -90,7 +88,7 @@ import cookies from 'vue-cookies'
 import emailjs from 'emailjs-com'
 import InfiniteLoading from 'vue-infinite-loading'
 import axios from 'axios'
-
+import router from '@/router'
 const channelStore = 'channelStore'
 const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
 const _ = require('lodash')
@@ -188,7 +186,7 @@ export default {
             align: 'center',
             labels: {
               boxWidth: 3,
-              padding: 25,
+              padding: 10,
               rtl: true
             }
           },
@@ -223,6 +221,9 @@ export default {
     ]),
     moveYoutube(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)
+    },
+    moveVideoDetail(id) {
+      router.push({ name: 'VideoDetail', params: { video_youtube_id: id } })
     },
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
@@ -343,6 +344,16 @@ export default {
       const g = Math.floor(Math.random() * 255)
       const b = Math.floor(Math.random() * 255)
       return 'rgb(' + r + ',' + g + ',' + b + ')'
+    },
+    wathchCnt(count) {
+      if (count < 1000) return count + '회'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천회'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만회'
+      }
     }
   },
   computed: {
@@ -394,7 +405,37 @@ export default {
   }
 }
 </script>
+<style scoped>
+.data {
+  transition: all 0.6s;
+  top: 0;
+}
+.data:hover {
+  top: -10px;
+}
+.cursor {
+  cursor: pointer;
+  color: rgb(92, 107, 192);
+  font-weight: bold;
+}
+.data-title {
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  margin-top: 8px;
+  margin-left: 8px;
+}
 
+.data-subtitle {
+  font-size: 12px;
+  margin-left: 8px;
+  color: gray;
+}
+</style>
 <style lang="scss" scoped>
 @import '@/scss/channel.scss';
 </style>
