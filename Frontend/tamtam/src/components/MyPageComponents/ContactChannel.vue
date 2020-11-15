@@ -33,21 +33,6 @@
               </v-list-item-content>
             </v-list-item>
           </div>
-
-          <!-- <div style="padding:5%">
-            <v-list-item two-line>
-              <a>
-                <v-avatar size="50" v-if="contactChannel[i - 1]">
-                  <v-img alt="user" :src="contactChannel[i - 1].channel_img" />
-                </v-avatar>
-              </a>
-              <v-list-item-content style="text-align:center;">
-                <div>
-                  {{ contactChannel[i - 1].channel_name }}
-                </div>
-              </v-list-item-content>
-            </v-list-item>
-          </div> -->
         </v-card>
       </v-col>
     </v-row>
@@ -65,15 +50,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div v-if="this.contactChannel.length > 4" style="height:48px;">
-      <div style="float:left;" class="pa-3"></div>
-      <div align="right" class="pa-3">
-        <div @click="moredata()" class="cursor">
-          더 보기
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
