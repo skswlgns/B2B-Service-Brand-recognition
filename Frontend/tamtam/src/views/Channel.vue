@@ -36,8 +36,13 @@
       </div>
     </div>
     <div class="chart-fr">
-      <div class="card mr-2">
-        <canvas id="wChart"></canvas>
+      <div class="card ml-2">
+        <div class="toggle">
+          <span @click="change('bar')">채널의 브랜드 노출 수량</span>
+          <span @click="change('donut')">채널의 브랜드 노출 비율</span>
+        </div>
+        <canvas id="brand-count" v-if="active === 'bar'"></canvas>
+        <canvas id="brand-ratio" v-if="active === 'donut'"></canvas>
       </div>
       <div class="card ml-2">
         <div class="toggle">
@@ -73,27 +78,25 @@ export default {
       show: false,
       company_id: cookies.get('companyId'),
       limit: 0,
-      wholeData: {
+      brand: {
         type: 'horizontalBar',
         data: {
-          labels: ['도희', '승범', '용욱', '다인', '지훈'],
+          labels: [],
           datasets: [
             {
               label: '# of Votes',
-              data: [12, 19, 3, 5, 4],
+              data: [],
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
+                'rgba(75, 192, 192, 0.2)'
               ],
               borderColor: [
                 'rgba(255, 99, 132, 1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
+                'rgba(75, 192, 192, 1)'
               ],
               borderWidth: 1
             }
@@ -150,17 +153,26 @@ export default {
     }
   },
   methods: {
-    ...mapActions(channelStore, ['scrap']),
-    ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo']),
+    ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo', 'getBrandRatio', 'scrap']),
     moveYoutube(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)
     },
     createChart(charId, chartData) {
+      console.log(this.channelBrand)
       const ctx = document.getElementById(charId)
       if (charId === 'subscribe-line') {
         chartData.data.datasets[0].data = this.four_week_subs.slice(0, 4)
       } else if (charId === 'views-line') {
         chartData.data.datasets[0].data = this.four_week_views.slice(0, 4)
+      }
+      if (charId === 'brand-count') {
+        chartData.type = 'bar'
+        for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
+          if (value) {
+            chartData.data.datasets[0].labels.push(key)
+            chartData.data.datasets[0].data.push(value)
+          }
+        }
       }
       const myChart = new Chart(ctx, {
         type: chartData.type,
@@ -205,16 +217,32 @@ export default {
     }
   },
   computed: {
-    ...mapState(channelStore, ['isActive', 'channelData', 'youtubeChannelId', 'four_week_subs', 'four_week_views']),
+    ...mapState(channelStore, [
+      'isActive',
+      'channelData',
+      'youtubeChannelId',
+      'four_week_subs',
+      'four_week_views',
+      'channelBrand',
+      'active'
+    ]),
     ...mapGetters(channelStore, ['sliceViews'])
   },
   created() {
     this.getChannelData(this.channelId)
+<<<<<<< HEAD
+    this.getBrandRatio(this.channelId)
+=======
+>>>>>>> 6c2c6467292838320b0add1de3cc3cb72ec83efb
   },
   async mounted() {
     // await this.getChannelData(this.channelId)
-    await this.createChart('wChart', this.wholeData)
+    // await this.createChart('wChart', this.wholeData)
     await this.createChart('subscribe-line', this.subData)
+<<<<<<< HEAD
+    await this.createChart('brand-count', this.brand)
+=======
+>>>>>>> 6c2c6467292838320b0add1de3cc3cb72ec83efb
     // await this.getChannelData(this.channelId)
     this.changeShow()
   },
@@ -224,6 +252,9 @@ export default {
       this.createChart('views-line', this.subData)
     } else {
       this.createChart('subscribe-line', this.subData)
+    }
+    if (this.active === 'bar') {
+      this.createChart('brand-count', this.subData)
     }
     // this.youtubeChannelId = data[0].channel_youtube_id
   }

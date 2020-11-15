@@ -8,11 +8,13 @@ const channelStore = {
   namespaced: true,
   state: {
     isActive: 'subscribe',
+    active: 'bar',
     channelData: {},
     views: 0,
     videoData: {},
     four_week_views: [],
-    four_week_subs: []
+    four_week_subs: [],
+    channelBrand: {}
   },
   getters: {
     sliceViews: state => {
@@ -27,7 +29,11 @@ const channelStore = {
   },
   mutations: {
     change(state, active) {
-      state.isActive = active
+      if (active === 'subscribe' || active === 'views') {
+        state.isActive = active
+      } else {
+        state.active = active
+      }
     },
     setchannel(state, channel) {
       state.channel = channel
@@ -41,6 +47,10 @@ const channelStore = {
     },
     saveVideo(state, data) {
       state.videoData = data
+    },
+    saveBrand(state, data) {
+      console.log(data)
+      state.channelBrand = data
     }
   },
   actions: {
@@ -79,6 +89,10 @@ const channelStore = {
       //   page: data.page
       // }
       // dispatch('getVideo', youtube)
+    },
+    async getBrandRatio({ commit }, channelId) {
+      const response = await axios.get(`${API_SERVER_URL}/video/videos/${channelId}/chart`, config)
+      commit('saveBrand', response.data)
     }
   }
 }
