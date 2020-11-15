@@ -41,16 +41,16 @@
           <span @click="changeActive('bar')">채널의 브랜드 노출 수량</span>
           <span @click="changeActive('donut')">채널의 브랜드 노출 비율</span>
         </div>
-        <canvas id="brand-count" v-if="active === 'bar'"></canvas>
-        <canvas id="brand-ratio" v-else></canvas>
+        <canvas id="brand-count" class=""></canvas>
+        <canvas id="brand-ratio" class=""></canvas>
       </div>
       <div class="card ml-2">
         <div class="toggle">
           <span @click="change('subscribe')">구독자수</span>
           <span @click="change('views')">일일 조회수</span>
         </div>
-        <canvas id="subscribe-line" v-if="isActive === 'subscribe'"></canvas>
-        <canvas id="views-line" v-if="isActive === 'views'"></canvas>
+        <canvas id="subscribe-line" class=""></canvas>
+        <canvas id="views-line" class=""></canvas>
       </div>
     </div>
     <div class="fr-youtube">
@@ -91,7 +91,6 @@ import axios from 'axios'
 
 const channelStore = 'channelStore'
 const API_SERVER_URL = process.env.VUE_APP_API_SERVER_URL
-
 const _ = require('lodash')
 
 export default {
@@ -223,15 +222,16 @@ export default {
         chartData.data.datasets[0].data = this.four_week_views.slice(0, 4)
       } else if (charId === 'brand-count') {
         chartData.type = 'bar'
-        chartData.data.labels = []
-        chartData.data.datasets[0].data = []
+        chartData.data.labels = _.cloneDeep(chartData.data.labels)
+        chartData.data.datasets[0].data = _.cloneDeep(chartData.data.datasets[0].data)
         for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
           if (value) {
+            console.log(value)
             chartData.data.labels.push(key)
             chartData.data.datasets[0].data.push(value)
           }
         }
-      } else {
+      } else if (charId === 'brand-ratio') {
         chartData.data.labels = []
         chartData.data.datasets[0].data = []
         for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
@@ -346,26 +346,35 @@ export default {
     ]),
     ...mapGetters(channelStore, ['sliceViews'])
   },
-  created() {},
+  async created() {},
   async mounted() {
     await this.getBrandRatio(this.channelId)
     await this.getChannelData(this.channelId)
     await this.createChart('subscribe-line', this.subData)
     await this.createChart('brand-count', this.brand)
+    await this.createChart('brand-ratio', this.brand)
+    await this.createChart('views-line', this.subData)
     this.changeShow()
+    const canvasCount = document.getElementById('brand-count')
+    const canvasRatio = document.getElementById('brand-ratio')
+    // const canvasSubscribe = document.getElementById('subscribe-line')
+    // const canvasViews = document.getElementById('views-line')
+    // console.log(canvasRatio, canvasViews, canvasSubscribe, canvasCount)
+    // console.log(this.active, this.isActive)
+    if (this.active === 'bar') {
+      // console.log('들어옴')
+      canvasRatio.classList.add('none')
+      canvasCount.classList.remove('none')
+      canvasCount.classList.add('visual')
+    } else {
+      // console.log('들어옴2')
+      canvasRatio.classList.remove('none')
+      canvasRatio.classList.add('visual')
+      canvasCount.classList.add('none')
+    }
   },
 
   updated() {
-    if (this.isActive === 'views') {
-      this.createChart('views-line', this.subData)
-    } else if (this.isActive === 'subscribe') {
-      this.createChart('subscribe-line', this.subData)
-    }
-    if (this.active === 'bar') {
-      this.createChart('brand-count', this.brand)
-    } else if (this.active === 'donut') {
-      this.createChart('brand-ratio', this.brand)
-    }
     if (this.videoData.length) {
       for (let i = 0; i < this.videoData.length; i++) {
         this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
