@@ -18,7 +18,7 @@
         </v-list-item>
       </div>
       <div class="ranking-footer">
-        <router-link to="/home">더 보기</router-link>
+        <router-link to="/rank/subscribes" class="text-decoration-none" style="color: #654a86">더 보기</router-link>
       </div>
     </div>
     <div class="ranking-list">
@@ -39,7 +39,7 @@
         </v-list-item>
       </div>
       <div class="ranking-footer">
-        <router-link to="/home">더 보기</router-link>
+        <router-link to="/rank/avgviews" class="text-decoration-none" style="color: #654a86">더 보기</router-link>
       </div>
     </div>
   </div>
