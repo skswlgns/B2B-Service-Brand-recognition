@@ -237,7 +237,6 @@ export default {
         chartData.data.datasets[0].data = _.cloneDeep(chartData.data.datasets[0].data)
         for (const [key, value] of Object.entries(this.channelBrand.channel_brand)) {
           if (value) {
-            console.log(value)
             chartData.data.labels.push(key)
             chartData.data.datasets[0].data.push(value)
           }
