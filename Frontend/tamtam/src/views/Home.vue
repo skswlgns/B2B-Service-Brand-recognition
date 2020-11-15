@@ -34,20 +34,89 @@
       </div>
     </article>
 
-    <!-- Today TamTam Recommand Section -->
+    <!-- Exposure Trend Section -->
     <article class="exposure-trend-section">
       <div class="chart-title">업계 노출 동향</div>
       <div class="card chart-body">
-        {{ myCompany[0].company_four_week }}
-
-        <div>
-          <div>일주일 동향</div>
+        <div class="exposure-trend-title">1주 동향 <i class="fas fa-chart-line fa-x ml-2"></i></div>
+        <div class="exposure-trend-body">
           <div>
-            {{
-              ((myCompany[0].company_four_week[4] - myCompany[0].company_four_week[3]) /
-                myCompany[0].company_four_week[3]) *
-                100
-            }}
+            <span>{{ myCompany[0].company_four_week[2] }}</span>
+            <span><i class="fas fa-arrow-alt-right"></i></span>
+            <span>{{ myCompany[0].company_four_week[3] }}</span>
+          </div>
+          <div>
+            <v-chip
+              v-if="
+                ((myCompany[0].company_four_week[3] - myCompany[0].company_four_week[2]) /
+                  myCompany[0].company_four_week[2]) *
+                  100 >
+                  0
+              "
+              class="exposure-trend-percent"
+              color="green"
+              text-color="white"
+            >
+              <i class="fas fa-arrow-up"></i>
+              {{
+                this.percentageCnt(
+                  ((myCompany[0].company_four_week[3] - myCompany[0].company_four_week[2]) /
+                    myCompany[0].company_four_week[2]) *
+                    100
+                )
+              }}
+            </v-chip>
+            <v-chip v-else class="exposure-trend-percent" color="red" text-color="white">
+              <i class="fas fa-arrow-down"></i>
+              {{
+                this.percentageCnt(
+                  ((myCompany[0].company_four_week[3] - myCompany[0].company_four_week[2]) /
+                    myCompany[0].company_four_week[2]) *
+                    100
+                )
+              }}
+            </v-chip>
+          </div>
+        </div>
+        <v-divider></v-divider>
+        <div class="exposure-trend-title">한달 동향 <i class="fas fa-chart-line fa-x ml-2"></i></div>
+        <div class="exposure-trend-body">
+          <div>
+            <span>{{ myCompany[0].company_four_week[0] }}</span>
+            <span><i class="fas fa-arrow-alt-right"></i></span>
+            <span>{{ myCompany[0].company_four_week[3] }}</span>
+          </div>
+          <div>
+            <v-chip
+              v-if="
+                ((myCompany[0].company_four_week[3] - myCompany[0].company_four_week[0]) /
+                  myCompany[0].company_four_week[0]) *
+                  100 >
+                  0
+              "
+              class="exposure-trend-percent"
+              color="green"
+              text-color="white"
+            >
+              <i class="fas fa-arrow-up"></i>
+              {{
+                this.percentageCnt(
+                  ((myCompany[0].company_four_week[3] - myCompany[0].company_four_week[0]) /
+                    myCompany[0].company_four_week[0]) *
+                    100
+                )
+              }}
+            </v-chip>
+            <v-chip v-else class="exposure-trend-percent" color="red" text-color="white">
+              <i class="fas fa-arrow-down"></i>
+              {{
+                this.percentageCnt(
+                  ((myCompany[0].company_four_week[3] - myCompany[0].company_four_week[0]) /
+                    myCompany[0].company_four_week[0]) *
+                    100
+                )
+              }}
+            </v-chip>
           </div>
         </div>
       </div>
@@ -97,7 +166,7 @@ export default {
   },
   data() {
     return {
-      myCompany: {},
+      myCompany: [{ company_four_week: [0, 0, 0, 0] }],
       tamtamRecommandChannel: {},
       allExposureLineChartData: {},
       indExposureLineChartData: {},
@@ -287,6 +356,10 @@ export default {
         options: this.DoughnutChartOptions
       }
       this.createChart({ chartId: 'ind-exposure-doughnut-chart', chartData: this.indExposureDoughnutChartData })
+    },
+
+    percentageCnt: function(percentage) {
+      return parseInt(percentage) + '%'
     }
   }
 }
