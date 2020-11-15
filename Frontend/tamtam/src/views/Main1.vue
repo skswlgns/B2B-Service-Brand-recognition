@@ -47,7 +47,7 @@
                     :to="{ name: 'Channel', params: { channelId: subscribe.channel_youtube_id } }"
                     class="overline mb-4 headline"
                   >
-                    {{ subscribe.channel_name }}
+                    {{ subscribe }}
                   </router-link>
                 </v-list-item-content>
               </v-list-item>
