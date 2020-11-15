@@ -12,7 +12,7 @@
       <div class="recommend-info">
         <p class="info-title">{{ recommendVideo.video_title }}</p>
         <p class="info-channel">{{ recommendVideo.channel_id }}</p>
-        <p class="info-view-count">조회수 {{ recommendVideo.video_views }}회</p>
+        <p class="info-view-count">조회수 {{ viewCnt(recommendVideo.video_views) }}</p>
         <p class="info-date">{{ recommendVideo.video_date }}</p>
       </div>
     </div>
@@ -37,6 +37,17 @@ export default {
     // 다른 동영상 페이지로 이동하기
     moveVideoDetailPage: function(videoYoutubeId) {
       router.push({ name: 'VideoDetail', params: { video_youtube_id: videoYoutubeId } })
+    },
+
+    viewCnt(count) {
+      if (count < 1000) return count + '회'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천회'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만회'
+      }
     }
   },
   async created() {

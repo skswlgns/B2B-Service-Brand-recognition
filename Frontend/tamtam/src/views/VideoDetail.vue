@@ -72,22 +72,58 @@
         <div id="yt-player" />
       </div>
       <div class="video-info-section">
-        <p>{{ videoData.video_category }}</p>
-        <p class="video-title">
-          {{ videoData.video_title }}
-        </p>
-        <span class="video-small">조회수 {{ videoData.video_views }}회</span>
-        <span class="video-small">{{ videoData.video_date }}</span>
-        <span class="video-small">좋아요: {{ videoData.video_like }}</span>
-        <span class="video-small">싫어요: {{ videoData.video_dislike }}</span>
-        <a :href="videoData.video_url">유튜브로 보러가기</a>
-        <v-btn v-show="!show" @click="scrapVideo()">
-          동영상 스크랩하기
-        </v-btn>
-        <v-btn v-show="show" @click="scrapVideo()">
-          동영상 스크랩 취소하기
-        </v-btn>
-        <v-btn>해당 동영상 통계에서 제외하기</v-btn>
+        <p class="video-category">{{ videoData.video_category }}</p>
+        <p class="video-title">{{ videoData.video_title }}</p>
+        <div class="video-small" style="color: gray;">
+          <span>
+            <span>조회수 {{ videoData.video_views }}회 • </span>
+            <span>{{ videoData.video_date }}</span>
+          </span>
+          <span>
+            <span>좋아요: {{ videoData.video_like }} /</span>
+            <span> 싫어요: {{ videoData.video_dislike }}</span>
+          </span>
+        </div>
+        <v-divider></v-divider>
+        <div class="video-buttons">
+          <div class="video-channel" @click="moveChannelDetail(videoData.channel_id.channel_youtube_id)">
+            <v-avatar class="channel-avartar">
+              <img :src="videoData.channel_id.channel_img" :alt="videoData.channel_id.channel_name" />
+            </v-avatar>
+            <div>
+              <div>{{ videoData.channel_id.channel_name }}</div>
+              <div style="color: gray;">{{ subscribeCnt(videoData.channel_id.channel_subscribe) }}</div>
+            </div>
+          </div>
+          <div class="video-buttons">
+            <img
+              class="video-youtube-button"
+              @click="moveYoutubeVideo(videoData.video_url)"
+              src="https://w.namu.la/s/063c36f7fa7b39e21e386ac10a4909cd364f7347f2a2629bdd08acd0a7ad62552d39b611960605f1832d8b9505d9b4fe05e0b29692d7016e5d65770c209a830948a6cdff2c50a5d42e92b1950c8f1c854e12c80e6eb4061df54c8904361e8207"
+            />
+            <v-btn
+              class="video-button scrap-button"
+              v-show="!show"
+              color="green"
+              small
+              style="color: white;"
+              @click="scrapVideo()"
+            >
+              동영상 스크랩
+            </v-btn>
+            <v-btn
+              class="video-button scrap-button"
+              v-show="show"
+              color="green"
+              small
+              style="color: white;"
+              @click="scrapVideo()"
+            >
+              동영상 스크랩 취소
+            </v-btn>
+            <v-btn class="video-button exception-button" small color="error">동영상 통계 제외</v-btn>
+          </div>
+        </div>
         <p>{{ videoData.video_content }}</p>
       </div>
     </article>
@@ -170,15 +206,16 @@ export default {
           let exposureText = ''
           if (record[0].length === 1) {
             if (record[0][0] === 'logo') {
-              exposureText = '로고'
+              exposureText = '등장'
+            } else if (record[0][0] === 'ody') {
+              exposureText = 'Odyssey 노트북'
             } else {
-              exposureText = '물건'
+              exposureText = '버즈 플러스'
             }
           } else {
-            exposureText = '물건 여러개'
+            exposureText = '제품군 등장'
           }
           timestampInfo.innerText = `${company.company_id.company_name} ${exposureText}`
-          // timestampInfo.style.color = 'black'
           timestampDefault.forEach(element => {
             element.style.opacity = 0.2
           })
@@ -252,6 +289,16 @@ export default {
       router.push({ name: 'VideoDetail', params: { video_youtube_id: videoYoutubeId } })
     },
 
+    // 채널 페이지로 이동하기
+    moveChannelDetail(channerId) {
+      router.push({ name: 'Channel', params: { channelId: channerId } })
+    },
+
+    // 채널 페이지로 이동하기
+    moveYoutubeVideo(url) {
+      window.open(url, '_blank')
+    },
+
     // 해당 브랜드 선택하여 타임라인 자세히보기 & 취소하기
     choiceCompany: function(companyIndex, company) {
       if (this.focusedCompany === company) {
@@ -294,6 +341,18 @@ export default {
         return minutes + ':' + seconds
       } else {
         return hours + ':' + minutes + ':' + seconds
+      }
+    },
+
+    // 구독자 단위 계산
+    subscribeCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
       }
     },
 
