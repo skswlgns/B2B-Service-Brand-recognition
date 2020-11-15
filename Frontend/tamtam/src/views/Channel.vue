@@ -28,7 +28,9 @@
                 </v-icon>
               </v-btn>
             </div>
-            <v-btn color="#916bf6" @click="sendTest(channelData.channel_name, channelData.channel_email)"
+            <v-btn
+              color="#916bf6"
+              @click="sendTest(channelData.channel_name, channelData.channel_email, channelData._id)"
               >광고 문의</v-btn
             >
           </div>
@@ -210,7 +212,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(channelStore, ['change', 'getChannelData', 'getVideo', 'getBrandRatio', 'scrap', 'changeActive']),
+    ...mapActions(channelStore, [
+      'change',
+      'getChannelData',
+      'getVideo',
+      'getBrandRatio',
+      'scrap',
+      'changeActive',
+      'contactYoutuber'
+    ]),
     moveYoutube(channerId) {
       window.open('https://www.youtube.com/channel/' + channerId)
     },
@@ -277,10 +287,11 @@ export default {
         this.show = false
       }
     },
-    sendTest(channelName, channelEmail) {
+    sendTest(channelName, channelEmail, channelId) {
       this.templateParams.to_name = channelName
       this.templateParams.to_email = channelEmail
       emailjs.send('service_TamTam', 'template_g5xblzj', this.templateParams, 'user_BP95v5BDBqPIPT05EQ1nY')
+      this.contactYoutuber(channelId)
       alert('광고문의를 전달하였습니다.')
     },
     infiniteHandler($state) {
