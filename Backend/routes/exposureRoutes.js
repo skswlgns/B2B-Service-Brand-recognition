@@ -68,16 +68,16 @@ exposureRoutes.get('/topvideo', async (req, res) => {
     const videos = await VideoModel.find({})
     const topvideos = []
     try {
-      for (let videosIndex = 0; videosIndex < videos.length; videosIndex++) {
-        const video = videos[videosIndex]
-        for (let recordIndex = 0; recordIndex < video.video_record.length; recordIndex++) {
-          if (video.video_record[recordIndex].company_id === req.headers.company_id) {
-            const companyId = video.video_record[recordIndex].company_id
-            const company = await CompanyModel.findOne({ _id: companyId })
-            video.video_record[recordIndex].company_id = company
+      for (let i = 0; i < videos.length; i++) {
+        for (let j = 0; j < videos[i].video_record.length; j++) {
+          if (videos[i].video_record[j].company_id === req.headers.company_id) {
+            for (let k = 0; k < videos[i].video_record.length; k++) {
+              const company = await CompanyModel.findOne({ _id: videos[i].video_record[k].company_id })
+              videos[i].video_record[k].company_id = company
+            }
             topvideos.push({
-              time: video.video_record[recordIndex].total_exposure_time,
-              video: video
+              video: videos[i],
+              time: videos[i].video_record[j].total_exposure_time
             })
           }
         }
