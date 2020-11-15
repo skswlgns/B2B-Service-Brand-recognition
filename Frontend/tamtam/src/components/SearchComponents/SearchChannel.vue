@@ -38,15 +38,15 @@
     </v-row>
     <div v-if="open" style="height:48px;">
       <div style="float:left;" class="pa-3"></div>
-      <div v-if="show" align="right" class="pa-3">
-        <div @click="moredata()" class="cursor">
+      <div v-if="show" align="center" class="pa-3">
+        <span @click="moredata()" class="cursor">
           더 보기
-        </div>
+        </span>
       </div>
-      <div v-else-if="!show" align="right" class="pa-3">
-        <div @click="moredata()" class="cursor">
+      <div v-else-if="!show" align="center" class="pa-3">
+        <span @click="moredata()" class="cursor">
           접기
-        </div>
+        </span>
       </div>
     </div>
   </div>
