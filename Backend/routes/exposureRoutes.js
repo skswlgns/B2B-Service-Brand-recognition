@@ -70,7 +70,7 @@ exposureRoutes.get('/topvideo', async (req, res) => {
     try {
       for (let i = 0; i < videos.length; i++) {
         for (let j = 0; j < videos[i].video_record.length; j++) {
-          if (videos[i].video_record[j].company_id === req.headers.company_id) {
+          if (videos[i].video_record[j].company_id === req.headers.companyid) {
             for (let k = 0; k < videos[i].video_record.length; k++) {
               const company = await CompanyModel.findOne({ _id: videos[i].video_record[k].company_id })
               videos[i].video_record[k].company_id = company
@@ -107,7 +107,7 @@ exposureRoutes.get('/topchannel', async (req, res) => {
       const videos = await VideoModel.find({ channel_id: channels[i]._id })
       for (let j = 0; j < videos.length; j++) {
         for (let k = 0; k < videos[j].video_record.length; k++) {
-          if (videos[j].video_record[k].company_id === req.headers.company_id) {
+          if (videos[j].video_record[k].company_id === req.headers.companyid) {
             summation += videos[j].video_record[k].total_exposure_time
           }
         }

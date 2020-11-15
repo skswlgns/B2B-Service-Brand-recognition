@@ -158,7 +158,7 @@ channelRoutes.put('/scrap', async (req, res) => {
   if (req.headers.token) {
     try {
       const company = await CompanyModel.findOne({
-        _id: req.headers.company_id
+        _id: req.headers.companyid
       })
       const channelId = req.body.channel_id
       const channel = await ChannelModel.findOne({ _id: channelId })
@@ -167,22 +167,22 @@ channelRoutes.put('/scrap', async (req, res) => {
         if (company.company_channel.includes(channelId)) {
           company.company_channel.remove(channelId)
           await CompanyModel.findOneAndUpdate(
-            { _id: req.headers.company_id },
+            { _id: req.headers.companyid },
             { company_channel: company.company_channel }
           )
 
-          channel.scrap_company_id.remove(req.headers.company_id)
+          channel.scrap_company_id.remove(req.headers.companyid)
           await ChannelModel.findOneAndUpdate({ _id: channelId }, { scrap_company_id: channel.scrap_company_id })
 
           res.status(200).send({ message: '채널 스크랩 취소' })
         } else {
           company.company_channel.push(channelId)
           await CompanyModel.findOneAndUpdate(
-            { _id: req.headers.company_id },
+            { _id: req.headers.companyid },
             { company_channel: company.company_channel }
           )
 
-          channel.scrap_company_id.push(req.headers.company_id)
+          channel.scrap_company_id.push(req.headers.companyid)
           await ChannelModel.findOneAndUpdate({ _id: channelId }, { scrap_company_id: channel.scrap_company_id })
 
           res.status(200).send({ message: '채널 스크랩 완료' })
@@ -203,7 +203,7 @@ channelRoutes.put('/contact', async (req, res) => {
   if (req.headers.token) {
     try {
       const company = await CompanyModel.findOne({
-        _id: req.headers.company_id
+        _id: req.headers.companyid
       })
       const channelId = req.body.channel_id
       const channel = await ChannelModel.findOne({ _id: channelId })
@@ -212,21 +212,21 @@ channelRoutes.put('/contact', async (req, res) => {
         if (company.company_contact.includes(channelId)) {
           company.company_contact.remove(channelId)
           await CompanyModel.findOneAndUpdate(
-            { _id: req.headers.company_id },
+            { _id: req.headers.companyid },
             { company_contact: company.company_contact }
           )
 
-          channel.contact_company_id.remove(req.headers.company_id)
+          channel.contact_company_id.remove(req.headers.companyid)
           await ChannelModel.findOneAndUpdate({ _id: channelId }, { contact_company_id: channel.contact_company_id })
           res.status(200).send({ message: '채널 컨택 취소' })
         } else {
           company.company_contact.push(channelId)
           await CompanyModel.findOneAndUpdate(
-            { _id: req.headers.company_id },
+            { _id: req.headers.companyid },
             { company_contact: company.company_contact }
           )
 
-          channel.contact_company_id.push(req.headers.company_id)
+          channel.contact_company_id.push(req.headers.companyid)
           await ChannelModel.findOneAndUpdate({ _id: channelId }, { contact_company_id: channel.contact_company_id })
           res.status(200).send({ message: '채널 컨택 완료' })
         }

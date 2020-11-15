@@ -96,9 +96,9 @@ companyRoutes.post('/signin', async (req, res) => {
 
 // 회원탈퇴
 companyRoutes.delete('/', async (req, res) => {
-  if (req.headers.company_id) {
+  if (req.headers.companyid) {
     try {
-      const companyId = req.headers.company_id
+      const companyId = req.headers.companyid
       const company = await CompanyModel.findOne({ _id: companyId })
       if (company === null) {
         res.status(403).send({ message: '존재하지 않는 회원입니다.' })
@@ -182,7 +182,7 @@ companyRoutes.get('/video', async (req, res) => {
   if (req.headers.token) {
     try {
       const company = await CompanyModel.findOne({
-        _id: req.headers.company_id
+        _id: req.headers.companyid
       }).populate('company_video')
       for (let i = 0; i < company.company_video.length; i++) {
         const companyVideo = company.company_video[i]
@@ -206,7 +206,7 @@ companyRoutes.get('/channel', async (req, res) => {
   if (req.headers.token) {
     try {
       const company = await CompanyModel.findOne({
-        _id: req.headers.company_id
+        _id: req.headers.companyid
       }).populate('company_channel')
       res.status(200).send(company)
     } catch (err) {
@@ -219,9 +219,9 @@ companyRoutes.get('/channel', async (req, res) => {
 
 // 닉네임 조회
 companyRoutes.get('/nick', async (req, res) => {
-  if (req.headers.company_id) {
+  if (req.headers.companyid) {
     const company = await CompanyModel.findOne({
-      _id: req.headers.company_id
+      _id: req.headers.companyid
     })
     res.status(200).send(company.company_nickname)
   } else {
@@ -231,9 +231,9 @@ companyRoutes.get('/nick', async (req, res) => {
 
 // 카테고리 조회
 companyRoutes.get('/industry', async (req, res) => {
-  if (req.headers.company_id) {
+  if (req.headers.companyid) {
     const company = await CompanyModel.findOne({
-      _id: req.headers.company_id
+      _id: req.headers.companyid
     })
     res.status(200).send(company.company_industry)
   } else {
@@ -246,7 +246,7 @@ companyRoutes.get('/contact', async (req, res) => {
   if (req.headers.token) {
     try {
       const company = await CompanyModel.findOne({
-        _id: req.headers.company_id
+        _id: req.headers.companyid
       }).populate('company_contact')
       res.status(200).send(company.company_contact)
     } catch (err) {
@@ -261,7 +261,7 @@ companyRoutes.get('/contact', async (req, res) => {
 companyRoutes.get('/exception', async (req, res) => {
   if (req.headers.token) {
     try {
-      const company = await CompanyModel.findOne({ _id: req.headers.company_id }).populate('company_exception')
+      const company = await CompanyModel.findOne({ _id: req.headers.companyid }).populate('company_exception')
       res.status(200).send(company.company_exception)
     } catch (err) {
       res.status(500).send(err)
@@ -274,7 +274,7 @@ companyRoutes.get('/exception', async (req, res) => {
 // 회원조회
 companyRoutes.get('/:company_id', async (req, res) => {
   const companyId = req.params.company_id
-  if (companyId === req.headers.company_id) {
+  if (companyId === req.headers.companyid) {
     try {
       const companyOne = await CompanyModel.findOne({ _id: companyId })
       res.status(200).send(companyOne)
