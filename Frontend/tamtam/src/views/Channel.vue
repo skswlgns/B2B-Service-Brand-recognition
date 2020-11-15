@@ -63,10 +63,7 @@
               <v-img alt="user" :src="video.video_thumbnails" />
             </a>
             <v-flex>
-              <div class="data-title" v-if="video.video_title && video.video_title.length > 25">
-                {{ video.video_title.slice(0, 25) }}...
-              </div>
-              <div v-else class="data-title">
+              <div class="data-title">
                 {{ video.video_title }}
               </div>
             </v-flex>
