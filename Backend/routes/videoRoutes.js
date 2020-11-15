@@ -128,7 +128,7 @@ videoRoutes.get('/', async (req, res) => {
 videoRoutes.get('/count', async (req, res) => {
   if (req.headers.token) {
     try {
-      const companyId = req.headers.company_id
+      const companyId = req.headers.companyid
       const videoCount = await VideoModel.find().count()
       const videoAll = await VideoModel.find()
       const company = await CompanyModel.findOne({ _id: companyId })
@@ -167,7 +167,7 @@ videoRoutes.get('/count', async (req, res) => {
 videoRoutes.get('/infinity', async (req, res) => {
   if (req.headers.token) {
     try {
-      const videoAll = await VideoModel.find({ _id: req.headers.company_id })
+      const videoAll = await VideoModel.find({ _id: req.headers.companyid })
       res.status(200).send(videoAll.slice(req.headers.limit, req.headers.limit + 4))
     } catch (err) {
       res.status(500).send(err)
@@ -196,7 +196,7 @@ videoRoutes.get('/:video_id', async (req, res) => {
 videoRoutes.put('/scrap', async (req, res) => {
   if (req.headers.token) {
     try {
-      const companyId = req.headers.company_id
+      const companyId = req.headers.companyid
       const videoId = req.body._id
 
       const company = await CompanyModel.findOne({
@@ -233,7 +233,7 @@ videoRoutes.put('/scrap', async (req, res) => {
 videoRoutes.put('/exception', async (req, res) => {
   if (req.headers.token) {
     try {
-      const companyId = req.headers.company_id
+      const companyId = req.headers.companyid
       const videoId = req.body._id
 
       const company = await CompanyModel.findOne({

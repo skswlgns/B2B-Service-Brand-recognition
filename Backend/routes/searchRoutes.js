@@ -111,7 +111,7 @@ searchRoutes.get('/avgviews', async (req, res) => {
 searchRoutes.get('/recommend', async (req, res) => {
   if (req.headers.token) {
     try {
-      const company = await CompanyModel.findOne({ _id: req.headers.company_id })
+      const company = await CompanyModel.findOne({ _id: req.headers.companyid })
       const mynickname = company.company_nickname
       const videos_title = await VideoModel.find({ video_title: { $regex: mynickname, $options: 'i' } }).populate(
         'company_id'
@@ -142,7 +142,7 @@ searchRoutes.get('/recommend', async (req, res) => {
 searchRoutes.get('/catechannel', async (req, res) => {
   if (req.headers.token) {
     try {
-      const companyId = req.headers.company_id
+      const companyId = req.headers.companyid
       const company = await CompanyModel.findOne({ _id: companyId })
       const channels = await ChannelModel.find({
         channel_category: { $regex: company.company_industry, $options: 'i' }
@@ -170,7 +170,7 @@ searchRoutes.get('/catechannel', async (req, res) => {
 searchRoutes.get('/catevideo', async (req, res) => {
   if (req.headers.token) {
     try {
-      const companyId = req.headers.company_id
+      const companyId = req.headers.companyid
       const company = await CompanyModel.findOne({ _id: companyId })
       const videos = await VideoModel.find({ video_category: { $regex: company.company_industry } }).populate(
         'channel_id'
