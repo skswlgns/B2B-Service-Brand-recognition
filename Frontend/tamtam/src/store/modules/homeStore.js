@@ -9,6 +9,7 @@ const homeStore = {
     homeSubscribeChannelRanking: [],
     homeViewsChannelRanking: [],
     homeRecommandChannels: [],
+    homeRecommandVideos: [],
     companyIndustry: ''
   },
   mutations: {
@@ -20,6 +21,9 @@ const homeStore = {
     },
     setHomeRecommandChannels(state, data) {
       state.homeRecommandChannels = data
+    },
+    setHomeRecommandVideos(state, data) {
+      state.homeRecommandVideos = data
     },
     setCompanyIndustry(state, data) {
       state.companyIndustry = data
@@ -41,7 +45,7 @@ const homeStore = {
     },
 
     // 카테고리별 추천 채널 조회
-    async getHomeRecommandChannels({ commit }, tmpCompanyIndsutry) {
+    async getHomeRecommandChannels({ commit }) {
       const config = {
         headers: {
           token: cookies.get('token'),
@@ -50,6 +54,17 @@ const homeStore = {
       }
       const response = await axios.get(`${API_SERVER_URL}/search/catechannel`, config)
       commit('setHomeRecommandChannels', response.data)
+    },
+
+    async getHomeRecommandVideos({ commit }) {
+      const config = {
+        headers: {
+          token: cookies.get('token'),
+          company_id: cookies.get('companyId')
+        }
+      }
+      const response = await axios.get(`${API_SERVER_URL}/search/catevideo`, config)
+      commit('setHomeRecommandVideos', response.data)
     },
 
     // companyIndustry 죄회
