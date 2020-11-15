@@ -97,6 +97,13 @@ const channelStore = {
     async getBrandRatio({ commit }, channelId) {
       const response = await axios.get(`${API_SERVER_URL}/video/videos/${channelId}/chart`, config)
       commit('saveBrand', response.data)
+    },
+
+    async contactYoutuber({ commit }, channelId) {
+      const data = {
+        channel_id: channelId
+      }
+      await axios.put(`${API_SERVER_URL}/channel/contact`, data, config)
     }
   }
 }
