@@ -114,58 +114,27 @@ export default {
       subData: {
         type: 'line',
         data: {
-          labels: ['도희', '승범', '용욱', '다인', '지훈'],
+          labels: ['4w', '3w', '2w', '1w'],
           datasets: [
             {
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 4],
+              label: '4주간 변화 추이',
+              data: [],
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
+                'rgba(75, 192, 192, 0.2)'
               ],
               borderColor: [
                 'rgba(255, 99, 132, 1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
+                'rgba(75, 192, 192, 1)'
               ],
               borderWidth: 1
             }
           ]
-        },
-        options: {}
-      },
-      viewsData: {
-        type: 'line',
-        data: {
-          labels: ['도희', '승범', '용욱', '다인', '지훈'],
-          datasets: [
-            {
-              label: '# of Votes',
-              data: [10, 15, 20, 25, 30],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-              ],
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {}
+        }
       },
       templateParams: {
         reply_to: cookies.get('nick') + '@test.com',
@@ -188,6 +157,11 @@ export default {
     },
     createChart(charId, chartData) {
       const ctx = document.getElementById(charId)
+      if (charId === 'subscribe-line') {
+        chartData.data.datasets[0].data = this.four_week_subs.slice(0, 4)
+      } else if (charId === 'views-line') {
+        chartData.data.datasets[0].data = this.four_week_views.slice(0, 4)
+      }
       const myChart = new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,
@@ -231,7 +205,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(channelStore, ['isActive', 'channelData', 'youtubeChannelId']),
+    ...mapState(channelStore, ['isActive', 'channelData', 'youtubeChannelId', 'four_week_subs', 'four_week_views']),
     ...mapGetters(channelStore, ['sliceViews'])
   },
   created() {
@@ -239,15 +213,19 @@ export default {
     console.log(this.channelId)
   },
   async mounted() {
+    // await this.getChannelData(this.channelId)
     await this.createChart('wChart', this.wholeData)
     await this.createChart('subscribe-line', this.subData)
+<<<<<<< HEAD
     // await this.getChannelData(this.channelId)
+=======
+>>>>>>> f529b102c310e22189a5e0f730db5e15156967b5
     this.changeShow()
   },
 
   updated() {
     if (this.isActive === 'views') {
-      this.createChart('views-line', this.viewsData)
+      this.createChart('views-line', this.subData)
     } else {
       this.createChart('subscribe-line', this.subData)
     }
