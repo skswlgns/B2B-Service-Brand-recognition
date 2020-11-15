@@ -71,8 +71,7 @@ exposureRoutes.get('/topvideo', async (req, res) => {
       for (let i = 0; i < videos.length; i++) {
         for (let j = 0; j < videos[i].video_record.length; j++) {
           if (videos[i].video_record[j].company_id === req.headers.company_id) {
-            const companyId = videos[i].video_record[j].company_id
-            const company = await CompanyModel.findOne({ _id: companyId })
+            const company = await CompanyModel.findOne({ _id: videos[i].video_record[j].company_id })
             videos[i].video_record[j].company_id = company
             topvideos.push({
               video: videos[i],
