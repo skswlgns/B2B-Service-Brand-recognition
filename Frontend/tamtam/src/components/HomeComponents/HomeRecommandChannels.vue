@@ -40,10 +40,10 @@
                       }}
                     </div>
                     <div class="data-subtitle">
-                      평균시청
+                      영상
                       {{
-                        videoAvgCnt(
-                          homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_avg_views
+                        videoCnt(
+                          homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel_video_cnt
                         )
                       }}
                     </div>
@@ -103,6 +103,16 @@ export default {
       } else {
         count = parseInt(count / 10000)
         return count + '만명'
+      }
+    },
+    videoCnt(count) {
+      if (count < 1000) return count + '개'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천개'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만개'
       }
     }
   }

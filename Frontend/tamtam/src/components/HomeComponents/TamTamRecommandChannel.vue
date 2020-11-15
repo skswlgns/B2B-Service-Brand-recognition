@@ -11,13 +11,13 @@
     <div class="today-recommand-main">
       <div class="today-recommand-leftbox">
         <span class="today-recommand-subtitle">구독자</span>
-        <span class="today-recommand-subtitle">평균 영상수</span>
         <span class="today-recommand-subtitle">영상수</span>
+        <span class="today-recommand-subtitle">평균 시청수</span>
       </div>
       <div class="today-recommand-rightbox">
         <span>{{ subScribeCnt(tamtamRecommandChannel[0].channel_subscribe) }}</span>
-        <span>{{ videoAvgCnt(tamtamRecommandChannel[0].channel_avg_views) }}</span>
         <span>{{ videoCnt(tamtamRecommandChannel[0].channel_video_cnt) }}</span>
+        <span>{{ videoAvgCnt(tamtamRecommandChannel[0].channel_avg_views) }}</span>
       </div>
     </div>
   </div>

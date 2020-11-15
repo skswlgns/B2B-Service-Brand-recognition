@@ -54,15 +54,15 @@
                         )
                       }}
                     </div>
-                    <div class="data-subtitle">
-                      평균영상시청수
+                    <!-- <div class="data-subtitle">
+                      평균 시청수
                       {{
                         videoAvgCnt(
                           companyRecommendChannel[(pageIndex - 1) * cardNumber + (cardIndex - 1)].channel
                             .channel_avg_views
                         )
                       }}
-                    </div>
+                    </div> -->
                   </v-flex>
                 </a>
               </div>
