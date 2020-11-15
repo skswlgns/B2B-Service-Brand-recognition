@@ -165,7 +165,6 @@ export default {
   },
   created() {
     this.Id = cookies.get('channelId')
-    console.log('1')
   }
 }
 </script>
