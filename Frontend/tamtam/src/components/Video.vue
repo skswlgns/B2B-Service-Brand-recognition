@@ -51,7 +51,7 @@ export default {
         }
       },
       videoData: [],
-      Id: cookies.get('channelId'),
+      Id: '',
       chartData: {
         type: 'doughnut',
         data: {
@@ -162,6 +162,9 @@ export default {
         this.createChart(this.videoData[i].chart, this.videoData[i].chartData)
       }
     }
+  },
+  created() {
+    this.Id = cookies.get('channelId')
   }
 }
 </script>
