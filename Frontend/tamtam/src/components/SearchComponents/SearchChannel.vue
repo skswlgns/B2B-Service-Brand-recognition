@@ -17,7 +17,7 @@
           tile
           v-if="channel[i - 1]"
         >
-          <div style="padding:5%">
+          <div style="padding:5%" class="ranking-item">
             <v-list-item two-line>
               <a>
                 <v-avatar size="50" v-if="channel[i - 1]">
@@ -25,9 +25,11 @@
                 </v-avatar>
               </a>
               <v-list-item-content style="text-align:center;">
-                <div>
+                <div class="data-title">
                   {{ channel[i - 1].channel_name }}
                 </div>
+                <div class="data-subtitle">구독자 {{ subScribeCnt(channel[i - 1].channel_subscribe) }}</div>
+                <div class="data-subtitle">영상 {{ videoCnt(channel[i - 1].channel_video_cnt) }}</div>
               </v-list-item-content>
             </v-list-item>
           </div>
@@ -65,6 +67,36 @@ export default {
     },
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
+    },
+    subScribeCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
+    },
+    videoCnt(count) {
+      if (count < 1000) return count + '개'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천개'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만개'
+      }
+    },
+    videoAvgCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
     }
   }
 }
@@ -78,4 +110,15 @@ export default {
 .data:hover {
   top: -10px;
 }
+.data-title {
+  font-size: 12px;
+}
+.data-subtitle {
+  font-size: 12px;
+  color: gray;
+}
+</style>
+<style lang="scss" scoped>
+@import '@/scss/Home/home.scss';
+@import '@/scss/charts.scss';
 </style>

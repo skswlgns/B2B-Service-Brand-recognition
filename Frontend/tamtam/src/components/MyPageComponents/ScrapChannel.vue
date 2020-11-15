@@ -24,10 +24,17 @@
                   <v-img alt="user" :src="channel[i - 1].channel_img" />
                 </v-avatar>
               </a>
-              <v-list-item-content style="text-align:center;">
+              <!-- <v-list-item-content style="text-align:center;">
                 <div>
                   {{ channel[i - 1].channel_name }}
                 </div>
+              </v-list-item-content> -->
+              <v-list-item-content style="text-align:center;">
+                <div class="data-title">
+                  {{ channel[i - 1].channel_name }}
+                </div>
+                <div class="data-subtitle">구독자 {{ subScribeCnt(channel[i - 1].channel_subscribe) }}</div>
+                <div class="data-subtitle">영상 {{ videoCnt(channel[i - 1].channel_video_cnt) }}</div>
               </v-list-item-content>
             </v-list-item>
           </div>
@@ -67,6 +74,36 @@ export default {
     // 채널 디테일로 이동할꺼임
     moveChannelDetail(channerId) {
       router.push({ name: 'Channel', params: { channelId: channerId } })
+    },
+    subScribeCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
+    },
+    videoCnt(count) {
+      if (count < 1000) return count + '개'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천개'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만개'
+      }
+    },
+    videoAvgCnt(count) {
+      if (count < 1000) return count + '명'
+      else if (count < 10000) {
+        count = parseInt(count / 1000)
+        return count + '천명'
+      } else {
+        count = parseInt(count / 10000)
+        return count + '만명'
+      }
     }
   }
 }
@@ -83,5 +120,12 @@ export default {
   cursor: pointer;
   color: rgb(92, 107, 192);
   font-weight: bold;
+}
+.data-title {
+  font-size: 12px;
+}
+.data-subtitle {
+  font-size: 12px;
+  color: gray;
 }
 </style>

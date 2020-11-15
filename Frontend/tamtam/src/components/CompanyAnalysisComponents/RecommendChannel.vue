@@ -35,7 +35,7 @@
                     </div>
                   </v-flex>
                   <v-flex style="margin-top:8px;">
-                    <div>
+                    <div class="data-subtitle">
                       구독자 :
                       {{
                         subScribeCnt(
@@ -45,7 +45,7 @@
                       }}
                     </div>
                     <div></div>
-                    <div>
+                    <div class="data-subtitle">
                       영상수 :
                       {{
                         videoCnt(
