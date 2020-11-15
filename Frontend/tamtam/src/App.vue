@@ -14,7 +14,6 @@
           <router-link class="menu" to="/myPage">My Page</router-link>
           <router-link class="menu" to="/rank/subscribes">순위</router-link>
         </div>
-        <v-divider></v-divider>
         <div class="mb-6">
           <p class="white--text mb-2">WELCOME!</p>
           <div class="white--text mb-6">{{ user_nickname }} :)</div>

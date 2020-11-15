@@ -112,7 +112,7 @@ export default {
           labels: [],
           datasets: [
             {
-              // label: '# of Votes',
+              label: '채널 총 등장 횟수',
               data: [],
               backgroundColor: [],
               borderColor: [],
@@ -124,7 +124,7 @@ export default {
           tooltips: {
             callbacks: {
               label: function(tooltipItem, data) {
-                return data.labels[tooltipItem.index] + ': ' + data.datasets[0].data[tooltipItem.index] + '회'
+                return data.datasets[0].data[tooltipItem.index] + '회'
               }
             }
           }
@@ -138,23 +138,22 @@ export default {
             {
               label: '# of Votes',
               data: [],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-              ],
+              backgroundColor: [],
+              borderColor: [],
               borderWidth: 1
             }
           ]
         },
         options: {
+          layout: {
+            padding: {
+              left: 30,
+              right: 30,
+              top: 0,
+              bottom: 0
+            }
+          },
+          cutoutPercentage: 75,
           legend: {
             position: 'right',
             align: 'center',
@@ -179,11 +178,11 @@ export default {
           labels: ['4w', '3w', '2w', '1w'],
           datasets: [
             {
+              fill: false,
               label: '4주간 변화 추이',
               data: [],
-              backgroundColor: [this.dynamicColors(), this.dynamicColors(), this.dynamicColors(), this.dynamicColors()],
-              borderColor: [],
-              borderWidth: 1
+              backgroundColor: ['#4285f4', '#4285f4', '#4285f4', '#4285f4'],
+              borderColor: ['#4285f4']
             }
           ]
         }
@@ -196,9 +195,9 @@ export default {
             {
               label: '4주간 변화 추이',
               data: [],
-              backgroundColor: [this.dynamicColors(), this.dynamicColors(), this.dynamicColors(), this.dynamicColors()],
-              borderColor: [],
-              borderWidth: 1
+              fill: false,
+              backgroundColor: ['#8e43e7', '#8e43e7', '#8e43e7', '#8e43e7'],
+              borderColor: ['#8e43e7']
             }
           ]
         }
@@ -415,7 +414,7 @@ export default {
       const r = Math.floor(Math.random() * 255)
       const g = Math.floor(Math.random() * 255)
       const b = Math.floor(Math.random() * 255)
-      const a = 1
+      const a = 0.9
       return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')'
     },
     wathchCnt(count) {
