@@ -7,7 +7,7 @@
       <v-divider></v-divider>
       <div class="ranking-body">
         <v-list-item class="ranking-item" v-for="(channel, index) in homeSubscribeChannelRanking" :key="index">
-          <router-link :to="{ name: 'Channel', params: { channelId: channel._id } }">
+          <router-link :to="{ name: 'Channel', params: { channelId: channel.channel_youtube_id } }">
             <img :src="channel.channel_img" />
             <div>
               <p class="item-title">{{ channel.channel_name }}</p>
@@ -28,7 +28,7 @@
       <v-divider></v-divider>
       <div class="ranking-body">
         <v-list-item class="ranking-item" v-for="(channel, index) in homeViewsChannelRanking" :key="index">
-          <router-link :to="{ name: 'Channel', params: { channelId: channel._id } }">
+          <router-link :to="{ name: 'Channel', params: { channelId: channel.channel_youtube_id } }">
             <img :src="channel.channel_img" />
             <div>
               <p class="item-title">{{ channel.channel_name }}</p>
