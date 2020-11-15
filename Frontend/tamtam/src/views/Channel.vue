@@ -226,16 +226,11 @@ export default {
     ]),
     ...mapGetters(channelStore, ['sliceViews'])
   },
-  created() {
-    this.getChannelData(this.channelId)
-    this.getBrandRatio(this.channelId)
-  },
   async mounted() {
-    // await this.getChannelData(this.channelId)
-    // await this.createChart('wChart', this.wholeData)
+    await this.getBrandRatio(this.channelId)
+    await this.getChannelData(this.channelId)
     await this.createChart('subscribe-line', this.subData)
     await this.createChart('brand-count', this.brand)
-    // await this.getChannelData(this.channelId)
     this.changeShow()
   },
 

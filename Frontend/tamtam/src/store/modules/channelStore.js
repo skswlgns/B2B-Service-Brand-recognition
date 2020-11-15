@@ -14,8 +14,7 @@ const channelStore = {
     videoData: {},
     four_week_views: [],
     four_week_subs: [],
-    channelBrand: {},
-    channelTotal: 0
+    channelBrand: {}
   },
   getters: {
     sliceViews: state => {
@@ -50,8 +49,7 @@ const channelStore = {
       state.videoData = data
     },
     saveBrand(state, data) {
-      state.channelTotal = data.channel_total
-      state.channelBrand = data.channel_brand
+      state.channelBrand = data
     }
   },
   actions: {
