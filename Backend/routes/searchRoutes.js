@@ -144,7 +144,9 @@ searchRoutes.get('/catechannel', async (req, res) => {
     try {
       const companyId = req.headers.company_id
       const company = await CompanyModel.findOne({ _id: companyId })
-      const channels = await ChannelModel.find({ channel_category: { $regex: company.company_industry } })
+      const channels = await ChannelModel.find({
+        channel_category: { $regex: company.company_industry, $options: 'i' }
+      })
       channels.sort(function () {
         return Math.random() - Math.random()
       })
@@ -152,8 +154,10 @@ searchRoutes.get('/catechannel', async (req, res) => {
       let recochannel = {}
       if (channels.length > 10) {
         recochannel = channels.slice(0, 10)
+        res.status(200).send(recochannel)
+      } else {
+        res.status(200).send(channels)
       }
-      res.status(200).send(recochannel)
     } catch (err) {
       res.status(500).send(err)
     }
