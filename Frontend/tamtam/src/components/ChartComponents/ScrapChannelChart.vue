@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div style="padding:28px;"></div>
     <canvas id="chart"></canvas>
   </div>
 </template>

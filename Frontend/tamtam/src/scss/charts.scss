@@ -1,29 +1,29 @@
 @import '@/scss/_variable.scss';
 @import '@/scss/_mixin.scss';
 
-.chart-title {
-  padding: #{$base-padding * 2} #{$base-padding * 2} #{$base-padding * 1};
-  font-size: #{$base-fontsize * 1.2};
-}
-.chart-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 100%;
-  padding: #{$base-padding * 4} #{$base-padding * 3} #{$base-padding * 3};
+// .chart-title {
+//   padding: #{$base-padding * 2} #{$base-padding * 2} #{$base-padding * 1};
+//   font-size: #{$base-fontsize * 1.2};
+// }
+// .chart-body {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   width: 100%;
+//   padding: #{$base-padding * 4} #{$base-padding * 3} #{$base-padding * 3};
 
-  .line-chart {
-  }
+//   .line-chart {
+//   }
 
-  div {
-  }
-}
+//   div {
+//   }
+// }
 
-.chart-subtitle {
-  color: gray;
-  font-size: #{$base-fontsize};
-  padding: #{$base-padding * 2} #{$base-padding * 2} 0;
-}
+// .chart-subtitle {
+//   color: gray;
+//   font-size: #{$base-fontsize};
+//   padding: #{$base-padding * 2} #{$base-padding * 2} 0;
+// }
 
-.chart-header {
-  grid-column: 1/3;
-}
+// .chart-header {
+//   grid-column: 1/3;
+// }

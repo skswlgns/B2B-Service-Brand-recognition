@@ -169,7 +169,11 @@ searchRoutes.get('/catevideo', async (req, res) => {
       const companyId = req.headers.company_id
       const company = await CompanyModel.findOne({ _id: companyId })
       const videos = await VideoModel.find({ video_category: { $regex: company.company_industry } }).populate(
+<<<<<<< HEAD
+        'channel_id'
+=======
         'video_record.company_id'
+>>>>>>> 37b4b5cd033ee8892e1c275aaf3d9ef59ef7621a
       )
       videos.sort(function () {
         return Math.random() - Math.random()

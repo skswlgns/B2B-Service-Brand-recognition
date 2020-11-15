@@ -5,7 +5,7 @@
         <v-layout row>
           <v-flex sm4 v-for="cardIndex in cardNumber" :key="cardIndex" pl-5 pr-5>
             <div v-if="homeRecommandChannels[(pageIndex - 1) * cardNumber + (cardIndex - 1)]">
-              <div class="data mb-2 pa-2" style="text-align:center;">
+              <div class="data pa-2" style="text-align:center;">
                 <a
                   style="color: black"
                   @click="
@@ -113,6 +113,7 @@ export default {
 .data {
   /* the other rules */
   transition: all 0.6s;
+  border-radius: 8px;
 }
 
 .data-title {
@@ -128,6 +129,7 @@ export default {
 }
 
 .data:hover {
-  transform: scale(1.1);
+  /* transform: scale(1.1); */
+  background: lightgray;
 }
 </style>
