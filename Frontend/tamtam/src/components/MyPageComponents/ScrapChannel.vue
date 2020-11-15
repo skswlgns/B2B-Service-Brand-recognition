@@ -24,11 +24,6 @@
                   <v-img alt="user" :src="channel[i - 1].channel_img" />
                 </v-avatar>
               </a>
-              <!-- <v-list-item-content style="text-align:center;">
-                <div>
-                  {{ channel[i - 1].channel_name }}
-                </div>
-              </v-list-item-content> -->
               <v-list-item-content style="text-align:center;">
                 <div class="data-title">
                   {{ channel[i - 1].channel_name }}
@@ -41,11 +36,16 @@
         </v-card>
       </v-col>
     </v-row>
-    <div style="height:48px;">
+    <div v-if="open" style="height:48px;">
       <div style="float:left;" class="pa-3"></div>
-      <div v-if="this.channel.length > 4" align="right" class="pa-3">
+      <div v-if="show" align="right" class="pa-3">
         <div @click="moredata()" class="cursor">
           더 보기
+        </div>
+      </div>
+      <div v-else-if="!show" align="right" class="pa-3">
+        <div @click="moredata()" class="cursor">
+          접기
         </div>
       </div>
     </div>
@@ -58,10 +58,16 @@ import router from '@/router'
 const searchStore = 'searchStore'
 export default {
   data: () => ({
-    len: 4
+    len: 4,
+    show: false,
+    open: false
   }),
-  created() {
-    this.getScrapChannel()
+  async created() {
+    await this.getScrapChannel()
+    if (this.channel.length > 4) {
+      this.show = true
+      this.open = true
+    }
   },
   computed: {
     ...mapState(searchStore, ['channel'])
@@ -69,7 +75,13 @@ export default {
   methods: {
     ...mapActions(searchStore, ['getScrapChannel']),
     moredata() {
-      this.len = this.channel.length
+      if (this.show) {
+        this.len = this.channel.length
+        this.show = false
+      } else {
+        this.len = 4
+        this.show = true
+      }
     },
     // 채널 디테일로 이동할꺼임
     moveChannelDetail(channerId) {

@@ -3,7 +3,7 @@
     <div class="out">
       <div class="in">
         <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true"></i>
-        <div class="out">관련 영상이 없습니다.</div>
+        <div class="out">영상이 없습니다.</div>
       </div>
     </div>
   </div>
@@ -14,13 +14,20 @@
           <a @click="moveVideoDetail(companyRecommendVideo[i - 1].video.video_youtube_id)">
             <v-img alt="user" :src="companyRecommendVideo[i - 1].video.video_thumbnails" />
           </a>
-          <v-card-title>
-            <h2
-              style="padding: 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
-              v-html="companyRecommendVideo[i - 1].video.video_title"
-            ></h2>
-          </v-card-title>
-          <div>조회수 {{ wathchCnt(companyRecommendVideo[i - 1].video.video_views) }}</div>
+          <v-flex>
+            <div class="data-title">
+              {{ companyRecommendVideo[i - 1].video.video_title }}
+            </div>
+            <!-- <div class="data-subtitle">
+              {{ companyRecommendVideo[i - 1].video.channel_id }}
+            </div> -->
+          </v-flex>
+          <v-flex>
+            <div class="data-subtitle pb-2">
+              조회수
+              {{ wathchCnt(companyRecommendVideo[i - 1].video.video_views) }}
+            </div>
+          </v-flex>
           <v-expand-transition>
             <v-card-text>
               <canvas :id="companyRecommendVideo[i - 1].video._id" />
@@ -55,11 +62,11 @@ export default {
       options: {
         responsive: true,
         legend: {
-          position: 'bottom',
+          position: 'right',
           align: 'center',
           labels: {
             boxWidth: 3,
-            padding: 25,
+            padding: 10,
             rtl: true
           }
         },
@@ -94,7 +101,7 @@ export default {
         )
         this.companyRecommendVideo[i].chartData.data.datasets[0].backgroundColor.push(this.dynamicColors())
         this.companyRecommendVideo[i].chartData.data.labels.push(
-          this.companyRecommendVideo[i].video.video_record[j].company_id.company_nickname
+          this.companyRecommendVideo[i].video.video_record[j].company_id.company_name
         )
       }
     }
@@ -150,6 +157,23 @@ export default {
 .data:hover {
   top: -10px;
   /* opacity: 1; */
+}
+.data-title {
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  margin-top: 8px;
+  margin-left: 8px;
+}
+
+.data-subtitle {
+  font-size: 12px;
+  margin-left: 8px;
+  color: gray;
 }
 </style>
 <style lang="scss" scoped>

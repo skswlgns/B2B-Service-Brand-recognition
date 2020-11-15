@@ -40,13 +40,13 @@
         </div>
       </v-col>
     </v-row>
-    <div class="chart-title">영상 추천</div>
-    <div class="card">
-      <RecommendVideo />
-    </div>
     <div class="chart-title">유투버 추천</div>
     <div class="card">
       <RecommendChannel />
+    </div>
+    <div class="chart-title">영상 추천</div>
+    <div class="card">
+      <RecommendVideo />
     </div>
   </div>
 </template>
