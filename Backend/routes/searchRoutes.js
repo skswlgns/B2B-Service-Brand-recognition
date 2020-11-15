@@ -189,18 +189,18 @@ searchRoutes.get('/catevideo', async (req, res) => {
 // 카테고리별 영상 조회수 순서로
 searchRoutes.get('/catevideotop', async (req, res) => {
   if (req.headers.token) {
-    const limit = parseInt(req.headers.limit)
     try {
       const videos = await VideoModel.find({ video_category: { $regex: req.headers.company_industry } }).sort({
         video_views: -1
       })
-
-      // let recovideo = {}
-      // if (videos.length > 10) {
-      //   recovideo = videos.slice(0, 10)
-      // }
-      videos.slice(limit, limit + 10)
-      res.status(200).send(videos)
+      const limit = req.headers.limit
+      let result = {}
+      if (videos.length < 10) {
+        result = videos
+      } else {
+        result = videos.slice(limit, limit + 10)
+      }
+      res.status(200).send(result)
     } catch (err) {
       res.status(500).send(err)
     }

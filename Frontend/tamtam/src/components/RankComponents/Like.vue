@@ -14,7 +14,7 @@ export default {
   name: 'Like',
   props: {
     like: {
-      type: String
+      type: Number
     }
   }
 }
