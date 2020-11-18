@@ -49,7 +49,7 @@ const homeStore = {
       const config = {
         headers: {
           token: cookies.get('token'),
-          company_id: cookies.get('companyId')
+          companyid: cookies.get('companyId')
         }
       }
       const response = await axios.get(`${API_SERVER_URL}/search/catechannel`, config)
@@ -60,7 +60,7 @@ const homeStore = {
       const config = {
         headers: {
           token: cookies.get('token'),
-          company_id: cookies.get('companyId')
+          companyid: cookies.get('companyId')
         }
       }
       const response = await axios.get(`${API_SERVER_URL}/search/catevideo`, config)
@@ -72,7 +72,7 @@ const homeStore = {
       const config = {
         headers: {
           token: cookies.get('token'),
-          company_id: cookies.get('companyId')
+          companyid: cookies.get('companyId')
         }
       }
       const response = await axios.get(`${API_SERVER_URL}/company/${cookies.get('companyId')}`, config)

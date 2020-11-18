@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      company_id: cookies.get('companyId'),
+      companyid: cookies.get('companyId'),
       showContact: true,
       showScrap: false
     }

@@ -196,7 +196,7 @@ searchRoutes.get('/catevideo', async (req, res) => {
 searchRoutes.get('/catevideotop', async (req, res) => {
   if (req.headers.token) {
     try {
-      const videos = await VideoModel.find({ video_category: { $regex: req.headers.company_industry } }).sort({
+      const videos = await VideoModel.find({ video_category: { $regex: req.headers.companyindustry } }).sort({
         video_views: -1
       })
       const limit = req.headers.limit
@@ -220,7 +220,7 @@ searchRoutes.get('/likevideotop', async (req, res) => {
   if (req.headers.token) {
     try {
       const videos = await VideoModel.find({
-        video_category: { $regex: req.headers.company_industry, $options: 'i' }
+        video_category: { $regex: req.headers.companyindustry, $options: 'i' }
       }).sort({
         video_like: -1
       })

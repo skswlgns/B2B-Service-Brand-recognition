@@ -151,7 +151,7 @@ export default {
       player: {},
       focusedCompany: false,
       show: false,
-      company_id: cookies.get('companyId'),
+      companyid: cookies.get('companyId'),
       videoTime: '',
       allExposureTime: 0
     }

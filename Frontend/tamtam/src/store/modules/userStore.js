@@ -8,7 +8,7 @@ const userStore = {
   state: {
     token: cookies.get('token'),
     user_nickname: cookies.get('nick'),
-    company_id: cookies.get('companyId')
+    companyid: cookies.get('companyId')
   },
   mutations: {
     setToken(state, data) {
