@@ -41,7 +41,7 @@ export default {
     const config = {
       headers: {
         token: cookies.get('token'),
-        company_id: cookies.get('companyId')
+        companyid: cookies.get('companyId')
       }
     }
     const response = await axios.get(`${API_SERVER_URL}/channel/youtube/UC9naDIaJSOFLyZ44_ImEpSQ`, config)

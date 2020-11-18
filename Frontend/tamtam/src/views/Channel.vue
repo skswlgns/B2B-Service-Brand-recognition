@@ -104,7 +104,7 @@ export default {
       isActive: 'subscribe',
       active: 'bar',
       show: false,
-      company_id: cookies.get('companyId'),
+      companyid: cookies.get('companyId'),
       limit: 0,
       colorsArray: [
         'rgba(153, 102, 255, 1)',

@@ -172,7 +172,7 @@ export default {
         headers: {
           token: cookies.get('token'),
           limit: 0,
-          company_industry: cookies.get('industry')
+          companyindustry: cookies.get('industry')
         }
       },
       channel: []
